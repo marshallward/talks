@@ -88,6 +88,117 @@
           </ul>
         </section>
 
+        <section>
+          <h3>Front Matter</h3>
+        </section>
+
+        <section>
+          <h3>Motivation for higher scales</h3>
+          <img src="figures/def_radius.svg"
+               alt="First baroclinic deformation radius">
+          <p>Grid resolution of 0.1° is a <i>minimum</i> to accurately model
+          Southern Ocean dynamics</p>
+        </section>
+
+        <section>
+          <h3>Part 2: Scaling overview</h3>
+        </section>
+
+        <section>
+          <h3>0.25° main loop scaling</h3>
+          <img src="figures/loop025.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <h3>0.25° submodel scaling</h3>
+          <img src="figures/submodels025.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <ul>
+            <li>Efficient scalability to 1920 CPUs</li>
+            <li>Ocean scaling to 3840+ CPUs</li>
+            <li>Sea ice and coupler bottlenecks</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Part 3: Concurrent scaling</h3>
+        </section>
+
+        <section>
+          <h3>Coupled SIS scalability</h3>
+          <img src="figures/sisloop025.svg"
+               style="background: none; border: none; box-shadow: none;">
+
+          <p>Optimal MOM-SIS CPU ratio is 6:1</p>
+        </section>
+
+        <section>
+          <h3>Concurrent scaling</h3>
+          <img src="figures/ccloop025.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+
+        <section>
+          <h3>0.25° simulation times</h3>
+          <table>
+            <colgroup>
+              <col width="20%" />
+              <col width="28%" />
+              <col width="28%" />
+              <col width="24%" />
+            </colgroup>
+            <thead valign="bottom">
+              <tr>
+                <th class="head">PEs</th>
+                <th class="head">Runtime</th>
+                <th class="head">CPU Hrs</th>
+                <th class="head">yr/day</th>
+              </tr>
+            </thead>
+            <tbody valign="top">
+              <tr>
+                <td>960s</td>
+                <td>7364.9</td>
+                <td>1966.1</td>
+                <td>11.7</td>
+              </tr>
+              <tr>
+                <td>1920s</td>
+                <td>3986.8</td>
+                <td>2126.3*</td>
+                <td>21.7</td>
+              </tr>
+              <tr>
+                <td>2240c</td>
+                <td>3347.5</td>
+                <td>2112.4</td>
+                <td>25.8</td>
+              </tr>
+              <tr>
+                <td>3840s</td>
+                <td>2504.3</td>
+                <td>2776.5</td>
+                <td>34.5</td>
+              </tr>
+              <tr>
+                <td>4480c</td>
+                <td>1919.6</td>
+                <td>2510.0</td>
+                <td>45.0</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section>
+          <h3>Part 4: Ocean subcomponent scaling</h3>
+        </section>
+
         <!-- configuration -->
 
         <script src="lib/js/head.min.js"></script>
