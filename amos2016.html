@@ -21,7 +21,8 @@
 			var link = document.createElement( 'link' );
 			link.rel = 'stylesheet';
 			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			link.href = window.location.search.match( /print-pdf/gi ) ?
+                  'css/print/pdf.css' : 'css/print/paper.css';
 			document.getElementsByTagName( 'head' )[0].appendChild( link );
 		</script>
   </head>
@@ -202,9 +203,31 @@
         </section>
 
         <section>
-          <h3>Subroutine scaling</h3>
+          <h3>0.25° subroutines</h3>
           <img src="figures/subrt025.svg"
                style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <h3>Subroutine 0.25° scaling</h3>
+          <img src="figures/subscale025.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <h3>Summary</h3>
+          <ol>
+            <li>Concurrent sea ice is faster</li>
+            <li>2D solvers scale poorly:
+              <ul>
+                <li>Barotropic solvers</li>
+                <li>Free surface smoothing</li>
+                <li>Submesoscale modelling</li>
+              </ul>
+            </li>
+            <li>Poor IO performance</li>
+          </ol>
+          <p>Future: Move 2D solvers to submodels?
         </section>
 
         <!-- configuration -->
