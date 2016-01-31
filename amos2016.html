@@ -221,6 +221,104 @@
         </section>
 
         <section>
+          <h3>Tracer advection</h3>
+          <img src="figures/update_ocean_tracer.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <h3>Acceleration</h3>
+          <img src="figures/ocean_explicit_accel_a.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <h3>Vertical mixing</h3>
+          <img src="figures/vert_mix_coeff.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <h3>Submesoscale restratification</h3>
+          <img src="figures/submeso_restrat.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <h3>Barotropic solver</h3>
+          <img src="figures/update_ocean_barotropic.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <h3>Barotropic solver</h3>
+          <ul>
+            <li>Predictor-corrector (Euler) timesteps</li>
+            <li>80 barotropic steps per ocean (baroclinic) step</li>
+            <li>Halos updated every 10 BT timesteps</li>
+            <li>42 halo updates per ocean step</li>
+          </ul>
+          <p>Basic equation:
+$$\begin{align}
+\rho_o \left(\partial_t + f \hat{z} \times \right) \mathbf{U} &= \mathbf{G}
+    - \left( H + \eta \right) \nabla \left( \rho_a + \rho_0 g \eta \right) \\
+\eta_t &= - \nabla \cdot \mathbf{U}
+\end{align}$$
+          </p>
+        </section>
+
+        <section>
+          <h3>Free surface smoothing</h3>
+          <img src="figures/ocean_eta_smooth.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <h3>Free surface smoothing</h3>
+          <p>Biharmonic diffusion of free surface:
+$$\begin{align}
+\eta_t &= \ldots + \nabla^4 \left(\eta + \eta_\text{min} \right) \\
+\left( h \phi \right)_t &= \ldots
+  + \nabla^4 \left[ \left( \eta + \eta_\text{min} \right) \phi \right]
+\end{align}$$
+          </p>
+          <ul>
+            <li>One call per (baroclinic) timestep</li>
+            <li>1 collective $\left( \eta_\text{min} \right)$</li>
+            <li>14 halo updates $\left( 5 + 3 N_\text{tracers} \right)$</li>
+          </ul>
+          <p>However...</p>
+          <ul>
+            <li>Laplacian smoothing is less work, and more stable!</li>
+            <li>C-grids do not need smoothing!</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>"Get ocean sbc"</h3>
+          <img src="figures/get_ocean_sbc.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <h3>"ocean diagnostics"</h3>
+          <img src="figures/ocean_diagnostics.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <h3>"eta and pbot diagnose"</h3>
+          <img src="figures/eta_and_pbot_diagnose.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <h3>"flux adjust"</h3>
+          <img src="figures/flux_adjust.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
           <h3>Summary</h3>
           <ol>
             <li>Concurrent sea ice is faster</li>
