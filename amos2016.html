@@ -66,36 +66,6 @@
         <!-- content -->
 
         <section>
-          <h3>Outline</h3>
-          <p>(TODO: Delete this slide)</p>
-          <ul>
-            <li>Initial 0.25° scaling results</li>
-            <li>Submodel scaling</li>
-            <li>0.25° performance output</li>
-            <li>Subroutine scaling
-              <ul>
-                <li>Finite volume (PPM) tracer step</li>
-                <li>Barotropic dynamics</li>
-                <li>Free surface smoothing</li>
-                <li>Submesoscale</li>
-                <li>Initialization IO</li>
-                <li>Diagnostic output</li>
-              </ul>
-            </li>
-            <li>Future solutions
-              <ul>
-                <li>Parallel (MPI) IO</li>
-                <li>Independent barotropic solver</li>
-              </ul>
-            </li>
-          </ul>
-        </section>
-
-        <section>
-          <h3>Front Matter</h3>
-        </section>
-
-        <section>
           <h3>Motivation for higher scales</h3>
           <img src="figures/def_radius.svg"
                alt="First baroclinic deformation radius">
@@ -104,7 +74,58 @@
         </section>
 
         <section>
-          <h3>Part 2: Scaling overview</h3>
+          <h3>MOM: Modular Ocean Model</h3>
+          <ul>
+            <li>Finite volume (MDPPM) tracer</li>
+            <li>Biharmonic Smagorinsky viscosity</li>
+            <li>Split barotropic timestepping</li>
+            <li>B-grid configuration
+            <li>Free surface ($\eta$) smoothing</li>
+            <li>Submesoscale parameterisation</li>
+            <li>Split sea ice (SIS) timesteps</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Model configurations</h3>
+          <div style="float: left;">
+            <ul>
+              <li>0.25° resolution</li>
+              <li>1440 x 1080 grid</li>
+              <li>50 levels</li>
+              <li>30-minute timestep</li>
+            </ul>
+          </div>
+          <div style="float: right;">
+            <ul>
+              <li>0.1° resolution</li>
+              <li>3600 x 2700 grid</li>
+              <li>50 levels</li>
+              <li>5-minute timestep</li>
+            </ul>
+          </div>
+          <p >TODO: Composite picture</p>
+        </section>
+
+        <section>
+          <h3>Parallelisation by domain decomposition</h3>
+          <img src="figures/tiling.svg"
+               alt="First baroclinic deformation radius">
+        </section>
+
+        <section>
+          <h3>Message passing model</h3>
+          <img src="figures/halo.svg"
+               style="background: none; border: none; box-shadow: none;"
+               alt="Tile halo update">
+        </section>
+
+        <section>
+          <h3>Experiment details</h3>
+          <ul>
+            <li>10-day runtime</li>
+            <li> etc etc..
+          </ul>
         </section>
 
         <section>
@@ -252,19 +273,24 @@
 
         <section>
           <h3>Barotropic solver</h3>
+          <p>Basic equation:
+$$\begin{align}
+\eta_t &=
+    -\nabla \cdot \mathbf{U}_\text{bt}
+    + \mathbf{F}_\text{src} - \mathbf{F}_\text{smooth} \\
+
+\left( \mathbf{U}_\text{bt} \right)_t &=
+  - f \hat{z} \times \mathbf{U}_\text{bt}
+  - g \nabla \left(\eta - \eta_\text{tide} \right)
+  + \mathbf{F}_\text{src} + \mathbf{F}_\text{fric}
+\end{align}$$
+          </p>
           <ul>
             <li>Predictor-corrector (Euler) timesteps</li>
             <li>80 barotropic steps per ocean (baroclinic) step</li>
             <li>Halos updated every 10 BT timesteps</li>
             <li>42 halo updates per ocean step</li>
           </ul>
-          <p>Basic equation:
-$$\begin{align}
-\rho_o \left(\partial_t + f \hat{z} \times \right) \mathbf{U} &= \mathbf{G}
-    - \left( H + \eta \right) \nabla \left( \rho_a + \rho_0 g \eta \right) \\
-\eta_t &= - \nabla \cdot \mathbf{U}
-\end{align}$$
-          </p>
         </section>
 
         <section>
@@ -341,6 +367,7 @@ $$\begin{align}
 
         <script>
           Reveal.initialize({
+            slideNumber: true,
             dependencies: [
               { src: 'plugin/highlight/highlight.js',
                 async: true,
