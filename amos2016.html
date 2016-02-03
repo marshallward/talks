@@ -61,29 +61,118 @@
           <p style="text-align: right;">Marshall Ward
             <br>National Computational Infrastructure
           </p>
+
+          <img src="figures/nci/partner_logos.svg" style="background: white">
         </section>
 
         <!-- content -->
 
         <section>
-          <h3>Motivation for higher scales</h3>
-          <img src="figures/def_radius.svg"
-               alt="First baroclinic deformation radius">
-          <p>Grid resolution of 0.1° is a <i>minimum</i> to accurately model
-          Southern Ocean dynamics</p>
+          <h3>NCI Optimization Project</h3>
+          <img src="figures/nci/opt_partners.svg"
+               style="float: left; width: 30%; background: white;"
+               alt="NCI Optimization Project partners">
+
+          <ul style="width: 60%; vertical-align: middle;">
+            <li>ACCESS profiling:
+              <ul>
+                <li>UM</li>
+                <li>MOM</li>
+                <li>CICE</li>
+                <li>ROMS</li>
+                <li>WAVEWATCH</li>
+              </ul>
+            </li>
+            <li>Expansion to new fields
+              <ul>
+                <li>Lattice QCD</li>
+                <li>Magnetotellurgy</li>
+                <li>Bioinformatics</li>
+              </ul>
+            </li>
+            <li>Tools and methodologies</li>
+          </ul>
         </section>
 
         <section>
-          <h3>MOM: Modular Ocean Model</h3>
-          <ul>
-            <li>Finite volume (MDPPM) tracer</li>
-            <li>Biharmonic Smagorinsky viscosity</li>
-            <li>Split barotropic timestepping</li>
-            <li>B-grid configuration
-            <li>Free surface ($\eta$) smoothing</li>
-            <li>Submesoscale parameterisation</li>
-            <li>Split sea ice (SIS) timesteps</li>
-          </ul>
+          <h3>Recent MOM usage at NCI</h3>
+          <table class="reveal">
+            <colgroup>
+              <col width="30%" />
+              <col width="20%" />
+              <col width="30%" />
+              <col width="20%" />
+            </colgroup>
+            <thead valign="bottom">
+              <tr>
+                <th class="head">Model</th>
+                <th class="head">Resolution</th>
+                <th class="head">Grid</th>
+                <th class="head">CPUs</th>
+              </tr>
+            </thead>
+            <tbody valign="top">
+              <tr>
+                <td>OFAM</td>
+                <td>0.1° - 2°</td>
+                <td>1191 x 968</td>
+                <td>384</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>0.1°</td>
+                <td>3600 x 1500</td>
+                <td>512</td>
+              </tr>
+              <tr>
+                <td>ACCESS-CM</td>
+                <td>1°</td>
+                <td>360 x 300</td>
+                <td>40</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>0.25°</td>
+                <td>1440 x 1080</td>
+                <td>960</td>
+              </tr>
+              <tr>
+                <td>ARCCSS (GFDL)</td>
+                <td>0.25°</td>
+                <td>1440 x 1080</td>
+                <td>960</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>0.1°</td>
+                <td>3600 x 2700</td>
+                <td>9196</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section>
+          <h3>Why scale up?</h3>
+          <img src="figures/def_radius.svg"
+               style="width: 90%"
+               alt="First baroclinic deformation radius">
+          <p>0.1° is a <i>minimum</i> for Southern Ocean dynamics</p>
+        </section>
+
+        <section>
+          <h3>How to scale up?</h3>
+          <img src="figures/tiling.svg"
+               style="width: 70%;"
+               alt="First baroclinic deformation radius">
+          <p>Parallelisation by domain decomposition</p>
+        </section>
+
+        <section>
+          <h3>Message passing model</h3>
+          <img src="figures/halo.svg"
+               style="background: none; border: none; box-shadow: none;"
+               alt="Tile halo update">
         </section>
 
         <section>
@@ -104,28 +193,10 @@
               <li>5-minute timestep</li>
             </ul>
           </div>
-          <p >TODO: Composite picture</p>
-        </section>
-
-        <section>
-          <h3>Parallelisation by domain decomposition</h3>
-          <img src="figures/tiling.svg"
-               alt="First baroclinic deformation radius">
-        </section>
-
-        <section>
-          <h3>Message passing model</h3>
-          <img src="figures/halo.svg"
-               style="background: none; border: none; box-shadow: none;"
-               alt="Tile halo update">
-        </section>
-
-        <section>
-          <h3>Experiment details</h3>
-          <ul>
-            <li>10-day runtime</li>
-            <li> etc etc..
-          </ul>
+          <p style="clear: both;">
+            <img src="figures/mom01_vizlab.jpg"
+                 style="width=80%;">
+          </p>
         </section>
 
         <section>
@@ -141,18 +212,6 @@
         </section>
 
         <section>
-          <ul>
-            <li>Efficient scalability to 1920 CPUs</li>
-            <li>Ocean scaling to 3840+ CPUs</li>
-            <li>Sea ice and coupler bottlenecks</li>
-          </ul>
-        </section>
-
-        <section>
-          <h3>Part 3: Concurrent scaling</h3>
-        </section>
-
-        <section>
           <h3>Coupled SIS scalability</h3>
           <img src="figures/sisloop025.svg"
                style="background: none; border: none; box-shadow: none;">
@@ -161,11 +220,19 @@
         </section>
 
         <section>
-          <h3>Concurrent scaling</h3>
-          <img src="figures/ccloop025.svg"
-               style="background: none; border: none; box-shadow: none;">
-        </section>
+          <section>
+            <h3>Concurrent scaling</h3>
+            <img src="figures/ccloop025.svg"
+                 style="background: none; border: none; box-shadow: none;">
+            <p>No measureable efficiency loss</p>
+          </section>
 
+          <section>
+            <h3>0.25° main loop scaling</h3>
+            <img src="figures/loop025.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+        </section>
 
         <section>
           <h3>0.25° simulation times</h3>
@@ -220,25 +287,49 @@
         </section>
 
         <section>
-          <h3>Part 4: Ocean subcomponent scaling</h3>
+          <h3>Internals of MOM</h3>
+          <ul>
+            <li>Finite volume (MDPPM) tracer</li>
+            <li>Biharmonic Smagorinsky viscosity</li>
+            <li>Split barotropic timestepping</li>
+            <li>B-grid configuration
+            <li>Free surface ($\eta$) smoothing</li>
+            <li>Submesoscale parameterisation</li>
+          </ul>
         </section>
 
         <section>
-          <h3>0.25° Ocean timestep scaling</h3>
+          <h3>0.25° Ocean submodel scaling</h3>
           <img src="figures/update_ocean_model.svg"
                style="background: none; border: none; box-shadow: none;">
         </section>
 
         <section>
-          <h3>0.25° Ocean timestep scaling</h3>
-          <img src="figures/pie025.svg"
-               style="background: none; border: none; box-shadow: none;">
+          <section>
+            <h3>0.25° Ocean subroutines</h3>
+            <img src="figures/pie025b.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <h3>0.25° Ocean subroutines (unblocked)</h3>
+            <img src="figures/pie025.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
         </section>
 
         <section>
-          <h3>Subroutine 0.25° scaling</h3>
-          <img src="figures/subscale025.svg"
-               style="background: none; border: none; box-shadow: none;">
+          <section>
+            <h3>Subroutine 0.25° scaling</h3>
+            <img src="figures/subscale025b.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <h3>Subroutine 0.25° scaling (unblocked)</h3>
+            <img src="figures/subscale025.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
         </section>
 
         <section>
