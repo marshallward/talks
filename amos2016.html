@@ -216,7 +216,7 @@
           <img src="figures/sisloop025.svg"
                style="background: none; border: none; box-shadow: none;">
 
-          <p>Optimal MOM-SIS CPU ratio is 6:1</p>
+          <p>Recommended MOM:SIS CPU ratio is 6:1</p>
         </section>
 
         <section>
@@ -224,7 +224,7 @@
             <h3>Concurrent scaling</h3>
             <img src="figures/ccloop025.svg"
                  style="background: none; border: none; box-shadow: none;">
-            <p>No measureable efficiency loss</p>
+            <p>No loss of efficiency</p>
           </section>
 
           <section>
@@ -287,18 +287,6 @@
         </section>
 
         <section>
-          <h3>Internals of MOM</h3>
-          <ul>
-            <li>Finite volume (MDPPM) tracer</li>
-            <li>Biharmonic Smagorinsky viscosity</li>
-            <li>Split barotropic timestepping</li>
-            <li>B-grid configuration
-            <li>Free surface ($\eta$) smoothing</li>
-            <li>Submesoscale parameterisation</li>
-          </ul>
-        </section>
-
-        <section>
           <h3>0.25° Ocean submodel scaling</h3>
           <img src="figures/update_ocean_model.svg"
                style="background: none; border: none; box-shadow: none;">
@@ -319,6 +307,19 @@
         </section>
 
         <section>
+          <h3>Internals of MOM</h3>
+          <ul>
+            <li>Three tracers: $T$, $S$, $\tau_\text{age}$</li>
+            <li>Finite volume (MDPPM) tracer</li>
+            <li>Biharmonic Smagorinsky viscosity</li>
+            <li>KPP and tidal mixing</li>
+            <li>Submesoscale parameterisation</li>
+            <li>Split barotropic timestepping</li>
+            <li>Free surface ($\eta$) smoothing</li>
+          </ul>
+        </section>
+
+        <section>
           <section>
             <h3>Subroutine 0.25° scaling</h3>
             <img src="figures/subscale025b.svg"
@@ -333,33 +334,73 @@
         </section>
 
         <section>
-          <h3>Tracer advection</h3>
-          <img src="figures/update_ocean_tracer.svg"
-               style="background: none; border: none; box-shadow: none;">
+          <section>
+            <h3>Tracer advection</h3>
+            <img src="figures/update_ocean_tracer_b.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <h3>Tracer advection (Unblocked)</h3>
+            <img src="figures/update_ocean_tracer.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
         </section>
 
         <section>
-          <h3>Acceleration</h3>
-          <img src="figures/ocean_explicit_accel_a.svg"
-               style="background: none; border: none; box-shadow: none;">
+          <section>
+            <h3>Acceleration</h3>
+            <img src="figures/ocean_explicit_accel_a_b.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <h3>Acceleration (Unblocked)</h3>
+            <img src="figures/ocean_explicit_accel_a.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
         </section>
 
         <section>
-          <h3>Vertical mixing</h3>
-          <img src="figures/vert_mix_coeff.svg"
-               style="background: none; border: none; box-shadow: none;">
+          <section>
+            <h3>Vertical mixing</h3>
+            <img src="figures/vert_mix_coeff_b.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <h3>Vertical mixing (Unblocked)</h3>
+            <img src="figures/vert_mix_coeff.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
         </section>
 
         <section>
-          <h3>Submesoscale restratification</h3>
-          <img src="figures/submeso_restrat.svg"
-               style="background: none; border: none; box-shadow: none;">
+          <section>
+            <h3>Submesoscale restratification</h3>
+            <img src="figures/submeso_restrat_b.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <h3>Submesoscale restratification (Unblocked)</h3>
+            <img src="figures/submeso_restrat.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
         </section>
 
         <section>
-          <h3>Barotropic solver</h3>
-          <img src="figures/update_ocean_barotropic.svg"
-               style="background: none; border: none; box-shadow: none;">
+          <section>
+            <h3>Barotropic solver</h3>
+            <img src="figures/update_ocean_barotropic_b.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <h3>Barotropic solver (Unblocked)</h3>
+            <img src="figures/update_ocean_barotropic.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
         </section>
 
         <section>
@@ -385,9 +426,17 @@ $$\begin{align}
         </section>
 
         <section>
-          <h3>Free surface smoothing</h3>
-          <img src="figures/ocean_eta_smooth.svg"
-               style="background: none; border: none; box-shadow: none;">
+          <section>
+            <h3>Free surface smoothing</h3>
+            <img src="figures/ocean_eta_smooth_b.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <h3>Free surface smoothing</h3>
+            <img src="figures/ocean_eta_smooth.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
         </section>
 
         <section>
@@ -412,43 +461,114 @@ $$\begin{align}
         </section>
 
         <section>
-          <h3>"Get ocean sbc"</h3>
-          <img src="figures/get_ocean_sbc.svg"
-               style="background: none; border: none; box-shadow: none;">
+          <section>
+            <h3>Surface boundary fluxes</h3>
+            <img src="figures/get_ocean_sbc_b.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <h3>Surface boundary fluxes (Unblocked)</h3>
+            <img src="figures/get_ocean_sbc.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
         </section>
 
         <section>
-          <h3>"ocean diagnostics"</h3>
-          <img src="figures/ocean_diagnostics.svg"
-               style="background: none; border: none; box-shadow: none;">
+          <h3>Surface Boundary Fluxes</h3>
+          Calculation of various coupler fluxes:
+          <ul>
+            <li>Momentum flux from winds and P-E</li>
+            <li>Stokes drift</li>
+            <li>Various water, salt and heat fluxes</li>
+            <li>Surface pressure</li>
+          </ul>
+          <p>Calculation requires:</p>
+          <ul>
+            <li>1 collective (zero net water flux constraint)</li>
+            <li>6 2D halo updates</li>
+          </ul>
+          <p>Another poorly scaling 2D operation</p>
         </section>
 
         <section>
-          <h3>"eta and pbot diagnose"</h3>
-          <img src="figures/eta_and_pbot_diagnose.svg"
-               style="background: none; border: none; box-shadow: none;">
+          <section>
+            <h3>Ocean diagnostics</h3>
+            <img src="figures/ocean_diagnostics_b.svg"
+                 style="background: none; border: none; box-shadow: none;">
+            <p>48 2D collectives per output (once/day)</p>
+          </section>
+
+          <section>
+            <h3>Ocean diagnostics</h3>
+            <img src="figures/ocean_diagnostics.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
         </section>
 
         <section>
-          <h3>"flux adjust"</h3>
-          <img src="figures/flux_adjust.svg"
-               style="background: none; border: none; box-shadow: none;">
+          <section>
+            <h3>Calculation of $\eta, p_\text{bot}$</h3>
+            <img src="figures/eta_and_pbot_diagnose_b.svg"
+                 style="background: none; border: none; box-shadow: none;">
+            <p>Many 2D vector loops</p>
+          </section>
+
+          <section>
+            <h3>Calculation of $\eta, p_\text{bot}$ (Unblocked)</h3>
+            <img src="figures/eta_and_pbot_diagnose.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h3>Flux adjustment</h3>
+            <img src="figures/flux_adjust_b.svg"
+                 style="background: none; border: none; box-shadow: none;">
+            <p>2D interpolation</p>
+          </section>
+
+          <section>
+            <h3>Flux adjustment</h3>
+            <img src="figures/flux_adjust.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+        </section>
+
+        <section>
+          <h3>The good and the bad</h3>
+          <div style="float: left; width: 45%">
+            3D, strong scaling
+            <hr>
+            <ul>
+              <li>Tracer advection</li>
+              <li>Acceleration and forces</li>
+              <li>KPP/Tidal mixing</li>
+            </ul>
+          </div>
+          <div style="float: right; width: 45%">
+            2D, poor scaling
+            <hr>
+            <ul>
+              <li>Barotropic dynamics</li>
+              <li>Free surface smoothing</li>
+              <li>Boundary conditions</li>
+              <li>2D diagnostics</li>
+              <li>2D interpolation</li>
+            </ul>
+          </div>
         </section>
 
         <section>
           <h3>Summary</h3>
           <ol>
-            <li>Concurrent sea ice is faster</li>
-            <li>2D solvers scale poorly:
-              <ul>
-                <li>Barotropic solvers</li>
-                <li>Free surface smoothing</li>
-                <li>Submesoscale modelling</li>
-              </ul>
-            </li>
-            <li>Poor IO performance</li>
+            <li>Poor scalability in quasi-2D sea ice</li>
+            <li>Concurrent ocean-ice runs yield greater performance</li>
+            <li>3D components scale well</li>
+            <li>2D components scale poorly</li>
           </ol>
-          <p>Future: Move 2D solvers to submodels?
+          <p>Concurrent 2D/3D modelling?
         </section>
 
         <!-- configuration -->
