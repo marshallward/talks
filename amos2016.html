@@ -35,11 +35,9 @@
         <img src="figures/nci/nci_logo_small.png">
       </header>
 
-      <!--
-      <footer style="position: absolute; bottom: 2%; right: 2%;">
-          <code>nci.org.au</code>
+      <footer style="font-size: 1pc; position: absolute; bottom: 2%; left: 2%;">
+        <code>http://marshallward.github.io/talks/amos2016.html</code>
       </footer>
-      -->
 
       <div class="slides">
 
@@ -155,7 +153,7 @@
         <section>
           <h3>Why scale up?</h3>
           <img src="figures/def_radius.svg"
-               style="width: 90%"
+               style="width: 80%"
                alt="First baroclinic deformation radius">
           <p>0.1° is a <i>minimum</i> for Southern Ocean dynamics</p>
         </section>
@@ -163,7 +161,7 @@
         <section>
           <h3>How to scale up?</h3>
           <img src="figures/tiling.svg"
-               style="width: 70%;"
+               style="width: 60%;"
                alt="First baroclinic deformation radius">
           <p>Parallelisation by domain decomposition</p>
         </section>
@@ -182,16 +180,22 @@
               <li>0.25° resolution</li>
               <li>1440 x 1080 grid</li>
               <li>50 levels</li>
-              <li>30-minute timestep</li>
             </ul>
           </div>
           <div style="float: right;">
+            <ul>
+              <li>30-minute timestep</li>
+              <li>10 day integration</li>
+              <li>SIS: Sea Ice Simulator</li>
+            </ul>
+            <!--
             <ul>
               <li>0.1° resolution</li>
               <li>3600 x 2700 grid</li>
               <li>50 levels</li>
               <li>5-minute timestep</li>
             </ul>
+            -->
           </div>
           <p style="clear: both;">
             <img src="figures/mom01_vizlab.jpg"
@@ -214,9 +218,9 @@
         <section>
           <h3>Coupled SIS scalability</h3>
           <img src="figures/sisloop025.svg"
-               style="background: none; border: none; box-shadow: none;">
-
-          <p>Recommended MOM:SIS CPU ratio is 6:1</p>
+               style="background: none; border: none; box-shadow: none;
+                      width: 80%">
+          <p>Recommended MOM-to-SIS CPU ratio is 6:1</p>
         </section>
 
         <section>
@@ -224,7 +228,6 @@
             <h3>Concurrent scaling</h3>
             <img src="figures/ccloop025.svg"
                  style="background: none; border: none; box-shadow: none;">
-            <p>No loss of efficiency</p>
           </section>
 
           <section>
@@ -253,34 +256,40 @@
             </thead>
             <tbody valign="top">
               <tr>
-                <td>960s</td>
-                <td>7364.9</td>
-                <td>1966.1</td>
-                <td>11.7</td>
+                <td style="color: seashell">960s</td>
+                <td style="color: seashell">7364.9</td>
+                <td style="color: seashell">1966.1</td>
+                <td style="color: seashell">11.7</td>
               </tr>
               <tr>
-                <td>1920s</td>
-                <td>3986.8</td>
-                <td>2126.3</td>
-                <td>21.7</td>
+                <td style="color: seashell">1920s</td>
+                <td style="color: seashell">3986.8</td>
+                <td style="color: seashell">2126.3</td>
+                <td style="color: seashell">21.7</td>
               </tr>
               <tr>
-                <td><b>2240c</b></td>
-                <td><b>3347.5</b></td>
-                <td><b>2112.4</b></td>
-                <td><b>25.8</b></td>
+                <td style="color: khaki">2240c</td>
+                <td style="color: khaki">3347.5</td>
+                <td style="color: khaki">2112.4</td>
+                <td style="color: khaki">25.8</td>
               </tr>
               <tr>
-                <td>3840s</td>
-                <td>2504.3</td>
-                <td>2776.5</td>
-                <td>34.5</td>
+                <td style="color: seashell">3840s</td>
+                <td style="color: seashell">2504.3</td>
+                <td style="color: seashell">2776.5</td>
+                <td style="color: seashell">34.5</td>
               </tr>
               <tr>
-                <td><b>4480c</b></td>
-                <td><b>1919.6</b></td>
-                <td><b>2510.0</b></td>
-                <td><b>45.0</b></td>
+                <td style="color: khaki">4480c</td>
+                <td style="color: khaki">1919.6</td>
+                <td style="color: khaki">2510.0</td>
+                <td style="color: khaki">45.0</td>
+              </tr>
+              <tr>
+                <td style="color: khaki">8960c</td>
+                <td style="color: khaki">1500.9</td>
+                <td style="color: khaki">3964.8</td>
+                <td style="color: khaki">57.6</td>
               </tr>
             </tbody>
           </table>
@@ -306,6 +315,7 @@
           </section>
         </section>
 
+        <!--
         <section>
           <h3>Internals of MOM</h3>
           <ul>
@@ -318,6 +328,7 @@
             <li>Free surface ($\eta$) smoothing</li>
           </ul>
         </section>
+        -->
 
         <section>
           <section>
@@ -337,13 +348,16 @@
           <section>
             <h3>Tracer advection</h3>
             <img src="figures/update_ocean_tracer_b.svg"
-                 style="background: none; border: none; box-shadow: none;">
+                 style="background: none; border: none; box-shadow: none;
+                        width: 80%">
+            <p>Finite volume (MDPPM) calculations</p>
           </section>
 
           <section>
             <h3>Tracer advection (Unblocked)</h3>
             <img src="figures/update_ocean_tracer.svg"
-                 style="background: none; border: none; box-shadow: none;">
+                 style="background: none; border: none; box-shadow: none;
+                        width: 80%">
           </section>
         </section>
 
@@ -351,13 +365,16 @@
           <section>
             <h3>Acceleration</h3>
             <img src="figures/ocean_explicit_accel_a_b.svg"
-                 style="background: none; border: none; box-shadow: none;">
+                 style="background: none; border: none; box-shadow: none;
+                        width: 80%">
+            <p>Mostly biharmonic Smagorinsky viscosity</p>
           </section>
 
           <section>
             <h3>Acceleration (Unblocked)</h3>
             <img src="figures/ocean_explicit_accel_a.svg"
-                 style="background: none; border: none; box-shadow: none;">
+                 style="background: none; border: none; box-shadow: none;
+                        width: 80%">
           </section>
         </section>
 
@@ -365,13 +382,16 @@
           <section>
             <h3>Vertical mixing</h3>
             <img src="figures/vert_mix_coeff_b.svg"
-                 style="background: none; border: none; box-shadow: none;">
+                 style="background: none; border: none; box-shadow: none;
+                        width: 80%">
+            <p>KPP and tidal mixing coefficients</p>
           </section>
 
           <section>
             <h3>Vertical mixing (Unblocked)</h3>
             <img src="figures/vert_mix_coeff.svg"
-                 style="background: none; border: none; box-shadow: none;">
+                 style="background: none; border: none; box-shadow: none;
+                        width: 80%">
           </section>
         </section>
 
@@ -379,13 +399,16 @@
           <section>
             <h3>Submesoscale restratification</h3>
             <img src="figures/submeso_restrat_b.svg"
-                 style="background: none; border: none; box-shadow: none;">
+                 style="background: none; border: none; box-shadow: none;
+                        width: 80%">
+            <p>Many 2D and irregular 3D loops</p>
           </section>
 
           <section>
             <h3>Submesoscale restratification (Unblocked)</h3>
             <img src="figures/submeso_restrat.svg"
-                 style="background: none; border: none; box-shadow: none;">
+                 style="background: none; border: none; box-shadow: none;
+                        width: 80%">
           </section>
         </section>
 
@@ -393,16 +416,20 @@
           <section>
             <h3>Barotropic solver</h3>
             <img src="figures/update_ocean_barotropic_b.svg"
-                 style="background: none; border: none; box-shadow: none;">
+                 style="background: none; border: none; box-shadow: none;
+                        width: 80%">
+            <p>80 substeps and 42 halo updates per ocean step</p>
           </section>
 
           <section>
             <h3>Barotropic solver (Unblocked)</h3>
             <img src="figures/update_ocean_barotropic.svg"
-                 style="background: none; border: none; box-shadow: none;">
+                 style="background: none; border: none; box-shadow: none;
+                        width: 80%">
           </section>
         </section>
 
+        <!--
         <section>
           <h3>Barotropic solver</h3>
           <p>Basic equation:
@@ -424,21 +451,25 @@ $$\begin{align}
             <li>42 halo updates per ocean step</li>
           </ul>
         </section>
+        -->
 
         <section>
           <section>
             <h3>Free surface smoothing</h3>
             <img src="figures/ocean_eta_smooth_b.svg"
-                 style="background: none; border: none; box-shadow: none;">
+                 style="background: none; border: none; box-shadow: none;
+                        width: 80%">
           </section>
 
           <section>
             <h3>Free surface smoothing</h3>
             <img src="figures/ocean_eta_smooth.svg"
-                 style="background: none; border: none; box-shadow: none;">
+                 style="background: none; border: none; box-shadow: none;
+                        width: 80%">
           </section>
         </section>
 
+        <!--
         <section>
           <h3>Free surface smoothing</h3>
           <p>Biharmonic diffusion of free surface:
@@ -459,18 +490,21 @@ $$\begin{align}
             <li>C-grids do not need smoothing!</li>
           </ul>
         </section>
+        -->
 
         <section>
           <section>
             <h3>Surface boundary fluxes</h3>
             <img src="figures/get_ocean_sbc_b.svg"
-                 style="background: none; border: none; box-shadow: none;">
+                 style="background: none; border: none; box-shadow: none;
+                        width: 80%">
           </section>
 
           <section>
             <h3>Surface boundary fluxes (Unblocked)</h3>
             <img src="figures/get_ocean_sbc.svg"
-                 style="background: none; border: none; box-shadow: none;">
+                 style="background: none; border: none; box-shadow: none;
+                        width: 80%">
           </section>
         </section>
 
@@ -495,14 +529,16 @@ $$\begin{align}
           <section>
             <h3>Ocean diagnostics</h3>
             <img src="figures/ocean_diagnostics_b.svg"
-                 style="background: none; border: none; box-shadow: none;">
+                 style="background: none; border: none; box-shadow: none;
+                        width: 80%">
             <p>48 2D collectives per output (once/day)</p>
           </section>
 
           <section>
             <h3>Ocean diagnostics</h3>
             <img src="figures/ocean_diagnostics.svg"
-                 style="background: none; border: none; box-shadow: none;">
+                 style="background: none; border: none; box-shadow: none;
+                        width: 80%">
           </section>
         </section>
 
@@ -510,14 +546,16 @@ $$\begin{align}
           <section>
             <h3>Calculation of $\eta, p_\text{bot}$</h3>
             <img src="figures/eta_and_pbot_diagnose_b.svg"
-                 style="background: none; border: none; box-shadow: none;">
+                 style="background: none; border: none; box-shadow: none;
+                        width: 80%">
             <p>Many 2D vector loops</p>
           </section>
 
           <section>
             <h3>Calculation of $\eta, p_\text{bot}$ (Unblocked)</h3>
             <img src="figures/eta_and_pbot_diagnose.svg"
-                 style="background: none; border: none; box-shadow: none;">
+                 style="background: none; border: none; box-shadow: none;
+                        width: 80%">
           </section>
         </section>
 
@@ -525,14 +563,16 @@ $$\begin{align}
           <section>
             <h3>Flux adjustment</h3>
             <img src="figures/flux_adjust_b.svg"
-                 style="background: none; border: none; box-shadow: none;">
+                 style="background: none; border: none; box-shadow: none;
+                        width: 80%">
             <p>2D interpolation</p>
           </section>
 
           <section>
             <h3>Flux adjustment</h3>
             <img src="figures/flux_adjust.svg"
-                 style="background: none; border: none; box-shadow: none;">
+                 style="background: none; border: none; box-shadow: none;
+                        width: 80%">
           </section>
         </section>
 
