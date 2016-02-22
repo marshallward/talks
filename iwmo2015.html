@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Scalability of global 0.25° ocean simulations using MOM</title>
+
+    <meta name="description"
+          content="Limits of scalability and performance of global
+                   high-resolution ocean simulations on the NCI computing
+                   platforms">
+    <meta name="author" content="Marshall Ward">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/black.css" id="theme">
+    <!--<link rel="stylesheet" href="lib/css/solarized_dark.css"> -->
+  </head>
+  <body>
+    <div class="reveal"
+         style="background: url(figures/nci/bg_nci.png);
+                background-size: cover;">
+
+      <header style="width: 10%; position: absolute; top: 2%; left: 2%;">
+        <img src="figures/nci/nci_logo_small.png">
+      </header>
+
+      <footer style="font-size: 1pc; position: absolute; bottom: 2%; right: 2%;">
+        <code>http://marshallward.org/iwmo2015/iwmo2015.html</code>
+      </footer>
+
+      <div class="slides">
+
+        <section>
+          <div class="reveal" style="text-align: right;">
+            <img src="figures/nci/nci_logo.png"
+                 style="background:none; border:none; box-shadow:none;
+                        width: 30%;"
+                 alt="NCI">
+          </div>
+
+          <h4 style="text-align: left; color: white;">
+            Limits of scalability of high-resolution ocean simulations at NCI
+          </h4>
+
+          <p style="text-align: right;">Marshall Ward
+            <br>National Computational Infrastructure
+          </p>
+        </section>
+
+        <!--
+        <section>
+          <h3>Ocean modelling @ NCI @ IWMO</h3>
+          <ul>
+            <li><b>Matt England</b> - Ocean modelling for climate system
+              science</li>
+            <li><b>Nicola Maher</b> - The role of Pacific trade wind trends in
+              driving ocean heat update and global hiatuses</li>
+            <li><b>Simon Marsland</b> - Past and future submissions of ACCESS
+              to the Climate Model Intercomparison Project</li>
+            <li><b>Gary Brassington</b> - An operational coastal ocean
+              forecasting system in for the Great Barrier Reef</li>
+            <li><b>Clothilde Langlais</b> - Contribution of mesoscale eddies in
+              the carbon subduction in the Southern Ocean</li>
+            <li><b>Alice Barthel</b> - Jet-topograpy effects on horizontal eddy mixing
+              in the Southern Ocean</li>
+            <li><b>Andy Hogg</b> - Can surface buoyancy forcing drive large scale ocean
+              gyres?</li>
+            <li><b>Andrew Kiss</b> - The vorticity dynamics required for realistic
+            western boundary current separation</li>
+            <li><i>Others?</i></li>
+          </ul>
+        </section>
+        -->
+
+        <section>
+          <h3>Computational Performance</h3>
+          <p>Peak performance follows a basic formula:
+          $$R_\text{peak} = f \times N_\text{vec} \times N_\text{CPU}$$
+          <ul>
+            <li>$f$ : CPU frequency (cycles per second)</li>
+            <li>$N_\text{vec}$ : Instructions per cycle (vectorization)</li>
+            <li>$N_\text{CPU}$ : Number of CPU cores</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>CPU Clock Speed</h3>
+          <p><img src="figures/computing/clockspeed.svg"
+                  style="width:75%"
+                  alt="CPU Clock speed vs Time"></p>
+          <p style="font-size:20px">
+          From <a href="http://cpudb.stanford.edu/">CPU DB</a><br>
+          (Andrew Danowitz, Kyle Kelley, James Mao, John P. Stevenson, and Mark Horowitz. 2012. CPU DB: recording microprocessor history. Commun. ACM 55, 4 (April 2012), 55-63.)
+          </p>
+        </section>
+
+        <section>
+          <h3>Single-threaded Performance</h3>
+          <p><img src="figures/computing/float-point-perf.png"></p>
+          <p style="font-size:20px">
+          <a href="http://preshing.com/20120208/a-look-back-at-single-threaded-cpu-performance/">http://preshing.com/20120208/a-look-back-at-single-threaded-cpu-performance/</a></p>
+        </section>
+
+        <section>
+          <h3>Supercomputer $R_\text{peak}$</h3>
+          <p><img src="figures/computing/top500_rpeak_crop.png"
+                  style="width:50%"></p>
+          <p><a href="http://top500.org/statistics/perfdevel/">http://top500.org/statistics/perfdevel/</a>
+          </p>
+        </section>
+
+        <section>
+          <section>
+            <h3>Peak vs Maximum Performance</h3>
+            <p><img src="figures/computing/top10perf.svg"
+                    alt="Absolute and relative performance of Top 10
+                         supercomputers">
+            </p>
+          </section>
+
+          <section>
+            <h3>Peak vs Maximum performance</h3>
+            <table class="reveal">
+              <thead>
+                <tr>
+                  <th>Platform</th>
+                  <th>$R_\text{peak}$</th>
+                  <th>$R_\text{max}$</th>
+                  <th>% usage</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Tianhe-2</td>
+                  <td>54902.4</td>
+                  <td>33862.7</td>
+                  <td>0.62</td>
+                </tr>
+                <tr>
+                  <td>Titan</td>
+                  <td>27112.5</td>
+                  <td>17590.0</td>
+                  <td>0.65</td>
+                </tr>
+                <tr>
+                  <td>Sequoia</td>
+                  <td>20132.7</td>
+                  <td>17173.2</td>
+                  <td>0.85</td>
+                </tr>
+                <tr>
+                  <td>K computer</td>
+                  <td>11208.4</td>
+                  <td>10510.0</td>
+                  <td>0.94</td>
+                </tr>
+                <tr>
+                  <td>Mira</td>
+                  <td>10066.3</td>
+                  <td>8586.6</td>
+                  <td>0.85</td>
+                </tr>
+                <tr>
+                  <td>Piz Daint</td>
+                  <td>7788.9</td>
+                  <td>6271.0</td>
+                  <td>0.81</td>
+                </tr>
+                <tr>
+                  <td>Stampede</td>
+                  <td>8520.1</td>
+                  <td>5168.1</td>
+                  <td>0.61</td>
+                </tr>
+                <tr>
+                  <td>JUQUEEN</td>
+                  <td>5872.0</td>
+                  <td>5008.9</td>
+                  <td>0.85</td>
+                </tr>
+                <tr>
+                  <td>Vulcan</td>
+                  <td>5033.2</td>
+                  <td>4293.3</td>
+                  <td>0.85</td>
+                </tr>
+                <tr>
+                  <td>(US computer)</td>
+                  <td>6131.8</td>
+                  <td>3577.0</td>
+                  <td>0.58</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </section>
+
+        <section>
+          <h3>Computation vs Communication</h3>
+          <ul>
+            <li>Computing speed has (probably) stopped</li>
+            <li>Computing power is increasing, but slowly</li>
+            <li>Cores are increasing, but are they communicating?</li>
+          </ul>
+          <p>How do we reach $R_\text{peak}$?
+        </section>
+
+        <section>
+          <h3>NCI Platform: Raijin (雷神)</h3>
+          <img src="figures/computing/raijin2.jpg" alt="Raijin">
+          <ul>
+            <li>57,472 cores (3592 nodes, 16 core / node)</li>
+            <li>Intel Xeon (Sandy Bridge), 3 GHz (turbo)</li>
+            <li>32+ GiB per node</li>
+            <li>56 Gb/s Infiniband network</li>
+            <li>Two-level switched fabric fat tree</li>
+            <li>$R_\text{max}$ = 0.978 PFlops (TOP500: #52)</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>MOM: The Modular Ocean Model</h3>
+
+          <video data-autoplay>
+            <source data-src="figures/ocean.webm" type="video/webm" />
+          </video>
+
+          <ul>
+            <li>Mixed finite difference / finite volume ocean model</li>
+            <li>Consistently strong performance in CMIP studies</li>
+            <li>FMS modelling framework</li>
+            <li>Coupled to SIS: Sea Ice Simulator</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>0.25°-resolution experiment</h2>
+
+          <img src="figures/mom/gfdl_tripole.svg"
+               style="background:none; border:none; box-shadow:none;
+                      float: right; width: 35%"
+               alt="Tripolar grid">
+          <ul style="width: 60%;">
+            <li>Based on GFDL's CM2.5</li>
+            <li>CORE atmosphere forcing
+            <li>1440 x 1080 x 50 grid points</li>
+            <li>Tripolar grid</li>
+            <li>31 day run (1488 timestep)</li>
+            <li>5 day diagnostic output</li>
+            <li>72 sea ice steps per ocean step</li>
+          </ul>
+          <p>More "eddy-permitting" than eddy-resolving</p>
+        </section>
+
+        <section>
+          <h3>0.25° scaling</h3>
+          <img src="figures/scaling.svg">
+          <ul>
+            <li>Efficient scaling up to 960 CPUs</li>
+            <li>Unused cores relieve some resource bottleneck</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>0.25° Communication</h3>
+          <p><img src="figures/comm.svg"
+                  alt="0.25° Commmunication time">
+          </p>
+        </section>
+
+        <section>
+          <h3>Submodel scaling</h3>
+          <img src="figures/submodels.svg">
+        </section>
+
+        <section>
+          <h3>0.25° Performance</h3>
+          <table class="reveal">
+            <thead>
+              <tr>
+                <th>CPUs</th>
+                <th>Years/day</th>
+                <th>Efficiency</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>960</td>
+                <td>11</td>
+                <td>91%</td>
+              </tr>
+              <tr>
+                <td>960 (+ 320)</td>
+                <td>13</td>
+                <td>74%</td>
+              </tr>
+              <tr>
+                <td>3840</td>
+                <td>27</td>
+                <td>42%</td>
+              </tr>
+              <tr>
+                <td>3840 (+ 1280)</td>
+                <td>29</td>
+                <td>33%</td>
+              </tr>
+            </tbody>
+          </table>
+          <p><i>(Efficiency is relative to 240 CPUs with hyperthreading)</i>
+        </section>
+
+        <section>
+          <h3>Global 0.1° simulation</h3>
+          <img src="figures/acc01.png">
+          <ul>
+            <li>GFDL CM 2.6 experiment</li>
+            <li>CORE atmosphere forcing</li>
+            <li>3600 x 2700 x 50 grid points</li>
+            <li>10 day simulation</li>
+            <li>Hyperthreading enabled</li>
+            <li>Fully committed (16 processes per node)</li>
+            <li>Output disabled</li>
+          </ul>
+
+          <p>A global eddy resolving model</p>
+        </section>
+
+        <section>
+          <h3>0.1° Scaling</h3>
+          <img src="figures/openib_main.svg">
+          <ul>
+            <li>Strong performance up to 10k CPUs</li>
+            <li>Ouput rate ~3 years/day</li>
+            <li>TCP is not viable beyond 2500 CPUs</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>0.1° Communication</h3>
+          <img src="figures/comm01.svg">
+          <p>(10k communication inferred from scaling)</p>
+        </section>
+
+        <section>
+          <h3>0.1° Submodel Scaling</h3>
+          <img src="figures/submodels01.svg">
+        </section>
+
+        <section>
+          <h3>Communication bottlenecks</h3>
+          <ul>
+            <li>Timestep updates</li>
+            <li>Global grid reconstruction</li>
+            <li>Coupler flux exchange</li>
+            <li>Barotropic streamfunction</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Tile Decomposition</h3>
+          <img src="figures/mpi/tiling.svg"
+               style="width: 65%;"
+               alt="Tiling map decomposition">
+          <p>$N_\text{msg} \approx 8 N_x N_y$</p>
+        </section>
+
+        <section>
+          <h3>Tile Boundary Caches (Halos)</h3>
+          <img src="figures/mpi/halo.svg"
+               style="background:none; border:none; box-shadow:none;"
+               alt="Tile halo update">
+        </section>
+
+        <section>
+          <h3>Point-to-Point Messages</h3>
+          <table class="reveal">
+            <thead>
+              <tr>
+                <th>Submodel</th>
+                <th>Isends</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Sea Ice</td>
+                <td>1512</td>
+              </tr>
+              <tr>
+                <td>Ocean</td>
+                <td>791</td>
+              </tr>
+              <tr>
+                <td>Coupler</td>
+                <td>57</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p>Per timestep:</p>
+          <ul>
+            <li>Over 2300 messages (~300 fields) per CPU</li>
+            <li>24 million messages at 10k</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Non-sequential scattering</h3>
+          <p><img src="figures/mpi/sequential.svg"
+                  style="float: left; width: 55%"
+                  alt="Nonuniform tile scattering">
+          </p>
+          <ul style="width: 35%; vertical-align: middle;">
+            <li>1 2 7 8 13 14</li>
+            <li>3 4 5 9 10 11 15 16 17</li>
+            <li>6 12 18</li>
+            <li>19 20</li>
+            <li>21 22 23</li>
+            <li>24</li>
+            <li>25 26 31 32</li>
+            <li>27 28 29 33 34 35</li>
+            <li>30 36</li>
+          </ul>
+          <ul>
+            <li>Breaking contiguity prevents efficient scatter/gathers</li>
+            <li>$N_\text{msg} \approx N_x^2 N_y^2$ (point-to-point)</li>
+            <li>Fails at 15k CPUs</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Flux Exchange</h3>
+          <img src="figures/mpi/flux_exchange.svg"
+                  style="float: left; width: 60%;"
+                  alt="Flux exchange map"></p>
+          <ul style="width: 30%; vertical-align: middle;">
+            <li>Ocean blocks<br>
+              (Non-contiguous)</li>
+            <li>Coupler strips<br>
+              (Not grid-aware)</li>
+          </ul>
+          <p style="clear: both;">
+          <ul>
+            <li>Coupler sends fractional cell overlap to every ocean tile!</li>
+            <li>Even though <i>most are zero!</i></li>
+            <li>This one-time calculation fails past 1000 CPUs</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Limits to Message Passing</h3>
+          <p><b>Q:</b> How do you tell someone that you don't need to send them
+          a message?</p>
+
+          <p><b>A:</b> You send them a message</p>
+
+          <!--
+          <img src="figures/alltoall.svg" alt="All-to-all"
+               style="background:none; border:none; box-shadow:none;
+                      width: 50%">
+
+          <p>$n_{ij}$ = # of bytes sent from rank $i$ to $j$</p>
+          -->
+
+          <p>Another $N_\text{msg} = N_x^2 N_y^2$ operation</p>
+        </section>
+
+        <section>
+          <h3>Barotropic Streamfunction</h3>
+          <p><img src="figures/mpi/streamfunction.svg"
+                  style="float: left; width: 60%;"
+                  alt="Streamfunction messages">
+          </p>
+          <p>Integration of
+            $$\psi = \int_0^{L_y} u dy$$
+          for tile must collect
+          values to the south</p>
+          <p style="clear: both;">$N_\text{msg} \approx \frac{1}{2} N_x N_y^2$</p>
+        </section>
+
+        <section>
+          <h3>Summary</h3>
+          <ul>
+            <li>0.25° (1000 CPU) global modelling is now routine</li>
+            <li>Raijin is ready for 0.1° (10k CPU) modelling</li>
+            <li>Communication is the simulation bottleneck</li>
+            <li>Developers must address communication scaling</li>
+          </ul>
+        </section>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
+
+        <script>
+          Reveal.initialize({
+            dependencies: [
+              { src: 'plugin/highlight/highlight.js',
+                async: true,
+                condition: function() {
+                  return !!document.querySelector( 'pre code' ); },
+                callback: function() {
+                  hljs.initHighlightingOnLoad(); }
+              },
+
+              { src: 'plugin/math/math.js', async: true }
+            ]
+          });
+        </script>
+      </div>
+    </div>
+</html>
