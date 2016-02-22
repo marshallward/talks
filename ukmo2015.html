@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - The HTML Presentation Framework</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+        <section>
+          <h3>BoM/NCI Meeting Report</h3>
+          <p>Marshall Ward</p>
+        </section>
+
+				<section>
+          <h3>Completed Work (MOM)</h3>
+          <ul>
+            <li>Scaling (ARCCSS)
+              <ul>
+                <li>0.25° global ocean-ice</li>
+                <li>0.1° global ocean-ice</li>
+              </ul>
+            </li>
+            <li>Code changes
+              <ul>
+                <li>Improved coupler initialization</li>
+                <li>Potential energy optimization</li>
+                <li>Land cell check optimization</li>
+                <li>Improved collective support in FMS framework</li>
+              </ul>
+            </li>
+            <li>Land masking: 20-25% reduction of CPU usage
+          </ul>
+				</section>
+
+        <section>
+          <h3>0.25° Performance</h3>
+          <p><img src="figures/old_scaling.svg"></p>
+        </section>
+
+        <section>
+          <h3>0.25° Scaling</h3>
+          <p><img src="figures/scaling.svg"></p>
+        </section>
+
+        <section>
+          <h3>0.25° Submodel Scaling</h3>
+          <p><img src="figures/submodels.svg"></p>
+        </section>
+
+        <section>
+          <h3>0.1° Performance (Init+Main)</h3>
+          <p><img src="figures/scaling01.svg"></p>
+        </section>
+
+        <section>
+          <h3>0.1° Performance (Main)</h3>
+          <p><img src="figures/scaling01_main.svg"></p>
+        </section>
+
+        <section>
+          <h3>Beneficiaries</h3>
+          <ul>
+            <li>ARCCSS
+              <ul>
+                <li>30 years of 0.1° model spinup</li>
+              </ul>
+            </li>
+            <li>CSIRO
+              <ul>
+                <li>ACCESS-CM 2 adoption of 0.25° model</li>
+              </ul>
+            </li>
+            <li>Bluelink (BoM, CSIRO)
+              <ul>
+                <li>BRAN scaling to 720 CPUs</li>
+                <li>CSIRO BGC (OFAM) scaling to 1300 CPUs</li>
+              </ul>
+            </li>
+            <li>0.1° integration in Bluelink, ARCCSS
+          </ul>
+        </section>
+
+        <section>
+          <h3>Future MOM work</h3>
+          <ul>
+            <li>Investigate submodel scaling</li>
+            <li>Codebase integration of OFAM, CSIRO BGC to MOM5</li>
+            <li>MOM diagnostic improvement
+              <ul>
+                <li>Reduce collectives during output</li>
+                <li>Resolve streamfunction crashes at 10k</li>
+              </ul>
+            </li>
+            <li>Scaling beyond 10k (25600 CPU target)</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Future Involvement</h3>
+          <ul>
+            <li>Bluelink (CSIRO, BoM)
+              <ul>
+                <li>BRAN (+ OceanMaps) profiling
+                <li>CSIRO BGC
+                <li>Code consolidation across projects
+              </ul>
+            </li>
+            <li>ROMS (AAD)
+              <ul>
+                <li>Ben Galton-Fenzi and Andreas Klocker (UTas)</li>
+                <li>6000 x 6000 x 31 grid points</li>
+                <li>Largest ROMS simulation ever?</li>
+              </ul>
+            </li>
+            <li>MITgcm (ARCCSS)
+              <ul>
+                <li>Max Nikurashin (UTas)</li>
+                <li>Currently 1000 x 1000 x 150 (1.6km) on 300 CPUs</li>
+                <li>Planning 0.2km (8000 x 8000 x 150?)
+              </ul>
+            </li>
+          </ul>
+        </section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
