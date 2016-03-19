@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Scalability of global 0.25° ocean simulations using MOM</title>
+
+    <meta name="description"
+          content="Scalability of global 0.25° ocean simulations using MOM">
+    <meta name="author" content="Marshall Ward">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/black.css" id="theme">
+    <!--<link rel="stylesheet" href="lib/css/solarized_dark.css"> -->
+  </head>
+  <body>
+    <div class="reveal"
+         style="background: url(figures/nci/bg_nci.png);
+                background-size: cover;">
+
+      <header style="width: 10%; position: absolute; top: 2%; left: 2%;">
+        <img src="figures/nci/nci_logo_small.png">
+      </header>
+
+      <footer style="position: absolute; bottom: 2%; right: 2%;">
+          <code>nci.org.au</code>
+      </footer>
+
+      <div class="slides">
+
+        <section>
+          <div class="reveal" style="text-align: right;">
+            <img src="figures/nci/nci_logo.png"
+                 style="background:none; border:none; box-shadow:none;
+                        width: 30%;"
+                 alt="NCI">
+          </div>
+
+          <h2 style="text-align: left; color: white;">
+            Scalability of global MOM ocean simulations at NCI
+          </h2>
+
+          <p style="text-align: right;">Marshall Ward
+            <br>National Computational Infrastructure
+          </p>
+
+          <p style="text-align: right;">Yuanyuan Zhang
+            <br>Fujitsu Australia Limited
+          </p>
+        </section>
+
+        <section>
+          <h3>MOM: The Modular Ocean Model</h3>
+
+          <video data-autoplay>
+            <source data-src="figures/mom/ocean.webm" type="video/webm" />
+          </video>
+
+          <ul>
+            <li>Mixed finite difference / finite volume ocean model</li>
+            <li>Consistently strong performance in CMIP studies</li>
+            <li>FMS modelling framework</li>
+            <li>Coupled to SIS: Sea Ice Simulator</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>0.25°-resolution experiment</h2>
+
+          <img src="figures/mom/gfdl_tripole.svg"
+               style="background:none; border:none; box-shadow:none;
+                      float: right; width: 35%"
+               alt="Tripolar grid">
+          <ul style="width: 60%;">
+            <li>Based on GFDL's CM2.5</li>
+            <li>CORE atmosphere forcing
+            <li>1440 x 1080 x 50 grid points</li>
+            <li>Tripolar grid</li>
+            <li>31 day run (1488 timestep)</li>
+            <li>5 day diagnostic output</li>
+            <li>72 sea ice steps per ocean step</li>
+          </ul>
+          <p>Most oceanographers would call this "eddy-permitting"</p>
+        </section>
+
+        <section>
+          <h3>Tile Decomposition</h3>
+          <img src="figures/mpi/tiling.svg"
+               alt="Tiling map decomposition">
+        </section>
+
+        <section>
+          <h3>Tile Boundary Caches (Halos)</h3>
+          <img src="figures/mpi/halo.svg"
+               style="background:none; border:none; box-shadow:none;"
+               alt="Tile halo update">
+        </section>
+
+        <section>
+          <h1>Platforms</h1>
+        </section>
+
+        <section>
+          <h3>Raijin (雷神)</h3>
+          <img src="figures/computing/raijin2.jpg" alt="Raijin">
+          <ul>
+            <li>57,472 cores (3592 nodes, 16 core / node)</li>
+            <li>Intel Xeon (Sandy Bridge), 3 GHz (turbo)</li>
+            <li>32 GiB per node</li>
+            <li>56 Gb/s Infiniband network</li>
+            <li>Two-level switched fabric fat tree</li>
+            <li>~1.4 PFlop peak (TOP500: #52)</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>FX10 / Fūjin (風神)</h3>
+          <img src="figures/nci/fujin.jpg"
+               style="float: left; width: 30%"
+               alt="Fūjin">
+          <ul style="width: 60%; vertical-align: middle;">
+            <li>1536 cores (96 nodes, 16 core / node)</li>
+            <li>SPARC64 IXfx, 1.848 GHz</li>
+            <li>~31 GiB per node</li>
+            <li>100 Gb/s (bidirectional) Tofu interconnect</li>
+            <li>~240 GFlop peak
+          </ul>
+        </section>
+
+        <section>
+          <h3>Tofu Interconnect</h3>
+          <img src="figures/tofu/tofu.svg"
+               style="float: left; width: 30%;
+                      background:none; border:none; box-shadow:none;"
+               alt="Tofu unit">
+          <ul style="width: 60%; vertical-align: middle;">
+            <li>Tofu unit: 12 nodes (192 cores)</li>
+            <li>3D (2x3x2) torus</li>
+            <li>Fūjin: 8 units
+          </ul>
+
+          <p>Layouts should emphasise <b>nearest-neighbour communication</b>.
+        </section>
+
+        <section>
+          <h3>"Ladder" layout</h3>
+          <img src="figures/tofu/ladder.svg"
+               style="background:none; border:none; box-shadow:none;
+                      vertical-align: middle; width=30%;"
+               alt="Tofu unit (ladder)">
+          <img src="figures/tofu/ladder_tiling.svg"
+               style="width: 55%; vertical-align: middle;"
+               alt="Ladder tile decomposition">
+          <ul>
+            <li>Dashed lines divide cores, Solid lines divide nodes
+            <li>Non-neighbor messages between node corners
+          </ul>
+        </section>
+
+        <section>
+          <h3>"Snake" layout</h3>
+          <img src="figures/tofu/snake.svg"
+               style="background:none; border:none; box-shadow:none;
+                      vertical-align: middle; width=30%;"
+               alt="Tofu unit (snake)">
+          <img src="figures/tofu/snake_tiling.svg"
+               style="width: 55%; vertical-align: middle;"
+               alt="Snake tile decomposition">
+          <ul>
+            <li>One node per latitude line</li>
+            <li>All messages are nearest-neighbor</li>
+          </ul>
+        </section>
+
+        <section>
+          <h1>Results</h1>
+        </section>
+
+        <section>
+          <h3>Test Cases</h3>
+          <p>Raijin</p>
+          <ul style="text-align: left;">
+            <li>Default Configuration</li>
+            <li>Hyperthreading enabled</li>
+            <li>Undercommitted nodes (12 active, 4 inactive)</li>
+          </ul>
+          <p>Fūjin</p>
+          <ul style="text-align: left;">
+            <li>"Ladder" process layout</li>
+            <li>"Snake" process layout</li>
+          </ul>
+        </section>
+
+        <section>
+          <section>
+            <h3>Platform comparison</h3>
+            <img src="figures/isess/platform_total_comm.svg">
+            <p>$N_{\text{cyc}} \approx f * T$</p>
+          </section>
+
+          <section>
+            <h3>Platform comparison</h3>
+            <p>Ignoring communication</p>
+            <img src="figures/isess/platform_total_nocomm.svg">
+            <p>$N_{\text{cyc}} \approx f * T * (1 - p_{\text{comm}})$</p>
+          </section>
+        </section>
+
+        </section>
+
+        <section>
+          <section>
+            <h3>0.25° scaling</h3>
+            <img src="figures/isess/old_scaling.svg">
+            <ul>
+              <li>Efficient scaling up to 960 CPUs</li>
+              <li>Unused cores relieve some resource bottleneck</li>
+              <li>FX10 "snake" layouts are ~10% faster than "ladder"</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Raijin 0.25° scaling (update)</h3>
+            <img src="figures/isess/scaling.svg">
+            <ul>
+              <li>post-CentOS 6.6 update</li>
+              <li>MOM codefix enables runs up to 7680 CPUs</li>
+              <li>Hyperthreading impact shifted to 1920 CPUs</li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h3>MPI communication time</h3>
+            <img src="figures/isess/old_comm.svg">
+          </section>
+
+          <section>
+            <h3>Raijin MPI communication time (update)</h3>
+            <img src="figures/isess/comm.svg">
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h3>Submodel scaling</h3>
+            <img src="figures/isess/old_submodels.svg">
+          </section>
+
+          <section>
+            <h3>Raijin submodel scaling (update)</h3>
+            <img src="figures/isess/submodels.svg">
+          </section>
+
+          <section>
+            <h3>Ocean submodel comparison</h3>
+            <img src="figures/isess/platform_ocn_comm.svg">
+            <p>$N_{\text{cyc}} \approx f * T$</p>
+          </section>
+
+          <section>
+            <h3>Ocean submodel comparison</h3>
+            <p>Ignoring communication</p>
+            <img src="figures/isess/platform_ocn_nocomm.svg">
+            <p>$N_{\text{cyc}} \approx f * T * (1 - p_{\text{comm}})$</p>
+          </section>
+
+        </section>
+
+        <section>
+          <h3>0.25° Performance</h3>
+          <table class="reveal">
+            <thead>
+              <tr>
+                <th>CPUs</th>
+                <th>Years/day</th>
+                <th>Efficiency</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>960</td>
+                <td>11</td>
+                <td>91%</td>
+              </tr>
+              <tr>
+                <td>960 (+ 320)</td>
+                <td>13</td>
+                <td>74%</td>
+              </tr>
+              <tr>
+                <td>3840</td>
+                <td>27</td>
+                <td>42%</td>
+              </tr>
+              <tr>
+                <td>3840 (+ 1280)</td>
+                <td>29</td>
+                <td>33%</td>
+              </tr>
+            </tbody>
+          </table>
+          <p><i>(Efficiency is relative to 240 CPUs with hyperthreading)</i>
+        </section>
+
+        <section>
+          <h3>0.25° summary</h3>
+          <ul>
+            <li>Raijin is about 2x faster than Fūjin (mostly clock speed)</li>
+            <li>Similar scalability on both platforms</li>
+            <li>Nearest neighbor layouts are ~10% faster on Fūjin</li>
+            <li>Hyperthreading can maintain scalability on Raijin</li>
+            <li>Ocean performance good; sea ice and coupler not so good</li>
+            <li>System environment is still a volatile unknown</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Global 0.1° simulation</h3>
+          <img src="figures/mom/acc01.png">
+          <ul>
+            <li>GFDL CM 2.6 experiment</li>
+            <li>CORE atmosphere forcing</li>
+            <li>3600 x 2700 x 50 grid points</li>
+            <li>10 day simulation</li>
+            <li>Hyperthreading enabled</li>
+            <li>Fully committed (16 processes per node)</li>
+            <li>Output disabled</li>
+          </ul>
+
+          <p>A global <b>eddy resolving</b> model</p>
+        </section>
+
+        <section>
+          <h3>0.1° Scaling</h3>
+          <img src="figures/isess/scaling01.svg">
+          <p>Poor scaling at 5000 CPUs...</p>
+        </section>
+
+        <section>
+          <h3>0.1° Scaling (main loop)</h3>
+          <img src="figures/isess/scaling01_main.svg">
+          <p>... but mostly due to initialization</p>
+          <p>The timestep loop scales very well!</p>
+        </section>
+
+        <section>
+          <h3>0.1° Submodel Scaling</h3>
+          <img src="figures/isess/submodels01.svg">
+        </section>
+
+        <section>
+          <h3>0.1° Communication</h3>
+          <img src="figures/isess/comm01.svg">
+          <p>(10k communication inferred from a slower run)</p>
+        </section>
+
+        <section>
+          <h3>Future Work</h3>
+          <ul>
+            <li>0.1° scales surprising well, we should go higher!</li>
+            <li>Projected output is ~3 years / day</li>
+            <li>We need to double this to enable productive climate science</li>
+            <li>Scalability beyond 10k will require code changes</li>
+            <li>Australia is still 5 years behind in 0.1° modelling!
+          </ul>
+          <p>(See workshop for more info)</p>
+        </section>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
+
+        <script>
+          Reveal.initialize({
+            dependencies: [
+              { src: 'plugin/highlight/highlight.js',
+                async: true,
+                condition: function() {
+                  return !!document.querySelector( 'pre code' ); },
+                callback: function() {
+                  hljs.initHighlightingOnLoad(); }
+              },
+
+              { src: 'plugin/math/math.js', async: true }
+            ]
+          });
+        </script>
+      </div>
+    </div>
+</html>
