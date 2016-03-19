@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Scaling MOM from 480 to 10k</title>
+
+    <meta name="description"
+          content="TODO">
+    <meta name="author" content="Marshall Ward">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/black.css" id="theme">
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+  </head>
+  <body>
+    <div class="reveal"
+         style="background: url(figures/nci/bg_nci.png);
+                background-size: cover;">
+
+      <header style="width: 10%; position: absolute; top: 2%; left: 2%;">
+        <img src="figures/nci/nci_logo_small.png">
+      </header>
+
+      <div class="slides">
+
+        <section>
+          <div class="reveal" style="text-align: right;">
+            <img src="figures/nci/nci_logo.png"
+                 style="background:none; border:none; box-shadow:none;
+                        width: 30%;"
+                 alt="NCI">
+          </div>
+
+          <h2 style="text-align: left;">
+            Scaling MOM from 480 to 10k
+          </h2>
+
+          <div class="reveal" style="vertical-align: bottom;">
+            <p style="text-align: right;">Marshall Ward
+              <br>National Computational Infrastructure
+            </p>
+          </div>
+        </section>
+
+        <section>
+          <h3>Motivation</h3>
+          <img src="figures/def_radius.svg" style="width: 90%;"
+               alt="First baroclinic deformation radius">
+          <p>(Hallberg 2013)</p>
+        </section>
+
+        <section>
+          <h3>What resolution do we need?</h3>
+          <ul>
+            <li>CMIP5 was largely 1° (100km)</li>
+            <li>ACCESS-CM 2 is pursuing $\tfrac{1}{4}$°</li>
+            <li>ARCCSS is pushing $\tfrac{1}{10}$°</li>
+            <li>... but physically we probably need at least
+              $\tfrac{1}{16}$°</li>
+          </ul>
+          <p>We're gonna need a bigger computer</p>
+        </section>
+
+        <section>
+          <h3>Scaling prehistory</h3>
+
+          <p><b>Pre-Raijin</b>: 960-CPU jobs stop working
+            <ul>
+              <li><code>--mpi_preconnect_mpi 1</code></li>
+            </ul>
+          </p>
+
+          <hr>
+
+          <p><b>Raijin debut</b>: 0.25° global (960 CPU) runtimes increase by 3x
+            <ul>
+              <li><code>--npersocket 6</code></li>
+              <li><code>--mca mtl mxm</code>
+                <br><code>--mca coll fca</code></li>
+            </ul>
+          </p>
+
+          <hr>
+
+          <p><b>March 2014</b>: Everything stops working</p>
+          <ul>
+            <li><code>MXM_MEM_ALLOC=cpages</code> caused anomalous paging</li>
+            <li>Jobs run, but walltimes are volatile (up to ±50%)</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Late 2014</h3>
+          <p>Hyperthreading restored pre-Raijin performance:</p>
+          <img src="figures/isess/old_scaling.svg" alt="Late 2014 scaling">
+          <p>But we could not run any jobs past 1920 CPUs</p>
+        </section>
+
+        <section>
+          <h2>Scaling beyond 2k</h2>
+        </section>
+
+        <section>
+          <h3>Zeroth solution: Turn off OpenIB</h3>
+          <pre><code data-trim>
+mpirun --mca btl ^openib ...
+          </code></pre>
+          <p>Main loop scaling over TCP</p>
+          <img src="figures/isess/openib_main.svg" alt="OpenIB scaling">
+          <p>TCP works, but is not viable beyond 2500 CPUs</p>
+        </section>
+
+        <section>
+          <h3>Tracing the problem</h3>
+          Compile with <code>-g</code> and <code>-traceback</code>:
+          <pre><code data-trim>
+libmpiP.so        &lt;..&gt; Unknown           Unknown Unknown
+mom51_sis_ompi184 &lt;..&gt; mpp_mod_mp_mpp_sy     223 mpp_util_mpi.inc
+mom51_sis_ompi184 &lt;..&gt; xgrid_mod_mp_load     868 xgrid.F90
+mom51_sis_ompi184 &lt;..&gt; xgrid_mod_mp_setu    1726 xgrid.F90
+mom51_sis_ompi184 &lt;..&gt; flux_exchange_mod     820 flux_exchange.F90
+mom51_sis_ompi184 &lt;..&gt; coupler_main_IP_c    1362 coupler_main.F90
+mom51_sis_ompi184 &lt;..&gt; MAIN__                428 coupler_main.F90
+mom51_sis_ompi184 &lt;..&gt; Unknown           Unknown Unknown
+          </code></pre>
+          <pre><code data-trim>
+libmpiP.so        &lt;..&gt; Unknown           Unknown Unknown
+mom51_sis_ompi184 &lt;..&gt; mpp_mod_mp_mpp_ma      14 mpp_reduce_mpi.h
+mom51_sis_ompi184 &lt;..&gt; xgrid_mod_mp_setu    1540 xgrid.F90
+mom51_sis_ompi184 &lt;..&gt; flux_exchange_mod     820 flux_exchange.F90
+mom51_sis_ompi184 &lt;..&gt; coupler_main_IP_c    1362 coupler_main.F90
+mom51_sis_ompi184 &lt;..&gt; MAIN__                428 coupler_main.F90
+mom51_sis_ompi184 &lt;..&gt; Unknown           Unknown Unknown
+          </code></pre>
+          <p>Fails around L1540 and ~L868 of <code>xgrid.F90</code>
+          <br>(For hanging jobs, use <code>padb</code>)</p>
+        </section>
+
+        <section>
+          <h3>Source of the problem</h3>
+          <pre><code data-trim class="fortran">
+do n = 0, npes - 1
+  if (.not. subset_rootpe(n)) cycle
+  call mpp_recv(ibuf2(1,n), glen=2, from_pe=pelist(n),
+                block=.FALSE., tag=COMM_TAG_1)
+end do
+if (nxgrid_local_orig &gt; 0) then
+  do n = 0, npes - 1
+    ibuf1(1, n) = nsend1(n); ibuf1(2, n) = nsend2(n)
+    call mpp_send(ibuf1(1,n), plen=2, to_pe=pelist(n),
+                  tag=COMM_TAG_1)
+  end do
+end if
+call mpp_sync_self(check=EVENT_RECV)
+          </code></pre>
+          <p>This is an all-to-all collective
+          <br>...implemented with point-to-point comm.</p>
+        </section>
+
+        <section>
+          <h3>Task Description</h3>
+          <p>Coupler exchange grid data is pre-calculated and stored in a
+          single serial vector:
+          $$X = [x_1, x_2, x_3, ..., x_K]$$
+          which is divided and parsed by $N$ "worker" PEs, which:<p>
+          <ol>
+            <li>Determine target PE of each coupler data set $x_k$.</li>
+            <li>Inform each PE how much data they are getting.</li>
+            <li>Send the coupler data to target PEs.</li>
+          </ol>
+          <p>Number 2 is the big problem!</p>
+        </section>
+
+        <section>
+          <h3>The xgrid problem</h3>
+          <p><b>Q:</b> How do you tell someone that you don't need to send them
+          a message?</p>
+
+          <p><b>A:</b> You send them a message</p>
+
+          <img src="figures/isess/alltoall.svg" alt="All-to-all"
+               style="background:none; border:none; box-shadow:none;
+                      width: 50%">
+
+          <p>$n_{ij}$ = # of bytes sent from rank $i$ to $j$</p>
+        </section>
+
+        <section>
+          <h3>First solution: <code>nsubset</code></h3>
+          <p>Reduce the number of worker PEs: <br><code>nsubset</code></p>
+          <pre><code data-trim>
+&amp;xgrid_nml
+    make_exchange_reproduce = .false.
+    interp_method = 'second_order'
+    nsubset = 16
+/
+          </code></pre>
+          <p>"All-to-all" collective becomes "<code>nsubset</code>-to-all"</p>
+          <p>This works up to 5k, but fails at 10k</p>
+        </section>
+
+        <section>
+          <h3>Second soluion: Fix the code</h3>
+          <p>Instead of separate point-to-points, get MPI to do it:</p>
+          <pre><code data-trim class="fortran">
+call mpp_alltoall(nsend1, nrecv1)
+call mpp_alltoall(nsend2, nrecv2)
+          </code></pre>
+          <p>(FMS wrappers to <code>MPI_Alltoall</code>)</p>
+
+          <p>Patch is currently being tested by GFDL</p>
+        </section>
+
+        <section>
+          <h3>Community Service</h3>
+          <p>And don't forget to share your work:</p>
+          <img src="figures/isess/github_commit.png" alt="Github commit">
+        </section>
+
+        <section>
+          <h3>But we can do better</h3>
+          <p>Other xgrid code fails at 10k if <code>nsubset</code> is not
+          tuned</p>
+          <pre><code data-trim class="fortran">
+do n = 0, npes - 1
+  nrecv = nrecv1(n) * nset1 + nrecv2(n) * nset2
+  if(nrecv==0) cycle
+  pos = recv_buffer_pos(n)
+  call mpp_recv(recv_buffer(pos+1), glen=nrecv, from_pe=pelist(n),
+                block=.FALSE., tag=COMM_TAG_2)
+end do
+do n = 0, npes-1
+  nsend = nsend1(n) * nset1 + nsend2(n) * nset2
+  if(nsend==0) cycle
+  pos = send_buffer_pos(p)
+  call mpp_send(send_buffer(pos+1), plen=nsend, to_pe=pelist(n),
+                tag=COMM_TAG_2)
+end do
+call mpp_sync_self(check=EVENT_RECV)
+          </code></pre>
+          <p>Someday, this will fail too</p>
+          <p>We should fix the whole thing with
+          <code>MPI_Alltoallv</code></p>
+        </section>
+
+        <section>
+          <h2>Scaling beyond 10k</h2>
+        </section>
+
+        <section>
+          <h3>IO Issues</h3>
+          <p>At 15k we can initialize MOM, but cannot timestep</p>
+          <p>17 NetCDF errors:</p>
+          <pre><code data-trim>
+FATAL from PE    4: NETCDF ERROR: NetCDF: Unknown file format
+                    File=./INPUT/u_10.nc
+FATAL from PE 4691: NETCDF ERROR: NetCDF: Unknown file format
+                    File=./INPUT/t_10.nc
+...
+          </code></pre>
+          <p>Five HDF5 errors:</p>
+          <pre><code data-trim>
+HDF5: infinite loop closing library
+      R,D,G,A,S,T,D,G,S,F,A,S,T,F,FD,P,FD,P,FD,P,E,E,SL,FL,FL,FL,
+      FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,
+      FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,
+      FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,
+      FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,FL,
+      FL,FL,FL,FL,FL,FL,FL
+          </code></pre>
+        </section>
+
+        <section>
+          <h3>IO Issues</h3>
+          <p>One IO runtime library error:</p>
+          <pre><code data-trim>
+forrtl: severe (28): CLOSE error, unit 103, file "Unknown"
+          </code></pre>
+          <p>14973 instances killed (probably MPI)</p>
+          <pre><code data-trim>
+forrtl: error (78): process killed (SIGTERM)
+          </code></pre>
+          One shell error:
+          <pre><code data-trim>
+sh: -c: line 0: syntax error near unexpected token `('
+sh: -c: line 0: `(chmod +x (null); (null) ;chmod -x (null)) &amp;'
+          </code></pre>
+          Three OpenMPI runtime errors:
+          <pre><code data-trim>
+[r2291:28335] [[13059,1],8204] ORTE_ERROR_LOG: Error in file
+    ./ompi/mca/pml/ob1/pml_ob1_recvreq.c at line 477
+          </code></pre>
+        </section>
+
+        <section>
+          <h3>Additional Collective Issues</h3>
+          <p>At 20k CPUs we cannot even initialize the model.</p>
+          <p>This is how <code>mpp_global_field()</code> gathers a global
+          field:</p>
+          <pre><code data-trim class="fortran">
+do n = 1,nd-1
+   ! ...
+   call mpp_send(...)
+end do
+
+do n = 1,nd-1
+   ! ...
+   call mpp_recv(...)
+end do
+          </code></pre>
+          <p>We cannot execute this code at 20k</p>
+          <p>This is a job for <code>MPI_Allgather</code></p>
+        </section>
+
+        <section>
+          <h3>Potential warnings from FX10</h3>
+          <p>The <code>psi_compute</code> diagnostic fails on the FX10</p>
+          <p>Contains two large point-to-point blocks like this:
+          <pre><code data-trim class="fortran">
+if(myid_y &lt; size_y) then
+   do ii = myid_y+1,size_y
+      call mpp_send(psiu2(isc:iec),lenx,pelist_y(ii))
+      call mpp_sync_self()
+   end do
+end if
+call mpp_sync_self()
+
+if(myid_y &gt; 1) then
+   do ii = 1,myid_y-1
+      call mpp_recv(psiu2(isc:iec),lenx,pelist_y(ii))
+      ! Calculate psiu(:,:)
+   enddo
+endif
+          </code></pre>
+          <p>Potentially a problem on Raijin (or the next machine)</p>
+        </section>
+
+        <section>
+          <h1>Other work</h1>
+        </section>
+
+        <section>
+          <h3>Land Masking</h3>
+          <table class="reveal">
+            <thead>
+              <tr>
+                <th>CPUs</th>
+                <th>Walltime (s)</th>
+                <th>CPU Hours</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>960</td>
+                <td>720</td>
+                <td>192.00</td>
+              </tr>
+              <tr>
+                <td>761 (masked)</td>
+                <td>730</td>
+                <td>155.73</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>Two benefits</p>
+          <ul>
+            <li>Reduce our CPU hours, increase efficiency</li>
+            <li>Allow higher resolution runs at lower CPU counts</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Tracking function calls</h3>
+          <pre><code data-trim>
+            calls              name
+0.00  0.01    2976/137448     klevel_total_tracer_ [256]
+0.00  0.01    3007/137448     ocean_vert_kpp_test_init_ [255]
+0.00  0.01    3102/137448     total_mass_ [168]
+0.01  0.02    5952/137448     compute_density_diagnostics_ [78]
+0.01  0.02    6051/137448     total_tracer_ [100]
+0.03  0.14   34224/137448     diagnose_sum_ [60]
+0.06  0.30   74400/137448     cfl_check1_bgrid_ [87]
+0.12  0.56  137448        mpp_global_sum_r8_2d_ [126]
+0.01  0.55  137448/139026     mpp_sum_real8_scalar_ [134]
+0.00  0.00  137448/143167     mpp_get_compute_domain2d_ [644]
+0.00  0.00  137448/138675     mpp_get_global_domain2d_
+          </code></pre>
+        </section>
+
+        <section>
+          <h3>Reducing MPI_Allreduce</h3>
+          <p>Fixing an ineffiency in the potential energy (PE) diagnostic
+          reduced the number of <code>MPI_Allreduce</code> by 47%:</p>
+          <table class="reveal">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Calls in PE</th>
+                <th>Total Calls</th>
+                <th>Wall time (s)</th>
+                <th>Percent runtime</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Before</td>
+                <td>72000</td>
+                <td>137876</td>
+                <td>4.55</td>
+                <td>0.57%</td>
+              </tr>
+              <tr>
+                <td>After</td>
+                <td>1440</td>
+                <td>67316</td>
+                <td>0.19</td>
+                <td>0.02%</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>Unfortunately, it was not even 1% of run time.</p>
+          <p>PS: $T_{\text{MPI_Allreduce}}(960) \approx 60 \mu
+          \text{s}$ and $70560 * 60 \text{s} \approx 4 \text{s}$
+            <br>Thanks to Dale Roberts (NCI)</p>
+        </section>
+
+        <section>
+          <h3>Summary</h3>
+          <ul>
+            <li>MOM implements too many collectives with point-to-points
+              <br><b>This is not an option on Raijin</b></li>
+            <li>MOM runs at 18k CPUS on Titan
+              <br><b>But not on Raijin</b></li>
+            <li>Analysing code beats system tweaking
+              <br><b>Even if it runs on Titan</b></li>
+            <li>IO at 20k is looking scary</li>
+            <li>Counting MPI calls can be misleading</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>TODO</h3>
+          <p>Scaling bottlenecks</p>
+          <ul>
+            <li>Resolve input field errors at 15k
+            <li>Rewrite <code>mpp_global_field</code> to use
+              <code>MPI_Gather</code></li>
+            <li>Integrate <code>MPI_Alltoallv</code> into xgrid</li>
+          </ul>
+          <p>IO performance
+          <ul>
+            <li><code>diagnose_sum()</code> collectives per output (not
+              timestep)</li>
+            <li>MPI-IO integration</li>
+          </ul>
+          <p>Miscellaneous</p>
+          <ul>
+            <li>Investigate sea ice and coupler performance</li>
+            <li>Resolve <code>compute_psi</code> hangs on FX10</li>
+          </ul>
+        </section>
+
+        <!--
+        <section>
+          <h3>Acknowledgements</h3>
+          <p>Many people have helped on this over the last year or so:</p>
+          <ul>
+            <li>David Singleton</li>
+            <li>Robin Humble</li>
+            <li>Dale Roberts</li>
+            <li>Nicholas Hannah</li>
+            <li>Aidan Heerdegen</li>
+            <li>Ben Menadue</li>
+            <li>Muhammad Atif</li>
+            <li>Zhi Liang</li>
+            <li>V. Balaji</li>
+          </ul>
+        </section>
+        -->
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
+
+        <script>
+          Reveal.initialize({
+            dependencies: [
+              { src: 'plugin/highlight/highlight.js',
+                async: true,
+                condition: function() {
+                  return !!document.querySelector( 'pre code' ); },
+                callback: function() {
+                  hljs.initHighlightingOnLoad(); }
+              },
+
+              { src: 'plugin/math/math.js', async: true }
+            ]
+          });
+        </script>
+
+      </div>
+    </div>
+</html>
