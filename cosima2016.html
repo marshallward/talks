@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 
     <title>
-      MOM5, MOM6, and NEMO performance overview at NCI
+      MOM5, MOM6, and NEMO performance overview
     </title>
 
     <meta name="description" content="TODO">
@@ -53,7 +53,7 @@
           </div>
 
           <h3 style="text-align: left; color: white;">
-            MOM5, MOM6, and NEMO performance on NCI's Raijin cluster
+            MOM5, MOM6, and NEMO performance overview
           </h3>
 
           <p style="text-align: right;">Marshall Ward
@@ -64,6 +64,81 @@
         </section>
 
         <!-- content -->
+
+        <section>
+          <p>Outline (DELETE ME)</p>
+          <ul>
+            <li>Model listing</li>
+            <li>Experiment overview</li>
+            <li>Init + Loop runtime comparison</li>
+            <li>Estimated performance</li>
+            <li>Subroutine breakdown</li>
+            <li>Barotropic (vs baroclinic) scaling</li>
+            <li>Sea ice scaling</li>
+            <li>Current scaling limits</li>
+            <li>Future proposals (e.g. 0.03°)</li>
+          </ul>
+        </section>
+
+        <section>
+          <p>Model/expt descriptions</p>
+        </section>
+
+        <section>
+          <p>Ocean timesteps</p>
+          <img src="figures/mom_nemo_ocn.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <p>Sea ice timesteps</p>
+          <img src="figures/mom_nemo_ice.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <p>Init and Mainloop runtimes</p>
+        </section>
+
+        <section>
+          <p>Subroutine scalings</p>
+        </section>
+
+        <section>
+          <section>
+            <p>NEMO subroutine comparison</p>
+            <img src="figures/nemo/nemo_bars.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <p>NEMO: Surface pressure gradient</p>
+            <img src="figures/nemo/dyn_spg.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <p>NEMO: Tracer advection</p>
+            <img src="figures/nemo/tra_adv.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <p>NEMO: Runtime diagnostics</p>
+            <img src="figures/nemo/stp_ctl.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <p>NEMO: Tracer relaxation (damping)</p>
+            <img src="figures/nemo/tra_dmp.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+        </section>
+
+        <section>
+          <p>Vectorisation</p>
+        </section>
 
         <!-- configuration -->
 
