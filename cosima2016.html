@@ -81,56 +81,146 @@
         </section>
 
         <section>
-          <p>Model/expt descriptions</p>
+          <h3>Model configurations</h3>
+          <table class="reveal">
+            <thead>
+              <th class="head">Model</th>
+              <th class="head">Config</th>
+              <th class="head">Horizontal</th>
+              <th class="head">Vertical</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>MOM 5.1</td>
+                <td>"CM2.5"</td>
+                <td>1440 x 1080</td>
+                <td>50</td>
+              </tr>
+              <tr>
+                <td>NEMO 3.4</td>
+                <td>ORCA 0.25°</td>
+                <td>1442 x 1021</td>
+                <td>46</td>
+              </tr>
+              <tr>
+                <td>MOM 6</td>
+                <td>OM4</td>
+                <td>1440 x 1080</td>
+                <td>75</td>
+              </tr>
+            </tbody>
+          </table>
         </section>
 
         <section>
-          <p>Ocean timesteps</p>
+          <h3>Ocean runtime</h3>
           <img src="figures/mom_nemo_ocn.svg"
                style="background: none; border: none; box-shadow: none;">
-          <p>TODO: Redo NEMO timings with lean filter</p>
         </section>
 
         <section>
-          <p>Sea ice timesteps</p>
+          <h3>Sea ice runtime</h3>
           <img src="figures/mom_nemo_ice.svg"
                style="background: none; border: none; box-shadow: none;">
-          <p>TODO: Redo NEMO timings with lean filter</p>
         </section>
 
         <section>
+          <h3>Initialization</h3>
+          <img src="figures/mom_nemo_init.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <h3>0.25° simulation times</h3>
+          <p>THIS IS OLD DATA, NEED TO REDO</p>
+          <table>
+            <colgroup>
+              <col width="20%" />
+              <col width="28%" />
+              <col width="28%" />
+              <col width="24%" />
+            </colgroup>
+            <thead valign="bottom">
+              <tr>
+                <th class="head">CPUs</th>
+                <th class="head">Runtime (s)</th>
+                <th class="head">CPU Hrs</th>
+                <th class="head">yr/day</th>
+              </tr>
+            </thead>
+            <tbody valign="top">
+              <tr>
+                <td style="color: seashell">960s</td>
+                <td style="color: seashell">7364.9</td>
+                <td style="color: seashell">1966.1</td>
+                <td style="color: seashell">11.7</td>
+              </tr>
+              <tr>
+                <td style="color: seashell">1920s</td>
+                <td style="color: seashell">3986.8</td>
+                <td style="color: seashell">2126.3</td>
+                <td style="color: seashell">21.7</td>
+              </tr>
+              <tr>
+                <td style="color: khaki">2240c</td>
+                <td style="color: khaki">3347.5</td>
+                <td style="color: khaki">2112.4</td>
+                <td style="color: khaki">25.8</td>
+              </tr>
+              <tr>
+                <td style="color: seashell">3840s</td>
+                <td style="color: seashell">2504.3</td>
+                <td style="color: seashell">2776.5</td>
+                <td style="color: seashell">34.5</td>
+              </tr>
+              <tr>
+                <td style="color: khaki">4480c</td>
+                <td style="color: khaki">1919.6</td>
+                <td style="color: khaki">2510.0</td>
+                <td style="color: khaki">45.0</td>
+              </tr>
+              <tr>
+                <td style="color: khaki">8960c</td>
+                <td style="color: khaki">1500.9</td>
+                <td style="color: khaki">3964.8</td>
+                <td style="color: khaki">57.6</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+        <section>
           <section>
-            <p>MOM 5 subroutine comparison</p>
+            <h3>MOM 5 subroutine comparison</h3>
             <img src="figures/mom/mom5_bars.svg"
                  style="background: none; border: none; box-shadow: none;">
           </section>
 
           <section>
-            <p>MOM 5: Tracer advection</p>
+            <h3>MOM 5: Tracer advection</h3>
             <img src="figures/mom/update_ocean_tracer.svg"
                  style="background: none; border: none; box-shadow: none;">
           </section>
 
           <section>
-            <p>MOM 5: Barotropic solver</p>
+            <h3>MOM 5: Barotropic solver</h3>
             <img src="figures/mom/update_ocean_barotropic.svg"
                  style="background: none; border: none; box-shadow: none;">
           </section>
 
           <section>
-            <p>MOM 5: Free surface smoothing</p>
+            <h3>MOM 5: Free surface smoothing</h3>
             <img src="figures/mom/ocean_eta_smooth.svg"
                  style="background: none; border: none; box-shadow: none;">
           </section>
 
           <section>
-            <p>MOM 5: Runtime diagnostics</p>
+            <h3>MOM 5: Runtime diagnostics</h3>
             <img src="figures/mom/ocean_diagnostics.svg"
                  style="background: none; border: none; box-shadow: none;">
           </section>
 
           <section>
-            <p>MOM 5: Surface field interpolation (2D)</p>
+            <h3>MOM 5: Surface field interpolation (2D)</h3>
             <img src="figures/mom/get_ocean_sbc.svg"
                  style="background: none; border: none; box-shadow: none;">
           </section>
@@ -182,7 +272,7 @@
           </section>
 
           <section>
-            <p>MOM 6: TODO "Group pass"</p>
+            <p>MOM 6: Halo updates</p>
             <img src="figures/mom6/step_mom__do_group_pass.svg"
                  style="background: none; border: none; box-shadow: none;">
           </section>
@@ -208,7 +298,7 @@
           </section>
 
           <section>
-            <p>MOM 6 dynamics: "Group pass"</p>
+            <p>MOM 6 dynamics: Halo updates</p>
             <img src="figures/mom6/step_mom_dyn_split_rk2__do_group_pass.svg"
                  style="background: none; border: none; box-shadow: none;">
           </section>
@@ -469,8 +559,15 @@
         </section>
 
         <section>
-          <p>0.1° scaling</p>
-          TODO
+          <p>MOM 5: 0.1° scaling</p>
+          <img src="figures/submodels01.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <p>MOM 5: 0.1° subroutines</p>
+          <img src="figures/subscale01.svg"
+               style="background: none; border: none; box-shadow: none;">
         </section>
 
         <section>
