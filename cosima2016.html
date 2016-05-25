@@ -66,21 +66,6 @@
         <!-- content -->
 
         <section>
-          <p>Outline (DELETE ME)</p>
-          <ul>
-            <li>Model listing</li>
-            <li>Experiment overview</li>
-            <li>Init + Loop runtime comparison</li>
-            <li>Estimated performance</li>
-            <li>Subroutine breakdown</li>
-            <li>Barotropic (vs baroclinic) scaling</li>
-            <li>Sea ice scaling</li>
-            <li>Current scaling limits</li>
-            <li>Future proposals (e.g. 0.03°)</li>
-          </ul>
-        </section>
-
-        <section>
           <h3>Model configurations</h3>
           <table class="reveal">
             <thead>
@@ -132,7 +117,77 @@
 
         <section>
           <h3>0.25° simulation times</h3>
-          <p>THIS IS OLD DATA, NEED TO REDO</p>
+          <table class="reveal">
+            <thead>
+              <tr>
+                <th class="head">Model</th>
+                <th class="head">CPUs</th>
+                <th class="head">CPU Hrs</th>
+                <th class="head">Time (s)</th>
+                <th class="head">yr/day</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>MOM</td>
+                <td>960</td>
+                <td>1966.1</td>
+                <td>7364.9</td>
+                <td>11.7</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>1920</td>
+                <td>2126.3</td>
+                <td>3986.8</td>
+                <td>21.7</td>
+              </tr>
+              <tr>
+                <td>NEMO</td>
+                <td>480</td>
+                <td>1068.0</td>
+                <td>8043.6</td>
+                <td>10.7</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>960</td>
+                <td>1368.8</td>
+                <td>5132.9</td>
+                <td>16.8</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>1920</td>
+                <td>1964.2</td>
+                <td>3753.6</td>
+                <td>23.0</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>3840</td>
+                <td>3547.8</td>
+                <td>3413.9</td>
+                <td>25.3</td>
+              </tr>
+              <tr>
+                <td>MOM 6</td>
+                <td>1920</td>
+                <td>5154.6</td>
+                <td>9718.3</td>
+                <td>8.9</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>3840</td>
+                <td>6349.0</td>
+                <td>6057.2</td>
+                <td>14.3</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!--
           <table>
             <colgroup>
               <col width="20%" />
@@ -187,6 +242,7 @@
               </tr>
             </tbody>
           </table>
+          -->
         </section>
         <section>
           <section>
@@ -559,18 +615,6 @@
         </section>
 
         <section>
-          <p>MOM 5: 0.1° scaling</p>
-          <img src="figures/submodels01.svg"
-               style="background: none; border: none; box-shadow: none;">
-        </section>
-
-        <section>
-          <p>MOM 5: 0.1° subroutines</p>
-          <img src="figures/subscale01.svg"
-               style="background: none; border: none; box-shadow: none;">
-        </section>
-
-        <section>
           <h3>Results</h3>
           <ul>
             <li>NEMO
@@ -594,6 +638,18 @@
               </ul>
             </li>
           </ul>
+        </section>
+
+        <section>
+          <p>MOM 5: 0.1° scaling</p>
+          <img src="figures/submodels01.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <p>MOM 5: 0.1° subroutines</p>
+          <img src="figures/subscale01.svg"
+               style="background: none; border: none; box-shadow: none;">
         </section>
 
         <!-- configuration -->
