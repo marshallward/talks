@@ -65,6 +65,94 @@
 
         <!-- content -->
 
+        <!--
+        <section>
+          <h3>NCI Optimization Project</h3>
+          <img src="figures/nci/opt_partners.svg"
+               style="float: left; width: 30%; background: white;"
+               alt="NCI Optimization Project partners">
+
+          <ul style="width: 60%; vertical-align: middle;">
+            <li>ACCESS profiling:
+              <ul>
+                <li>UM</li>
+                <li>MOM</li>
+                <li>CICE</li>
+                <li>ROMS</li>
+                <li>WAVEWATCH</li>
+              </ul>
+            </li>
+            <li>Expansion to new fields
+              <ul>
+                <li>Landsat processing</li>
+                <li>Lattice QCD</li>
+                <li>Magnetotellurgy</li>
+                <li>Bioinformatics</li>
+              </ul>
+            </li>
+            <li>Tools and methodologies</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Recent MOM usage at NCI</h3>
+          <table class="reveal">
+            <colgroup>
+              <col width="30%" />
+              <col width="20%" />
+              <col width="30%" />
+              <col width="20%" />
+            </colgroup>
+            <thead valign="bottom">
+              <tr>
+                <th class="head">Model</th>
+                <th class="head">Resolution</th>
+                <th class="head">Grid</th>
+                <th class="head">CPUs</th>
+              </tr>
+            </thead>
+            <tbody valign="top">
+              <tr>
+                <td>OFAM</td>
+                <td>0.1° - 2°</td>
+                <td>1191 x 968</td>
+                <td>384</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>0.1°</td>
+                <td>3600 x 1500</td>
+                <td>512</td>
+              </tr>
+              <tr>
+                <td>ACCESS-CM</td>
+                <td>1°</td>
+                <td>360 x 300</td>
+                <td>40</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>0.25°</td>
+                <td>1440 x 1080</td>
+                <td>960</td>
+              </tr>
+              <tr>
+                <td>ARCCSS (GFDL)</td>
+                <td>0.25°</td>
+                <td>1440 x 1080</td>
+                <td>960</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>0.1°</td>
+                <td>3600 x 2700</td>
+                <td>9196</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+        -->
+
         <section>
           <h3>Model configurations</h3>
           <table class="reveal">
@@ -98,6 +186,154 @@
         </section>
 
         <section>
+          <section>
+            <h3>1-year simulation times</h3>
+            <table class="reveal">
+              <thead>
+                <tr>
+                  <th class="head">Model</th>
+                  <th class="head">CPUs</th>
+                  <th class="head">CPU Hrs</th>
+                  <th class="head">Time (s)</th>
+                  <th class="head">yr/day</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>MOM 5</td>
+                  <td>960</td>
+                  <td>1868.0</td>
+                  <td>7088.2</td>
+                  <td>12.1</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>1920</td>
+                  <td>2126.3</td>
+                  <td>3986.8</td>
+                  <td>21.7</td>
+                </tr>
+                <tr>
+                  <td>NEMO</td>
+                  <td>960</td>
+                  <td>1368.8</td>
+                  <td>5132.9</td>
+                  <td>16.8</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>1920</td>
+                  <td>1964.2</td>
+                  <td>3753.6</td>
+                  <td>23.0</td>
+                </tr>
+                <tr>
+                  <td>MOM 6</td>
+                  <td>480</td>
+                  <td>3910.1</td>
+                  <td>14681.5</td>
+                  <td>2.9</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>960</td>
+                  <td>4458.6</td>
+                  <td>16756.5</td>
+                  <td>5.2</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>1920</td>
+                  <td>5154.6</td>
+                  <td>9718.3</td>
+                  <td>8.9</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>3840</td>
+                  <td>6349.0</td>
+                  <td>6057.2</td>
+                  <td>14.3</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section>
+            <h3>1 year, MOM 5 vs NEMO</h3>
+            <table class="reveal">
+              <thead>
+                <tr>
+                  <th class="head">Model</th>
+                  <th class="head">CPUs</th>
+                  <th class="head">CPU Hrs</th>
+                  <th class="head">Time (s)</th>
+                  <th class="head">yr/day</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>MOM</td>
+                  <td>480</td>
+                  <td>1832.4</td>
+                  <td>13783.9</td>
+                  <td>12.1</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>960</td>
+                  <td>1868.0</td>
+                  <td>7088.2</td>
+                  <td>12.1</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>1920</td>
+                  <td>2126.3</td>
+                  <td>3986.8</td>
+                  <td>21.7</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>3840</td>
+                  <td>4075.2</td>
+                  <td>3995.6</td>
+                  <td>21.6</td>
+                </tr>
+                <tr>
+                  <td>NEMO</td>
+                  <td>480</td>
+                  <td>1068.0</td>
+                  <td>8043.6</td>
+                  <td>10.7</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>960</td>
+                  <td>1368.8</td>
+                  <td>5132.9</td>
+                  <td>16.8</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>1920</td>
+                  <td>1964.2</td>
+                  <td>3753.6</td>
+                  <td>23.0</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>3840</td>
+                  <td>3547.8</td>
+                  <td>3413.9</td>
+                  <td>25.3</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </section>
+
+        <section>
           <h3>Ocean runtime</h3>
           <img src="figures/mom_nemo_ocn.svg"
                style="background: none; border: none; box-shadow: none;">
@@ -115,135 +351,6 @@
                style="background: none; border: none; box-shadow: none;">
         </section>
 
-        <section>
-          <h3>0.25° simulation times</h3>
-          <table class="reveal">
-            <thead>
-              <tr>
-                <th class="head">Model</th>
-                <th class="head">CPUs</th>
-                <th class="head">CPU Hrs</th>
-                <th class="head">Time (s)</th>
-                <th class="head">yr/day</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>MOM</td>
-                <td>960</td>
-                <td>1966.1</td>
-                <td>7364.9</td>
-                <td>11.7</td>
-              </tr>
-              <tr>
-                <td></td>
-                <td>1920</td>
-                <td>2126.3</td>
-                <td>3986.8</td>
-                <td>21.7</td>
-              </tr>
-              <tr>
-                <td>NEMO</td>
-                <td>480</td>
-                <td>1068.0</td>
-                <td>8043.6</td>
-                <td>10.7</td>
-              </tr>
-              <tr>
-                <td></td>
-                <td>960</td>
-                <td>1368.8</td>
-                <td>5132.9</td>
-                <td>16.8</td>
-              </tr>
-              <tr>
-                <td></td>
-                <td>1920</td>
-                <td>1964.2</td>
-                <td>3753.6</td>
-                <td>23.0</td>
-              </tr>
-              <tr>
-                <td></td>
-                <td>3840</td>
-                <td>3547.8</td>
-                <td>3413.9</td>
-                <td>25.3</td>
-              </tr>
-              <tr>
-                <td>MOM 6</td>
-                <td>1920</td>
-                <td>5154.6</td>
-                <td>9718.3</td>
-                <td>8.9</td>
-              </tr>
-              <tr>
-                <td></td>
-                <td>3840</td>
-                <td>6349.0</td>
-                <td>6057.2</td>
-                <td>14.3</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <!--
-          <table>
-            <colgroup>
-              <col width="20%" />
-              <col width="28%" />
-              <col width="28%" />
-              <col width="24%" />
-            </colgroup>
-            <thead valign="bottom">
-              <tr>
-                <th class="head">CPUs</th>
-                <th class="head">Runtime (s)</th>
-                <th class="head">CPU Hrs</th>
-                <th class="head">yr/day</th>
-              </tr>
-            </thead>
-            <tbody valign="top">
-              <tr>
-                <td style="color: seashell">960s</td>
-                <td style="color: seashell">7364.9</td>
-                <td style="color: seashell">1966.1</td>
-                <td style="color: seashell">11.7</td>
-              </tr>
-              <tr>
-                <td style="color: seashell">1920s</td>
-                <td style="color: seashell">3986.8</td>
-                <td style="color: seashell">2126.3</td>
-                <td style="color: seashell">21.7</td>
-              </tr>
-              <tr>
-                <td style="color: khaki">2240c</td>
-                <td style="color: khaki">3347.5</td>
-                <td style="color: khaki">2112.4</td>
-                <td style="color: khaki">25.8</td>
-              </tr>
-              <tr>
-                <td style="color: seashell">3840s</td>
-                <td style="color: seashell">2504.3</td>
-                <td style="color: seashell">2776.5</td>
-                <td style="color: seashell">34.5</td>
-              </tr>
-              <tr>
-                <td style="color: khaki">4480c</td>
-                <td style="color: khaki">1919.6</td>
-                <td style="color: khaki">2510.0</td>
-                <td style="color: khaki">45.0</td>
-              </tr>
-              <tr>
-                <td style="color: khaki">8960c</td>
-                <td style="color: khaki">1500.9</td>
-                <td style="color: khaki">3964.8</td>
-                <td style="color: khaki">57.6</td>
-              </tr>
-            </tbody>
-          </table>
-          -->
-        </section>
         <section>
           <section>
             <h3>MOM 5 subroutine comparison</h3>
@@ -641,13 +748,13 @@
         </section>
 
         <section>
-          <p>MOM 5: 0.1° scaling</p>
+          <p>MOM 5, 0.1° scaling</p>
           <img src="figures/submodels01.svg"
                style="background: none; border: none; box-shadow: none;">
         </section>
 
         <section>
-          <p>MOM 5: 0.1° subroutines</p>
+          <p>MOM 5, 0.1° subroutines</p>
           <img src="figures/subscale01.svg"
                style="background: none; border: none; box-shadow: none;">
         </section>
