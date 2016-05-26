@@ -154,18 +154,6 @@
         -->
 
         <section>
-          <h3>Ocean runtime</h3>
-          <img src="figures/mom_nemo_ocn.svg"
-               style="background: none; border: none; box-shadow: none;">
-        </section>
-
-        <section>
-          <h3>Sea ice runtime</h3>
-          <img src="figures/mom_nemo_ice.svg"
-               style="background: none; border: none; box-shadow: none;">
-        </section>
-
-        <section>
           <h3>Model configurations</h3>
           <table class="reveal">
             <thead>
@@ -201,6 +189,18 @@
             <li>10-day runtime</li>
             <li>No model output</li>
           </ul>
+        </section>
+
+        <section>
+          <h3>Ocean runtime</h3>
+          <img src="figures/mom_nemo_ocn.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <h3>Sea ice runtime</h3>
+          <img src="figures/mom_nemo_ice.svg"
+               style="background: none; border: none; box-shadow: none;">
         </section>
 
         <section>
@@ -247,10 +247,10 @@
                 </tr>
                 <tr>
                   <td style="color: yellow">NEMO</td>
-                  <td style="color: yellow">960</td>
-                  <td style="color: yellow">1368.8</td>
-                  <td style="color: yellow">5132.9</td>
-                  <td style="color: yellow">16.8</td>
+                  <td style="color: yellow">480</td>
+                  <td style="color: yellow">1068.0</td>
+                  <td style="color: yellow">8043.6</td>
+                  <td style="color: yellow">10.7</td>
                 </tr>
                 <tr>
                   <td style="color: yellow"></td>
@@ -363,7 +363,139 @@
               </tbody>
             </table>
           </section>
+
+          <section>
+            <h3>1 year, MOM 5 vs MOM 6</h3>
+            <table class="reveal">
+              <thead>
+                <tr>
+                  <th class="head">Model</th>
+                  <th class="head">CPUs</th>
+                  <th class="head">CPU Hrs</th>
+                  <th class="head">Time (s)</th>
+                  <th class="head">yr/day</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>MOM</td>
+                  <td>480</td>
+                  <td>1832.4</td>
+                  <td>13783.9</td>
+                  <td>12.1</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>960</td>
+                  <td>1868.0</td>
+                  <td>7088.2</td>
+                  <td>12.1</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>1920</td>
+                  <td>2126.3</td>
+                  <td>3986.8</td>
+                  <td>21.7</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>3840</td>
+                  <td>4075.2</td>
+                  <td>3995.6</td>
+                  <td>21.6</td>
+                </tr>
+                <tr>
+                  <td>MOM 6</td>
+                  <td>480</td>
+                  <td>3910.1</td>
+                  <td>29363.1</td>
+                  <td>2.9</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>960</td>
+                  <td>4458.6</td>
+                  <td>16756.5</td>
+                  <td>5.2</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>1920</td>
+                  <td>5154.6</td>
+                  <td>9718.3</td>
+                  <td>8.9</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>3840</td>
+                  <td>6349.0</td>
+                  <td>6057.2</td>
+                  <td>14.3</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
         </section>
+
+        <section>
+          <h3>Concurrent 1-year MOM 5</h3>
+          <table>
+            <colgroup>
+              <col width="20%" />
+              <col width="28%" />
+              <col width="28%" />
+              <col width="24%" />
+            </colgroup>
+            <thead valign="bottom">
+              <tr>
+                <th class="head">CPUs</th>
+                <th class="head">Runtime (s)</th>
+                <th class="head">CPU Hrs</th>
+                <th class="head">yr/day</th>
+              </tr>
+            </thead>
+            <tbody valign="top">
+              <tr>
+                <td style="color: seashell">960s</td>
+                <td style="color: seashell">7364.9</td>
+                <td style="color: seashell">1966.1</td>
+                <td style="color: seashell">11.7</td>
+              </tr>
+              <tr>
+                <td style="color: seashell">1920s</td>
+                <td style="color: seashell">3986.8</td>
+                <td style="color: seashell">2126.3</td>
+                <td style="color: seashell">21.7</td>
+              </tr>
+              <tr>
+                <td style="color: khaki">2240c</td>
+                <td style="color: khaki">3347.5</td>
+                <td style="color: khaki">2112.4</td>
+                <td style="color: khaki">25.8</td>
+              </tr>
+              <tr>
+                <td style="color: seashell">3840s</td>
+                <td style="color: seashell">2504.3</td>
+                <td style="color: seashell">2776.5</td>
+                <td style="color: seashell">34.5</td>
+              </tr>
+              <tr>
+                <td style="color: khaki">4480c</td>
+                <td style="color: khaki">1919.6</td>
+                <td style="color: khaki">2510.0</td>
+                <td style="color: khaki">45.0</td>
+              </tr>
+              <tr>
+                <td style="color: khaki">8960c</td>
+                <td style="color: khaki">1500.9</td>
+                <td style="color: khaki">3964.8</td>
+                <td style="color: khaki">57.6</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
 
         <section>
           <section>
