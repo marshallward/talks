@@ -154,41 +154,75 @@
         -->
 
         <section>
-          <h3>Model configurations</h3>
-          <table class="reveal">
-            <thead>
-              <th class="head">Model</th>
-              <th class="head">Config</th>
-              <th class="head">Horizontal</th>
-              <th class="head">Vertical</th>
-            </thead>
-            <tbody>
-              <tr>
-                <td>MOM 5.1</td>
-                <td>"CM2.5"</td>
-                <td>1440 x 1080</td>
-                <td>50</td>
-              </tr>
-              <tr>
-                <td>NEMO 3.4</td>
-                <td>ORCA 0.25°</td>
-                <td>1442 x 1021</td>
-                <td>46</td>
-              </tr>
-              <tr>
-                <td>MOM 6</td>
-                <td>OM4</td>
-                <td>1440 x 1080</td>
-                <td>75</td>
-              </tr>
-            </tbody>
-          </table>
-          <hr>
-          <ul>
-            <li>Serial ocean-ice coupling</li>
-            <li>10-day runtime</li>
-            <li>No model output</li>
-          </ul>
+          <section>
+            <h3>Model configurations</h3>
+            <table class="reveal">
+              <thead>
+                <th class="head">Model</th>
+                <th class="head">Config</th>
+                <th class="head">Horizontal</th>
+                <th class="head">Vertical</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>MOM 5.1</td>
+                  <td>"CM2.5"</td>
+                  <td>1440 x 1080</td>
+                  <td>50</td>
+                </tr>
+                <tr>
+                  <td>NEMO 3.4</td>
+                  <td>ORCA 0.25°</td>
+                  <td>1442 x 1021</td>
+                  <td>46</td>
+                </tr>
+                <tr>
+                  <td>MOM 6</td>
+                  <td>OM4</td>
+                  <td>1440 x 1080</td>
+                  <td>75</td>
+                </tr>
+              </tbody>
+            </table>
+            <hr>
+            <ul>
+              <li>Serial ocean-ice coupling</li>
+              <li>10-day runtime</li>
+              <li>No model output</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Model configurations</h3>
+            <table class="reveal">
+              <thead>
+                <th class="head">Model</th>
+                <th class="head">Config</th>
+                <th class="head">Timestep</th>
+                <th class="head">Barotropic Split</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>MOM 5.1</td>
+                  <td>"CM2.5"</td>
+                  <td>1800 s</td>
+                  <td>22.5 s $\frac{1}{80}$</td>
+                </tr>
+                <tr>
+                  <td>NEMO 3.4</td>
+                  <td>ORCA 0.25°</td>
+                  <td>1440 s</td>
+                  <td>24 s (1/60)</td>
+                </tr>
+                <tr>
+                  <td>MOM 6</td>
+                  <td>OM4</td>
+                  <td>1200 s</td>
+                  <td><i>dynamic</i></td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
         </section>
 
         <section>
@@ -886,7 +920,7 @@
             </li>
             <li>MOM 6
               <ul>
-                <li>Inefficient scalability</li>
+                <li>Scaling efficiency loss after 960 CPUs</li>
                 <li>Moderate vectorisation (~65%)</li>
               </ul>
             </li>
