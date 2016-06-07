@@ -119,6 +119,27 @@
         </section>
 
         <section>
+          <h3>MOM: The Modular Ocean Model</h3>
+          <img src="figures/mom/gfdl_tripole.svg"
+               style="background:none; border:none; box-shadow:none;
+                      float: right; width: 35%"
+               alt="Tripolar grid">
+          <ul style="width: 60%;">
+            <li>Generalised curvilinear grids</li>
+            <li>Finite volume (MDPPM) tracer advection</li>
+            <li>Split free surface dynamics</li>
+            <li>LES (e.g. biharmonic) viscosities</li>
+            <li>Adaptive z* vertical grid</li>
+            <li>Vertical mixing (KPP) param.</li>
+            <li>Submesoscale param.</li>
+          </ul>
+          <p style="clear: both;">
+            <img src="figures/mom/acc01.png"
+                 style="width=80%;">
+          </p>
+        </section>
+
+        <section>
           <h3>Ocean modelling at NCI</h3>
           <table class="reveal">
             <colgroup>
@@ -137,37 +158,34 @@
             </thead>
             <tbody valign="top">
               <tr>
-                <td>ACCESS-CM</td>
+                <td rowspan=2>ACCESS-CM <i>(climate)</i></td>
                 <td>1°</td>
                 <td>360 x 300</td>
                 <td>40</td>
               </tr>
               <tr>
-                <td></td>
                 <td>0.25°</td>
                 <td>1440 x 1080</td>
                 <td>960</td>
               </tr>
               <tr>
-                <td>OFAM</td>
+                <td rowspan=2>OFAM <i>(forecast)</i></td>
                 <td>0.1° to 2°</td>
                 <td>1191 x 968</td>
                 <td>384</td>
               </tr>
               <tr>
-                <td></td>
                 <td>0.1°</td>
                 <td>3600 x 1500</td>
                 <td>512</td>
               </tr>
               <tr>
-                <td>ARCCSS (GFDL)</td>
+                <td rowspan=2>ARCCSS (GFDL) <i>(dynamics)</i></td>
                 <td>0.25°</td>
                 <td>1440 x 1080</td>
                 <td>960</td>
               </tr>
               <tr>
-                <td></td>
                 <td>0.1°</td>
                 <td>3600 x 2700</td>
                 <td>9196</td>
@@ -322,19 +340,25 @@
 
           <section>
             <h3>3D Tracer advection</h3>
-            <img src="figures/mom/update_ocean_tracer.svg"
+            <img src="figures/update_ocean_tracer_b.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <h3>Vertical mixing</h3>
+            <img src="figures/vert_mix_coeff_b.svg"
                  style="background: none; border: none; box-shadow: none;">
           </section>
 
           <section>
             <h3>2D ocean surface (barotropic) solver</h3>
-            <img src="figures/mom/update_ocean_barotropic.svg"
+            <img src="figures/update_ocean_barotropic_b.svg"
                  style="background: none; border: none; box-shadow: none;">
           </section>
 
           <section>
             <h3>2D ocean surface smoothing</h3>
-            <img src="figures/mom/ocean_eta_smooth.svg"
+            <img src="figures/ocean_eta_smooth_b.svg"
                  style="background: none; border: none; box-shadow: none;">
           </section>
         </section>
@@ -561,7 +585,7 @@
             <li>Ocean and climate research requires higher resolutions</li>
             <li>Strong scaling of 3D components</li>
             <li>Poor scaling of 2D components</li>
-            <li>Skilful use of collectives improve performance</li>
+            <li>Strong vectorisation</li>
           </ul>
         </section>
 
