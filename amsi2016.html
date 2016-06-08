@@ -596,6 +596,7 @@
         <script>
           Reveal.initialize({
             slideNumber: true,
+
             dependencies: [
               { src: 'plugin/highlight/highlight.js',
                 async: true,
@@ -605,7 +606,11 @@
                   hljs.initHighlightingOnLoad(); }
               },
 
-              { src: 'plugin/math/math.js', async: true }
+              // MathJax
+              { src: 'plugin/math/math.js', async: true },
+
+              // Speaker notes
+              { src: 'plugin/notes/notes.js', async: true },
             ]
           });
         </script>
