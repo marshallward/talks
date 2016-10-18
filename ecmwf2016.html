@@ -170,6 +170,24 @@
 
         <section>
           <h3>MOM 6</h3>
+          <img src="figures/mom6/layer_coords.jpg" alt="Layered model">
+        </section>
+
+        <section>
+          <h3>Split timestepping</h3>
+          <p>Ocean stratification yields <i>fast</i> and <i>slow</i> dynamics:
+          $$\begin{align}
+            \mathbf{u} &=
+            \left\{ \frac{1}{H} \int_{-H}^\eta \mathbf{u} \right\}
+            + \left\{ \mathbf{u}
+            - \frac{1}{H} \int_{-H}^\eta \mathbf{u} \right\} \\
+            &= \mathbf{U} + \mathbf{u}'
+          \end{align}$$
+          <ul>
+            <li>Depth-averaged dynamics is ~100x faster</li>
+            <li>Accuracy less important; simpler solvers</li>
+            <li>Additional filtering required</li>
+          </ul>
         </section>
 
         <section>
