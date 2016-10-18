@@ -198,76 +198,56 @@
         </section>
 
         <section>
-          <section>
-            <h3>Model configurations</h3>
-            <table class="reveal">
-              <thead>
-                <th class="head">Model</th>
-                <th class="head">Config</th>
-                <th class="head">Horizontal</th>
-                <th class="head">Vertical</th>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>MOM 5.1</td>
-                  <td>"CM2.5"</td>
-                  <td>1440 x 1080</td>
-                  <td>50</td>
-                </tr>
-                <tr>
-                  <td>NEMO 3.4</td>
-                  <td>ORCA 0.25°</td>
-                  <td>1442 x 1021</td>
-                  <td>46</td>
-                </tr>
-                <tr>
-                  <td>MOM 6</td>
-                  <td>OM4</td>
-                  <td>1440 x 1080</td>
-                  <td>75</td>
-                </tr>
-              </tbody>
-            </table>
-            <hr>
-            <ul>
-              <li>Serial ocean-ice coupling</li>
-              <li>10-day runtime</li>
-              <li>No model output</li>
-            </ul>
-          </section>
-
-          <section>
-            <h3>Model configurations</h3>
-            <table class="reveal">
-              <thead>
-                <th class="head">Model</th>
-                <th class="head">Config</th>
-                <th class="head">Timestep</th>
-                <th class="head">Barotropic Split</th>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>MOM 5.1</td>
-                  <td>"CM2.5"</td>
-                  <td>1800 s</td>
-                  <td>22.5 s $\frac{1}{80}$</td>
-                </tr>
-                <tr>
-                  <td>NEMO 3.4</td>
-                  <td>ORCA 0.25°</td>
-                  <td>1440 s</td>
-                  <td>24 s (1/60)</td>
-                </tr>
-                <tr>
-                  <td>MOM 6</td>
-                  <td>OM4</td>
-                  <td>1200 s</td>
-                  <td><i>dynamic</i></td>
-                </tr>
-              </tbody>
-            </table>
-          </section>
+          <h3>Model configurations</h3>
+          <table class="reveal">
+            <thead>
+              <th class="head">Model</th>
+              <th class="head">Config</th>
+              <th class="head">Resolution</th>
+              <th class="head">Timestep</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>MOM 5.1</td>
+                <td>"CM2.5"</td>
+                <td>1440 x 1080</br>50 level</td>
+                <td>1800 s<br>(22.5 s split)</td>
+              </tr>
+              <tr>
+                <td>NEMO 3.4</td>
+                <td>ORCA 0.25°</td>
+                <td>1442 x 1021<br>46 level</td>
+                <td>1440 s<br>(24 s split)</td>
+              </tr>
+              <tr>
+                <td>MOM 6</td>
+                <td>OM4</td>
+                <td>1440 x 1080<br>75 layer</td>
+                <td>1200 s (~20 s split)</td>
+              </tr>
+            </tbody>
+          </table>
+          <hr>
+          <ul>
+            <li>Serial ocean-ice coupling</li>
+            <li>10-day runtime</li>
+            <li>No model output</li>
+          </ul>
         </section>
+
+        <section>
+          <h3>NCI Platform: Raijin (雷神)</h3>
+          <img src="figures/computing/raijin2.jpg" alt="Raijin">
+          <ul>
+            <li>57,472 cores (3592 nodes, 16 core / node)</li>
+            <li>Intel Xeon (Sandy Bridge), 3 GHz (turbo)</li>
+            <li>32+ GiB per node</li>
+            <li>56 Gb/s Infiniband network</li>
+            <li>Two-level switched fabric fat tree</li>
+            <li>$R_\text{max}$ = 0.978 PFlops (TOP500: #52)</li>
+          </ul>
+        </section>
+
 
         <section>
           <h3>Ocean runtime</h3>
