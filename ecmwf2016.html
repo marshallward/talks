@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>
+      Scalability of MOM 5, NEMO, and MOM 6 on NCI's Raijin supercomputer
+    </title>
+
+    <meta name="description" content="TODO">
+    <meta name="author" content="Marshall Ward">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/black.css" id="theme">
+    <!--<link rel="stylesheet" href="lib/css/solarized_dark.css"> -->
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ?
+                  'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+
+  <body>
+    <div class="reveal"
+         style="background: url(figures/nci/bg_nci.png);
+                background-size: cover;">
+
+      <header style="width: 10%; position: absolute; top: 2%; left: 2%;">
+        <img src="figures/nci/nci_logo_small.png">
+      </header>
+
+      <footer style="font-size: 1pc; position: absolute; bottom: 2%; left: 2%;">
+        <code>http://marshallward.org/talks/cosima2016.html</code>
+      </footer>
+
+      <div class="slides">
+
+        <!-- title -->
+
+        <section>
+          <div class="reveal" style="text-align: right;">
+            <img src="figures/nci/nci_logo.png"
+                 style="background: none; border: none; box-shadow: none;
+                 width: 30%"
+                 alt="NCI">
+          </div>
+
+          <h3 style="text-align: left; color: white;">
+            Scalability of MOM 5, NEMO, and MOM 6 on NCI's Raijin supercomputer
+          </h3>
+
+          <p style="text-align: right;">Marshall Ward
+            <br>National Computational Infrastructure
+          </p>
+
+          <img src="figures/nci/partner_logos.svg" style="background: white">
+        </section>
+
+        <!-- content -->
+
+        <!-- Introduction -->
+
+        <section>
+          <section>
+            <h3>Atmospheric scales</h3>
+            <img src="figures/atmos/geoWorld.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <h3>Atmospheric scales</h3>
+            <img src="figures/atmos/geoAustralia.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <h3>Atmospheric scales</h3>
+            <img src="figures/atmos/geoNorthAmerica.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+        </section>
+
+        <section>
+          <h3>Ocean scales</h3>
+          <img src="figures/SO-SeaHeight.png"
+               style="width: 60%">
+        </section>
+
+        <section>
+          <h3>Length scale of the ocean</h3>
+          <img src="figures/def_radius.svg"
+               style="width: 80%"
+               alt="First baroclinic deformation radius">
+          <div style="font-size: 75%">(Hallberg 2013)</div>
+          <p>0.1° is a <i>minimum</i> for Southern Ocean dynamics</p>
+        </section>
+
+        <section>
+          <h3>Ocean modelling at NCI</h3>
+          <table class="reveal">
+            <colgroup>
+              <col width="30%" />
+              <col width="20%" />
+              <col width="30%" />
+              <col width="20%" />
+            </colgroup>
+            <thead valign="bottom">
+              <tr>
+                <th class="head">Model</th>
+                <th class="head">Resolution</th>
+                <th class="head">Grid</th>
+                <th class="head">CPUs</th>
+              </tr>
+            </thead>
+            <tbody valign="top">
+              <tr>
+                <td rowspan=2>ACCESS-CM <i>(climate)</i></td>
+                <td>1°</td>
+                <td>360 x 300</td>
+                <td>40</td>
+              </tr>
+              <tr>
+                <td>0.25°</td>
+                <td>1440 x 1080</td>
+                <td>960</td>
+              </tr>
+              <tr>
+                <td rowspan=2>OFAM <i>(forecast)</i></td>
+                <td>0.1° to 2°</td>
+                <td>1191 x 968</td>
+                <td>384</td>
+              </tr>
+              <tr>
+                <td>0.1°</td>
+                <td>3600 x 1500</td>
+                <td>512</td>
+              </tr>
+              <tr>
+                <td rowspan=2>ARCCSS (GFDL) <i>(dynamics)</i></td>
+                <td>0.25°</td>
+                <td>1440 x 1080</td>
+                <td>960</td>
+              </tr>
+              <tr>
+                <td>0.1°</td>
+                <td>3600 x 2700</td>
+                <td>9196</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- Model summary -->
+
+        <section>
+          <h3>Ocean Modelling</h3>
+        </section>
+
+        <section>
+          <h3>MOM 5, NEMO</h3>
+        </section>
+
+        <section>
+          <h3>MOM 6</h3>
+        </section>
+
+        <section>
+          <h3>Generalised orthogonal coordinates</h3>
+          <img src="figures/mom/gfdl_tripole.svg" alt="Orthographic tripolar"
+               style="background: none; border: none; box-shadow: none;">
+          <p>Generalised grids require $\Delta x$ arrays</p>
+        </section>
+
+        <section>
+          <section>
+            <h3>Model configurations</h3>
+            <table class="reveal">
+              <thead>
+                <th class="head">Model</th>
+                <th class="head">Config</th>
+                <th class="head">Horizontal</th>
+                <th class="head">Vertical</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>MOM 5.1</td>
+                  <td>"CM2.5"</td>
+                  <td>1440 x 1080</td>
+                  <td>50</td>
+                </tr>
+                <tr>
+                  <td>NEMO 3.4</td>
+                  <td>ORCA 0.25°</td>
+                  <td>1442 x 1021</td>
+                  <td>46</td>
+                </tr>
+                <tr>
+                  <td>MOM 6</td>
+                  <td>OM4</td>
+                  <td>1440 x 1080</td>
+                  <td>75</td>
+                </tr>
+              </tbody>
+            </table>
+            <hr>
+            <ul>
+              <li>Serial ocean-ice coupling</li>
+              <li>10-day runtime</li>
+              <li>No model output</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Model configurations</h3>
+            <table class="reveal">
+              <thead>
+                <th class="head">Model</th>
+                <th class="head">Config</th>
+                <th class="head">Timestep</th>
+                <th class="head">Barotropic Split</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>MOM 5.1</td>
+                  <td>"CM2.5"</td>
+                  <td>1800 s</td>
+                  <td>22.5 s $\frac{1}{80}$</td>
+                </tr>
+                <tr>
+                  <td>NEMO 3.4</td>
+                  <td>ORCA 0.25°</td>
+                  <td>1440 s</td>
+                  <td>24 s (1/60)</td>
+                </tr>
+                <tr>
+                  <td>MOM 6</td>
+                  <td>OM4</td>
+                  <td>1200 s</td>
+                  <td><i>dynamic</i></td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </section>
+
+        <section>
+          <h3>Ocean runtime</h3>
+          <img src="figures/mom_nemo_ocn.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <h3>Sea ice runtime</h3>
+          <img src="figures/mom_nemo_ice.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <section>
+            <h3>Initialisation</h3>
+            <img src="figures/mom_nemo_init.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <h3>MPI Initialisation</h3>
+            <img src="figures/mom6/MAIN___mpp_init.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h3>1-year simulation times</h3>
+            <table class="reveal">
+              <thead>
+                <tr>
+                  <th class="head">Model</th>
+                  <th class="head">CPUs</th>
+                  <th class="head">CPU Hrs</th>
+                  <th class="head">Time (s)</th>
+                  <th class="head">yr/day</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>MOM 5</td>
+                  <td>960</td>
+                  <td>1868.0</td>
+                  <td>7088.2</td>
+                  <td>12.1</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>1920</td>
+                  <td>2126.3</td>
+                  <td>3986.8</td>
+                  <td>21.7</td>
+                </tr>
+                <tr>
+                  <td style="color: yellow">NEMO</td>
+                  <td style="color: yellow">480</td>
+                  <td style="color: yellow">1068.0</td>
+                  <td style="color: yellow">8043.6</td>
+                  <td style="color: yellow">10.7</td>
+                </tr>
+                <tr>
+                  <td style="color: yellow"></td>
+                  <td style="color: yellow">1920</td>
+                  <td style="color: yellow">1964.2</td>
+                  <td style="color: yellow">3753.6</td>
+                  <td style="color: yellow">23.0</td>
+                </tr>
+                <tr>
+                  <td>MOM 6</td>
+                  <td>480</td>
+                  <td>3910.1</td>
+                  <td>29363.1</td>
+                  <td>2.9</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>960</td>
+                  <td>4458.6</td>
+                  <td>16756.5</td>
+                  <td>5.2</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>1920</td>
+                  <td>5154.6</td>
+                  <td>9718.3</td>
+                  <td>8.9</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>3840</td>
+                  <td>6349.0</td>
+                  <td>6057.2</td>
+                  <td>14.3</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section>
+            <h3>1 year, MOM 5 vs NEMO</h3>
+            <table class="reveal">
+              <thead>
+                <tr>
+                  <th class="head">Model</th>
+                  <th class="head">CPUs</th>
+                  <th class="head">CPU Hrs</th>
+                  <th class="head">Time (s)</th>
+                  <th class="head">yr/day</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>MOM</td>
+                  <td>480</td>
+                  <td>1832.4</td>
+                  <td>13783.9</td>
+                  <td>12.1</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>960</td>
+                  <td>1868.0</td>
+                  <td>7088.2</td>
+                  <td>12.1</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>1920</td>
+                  <td>2126.3</td>
+                  <td>3986.8</td>
+                  <td>21.7</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>3840</td>
+                  <td>4075.2</td>
+                  <td>3995.6</td>
+                  <td>21.6</td>
+                </tr>
+                <tr>
+                  <td>NEMO</td>
+                  <td>480</td>
+                  <td>1068.0</td>
+                  <td>8043.6</td>
+                  <td>10.7</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>960</td>
+                  <td>1368.8</td>
+                  <td>5132.9</td>
+                  <td>16.8</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>1920</td>
+                  <td>1964.2</td>
+                  <td>3753.6</td>
+                  <td>23.0</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>3840</td>
+                  <td>3547.8</td>
+                  <td>3413.9</td>
+                  <td>25.3</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section>
+            <h3>1 year, MOM 5 vs MOM 6</h3>
+            <table class="reveal">
+              <thead>
+                <tr>
+                  <th class="head">Model</th>
+                  <th class="head">CPUs</th>
+                  <th class="head">CPU Hrs</th>
+                  <th class="head">Time (s)</th>
+                  <th class="head">yr/day</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>MOM</td>
+                  <td>480</td>
+                  <td>1832.4</td>
+                  <td>13783.9</td>
+                  <td>12.1</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>960</td>
+                  <td>1868.0</td>
+                  <td>7088.2</td>
+                  <td>12.1</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>1920</td>
+                  <td>2126.3</td>
+                  <td>3986.8</td>
+                  <td>21.7</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>3840</td>
+                  <td>4075.2</td>
+                  <td>3995.6</td>
+                  <td>21.6</td>
+                </tr>
+                <tr>
+                  <td>MOM 6</td>
+                  <td>480</td>
+                  <td>3910.1</td>
+                  <td>29363.1</td>
+                  <td>2.9</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>960</td>
+                  <td>4458.6</td>
+                  <td>16756.5</td>
+                  <td>5.2</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>1920</td>
+                  <td>5154.6</td>
+                  <td>9718.3</td>
+                  <td>8.9</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>3840</td>
+                  <td>6349.0</td>
+                  <td>6057.2</td>
+                  <td>14.3</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </section>
+
+        <section>
+          <h3>Concurrent 1-year MOM 5</h3>
+          <table>
+            <colgroup>
+              <col width="20%" />
+              <col width="28%" />
+              <col width="28%" />
+              <col width="24%" />
+            </colgroup>
+            <thead valign="bottom">
+              <tr>
+                <th class="head">CPUs</th>
+                <th class="head">Runtime (s)</th>
+                <th class="head">CPU Hrs</th>
+                <th class="head">yr/day</th>
+              </tr>
+            </thead>
+            <tbody valign="top">
+              <tr>
+                <td style="color: seashell">960s</td>
+                <td style="color: seashell">7364.9</td>
+                <td style="color: seashell">1966.1</td>
+                <td style="color: seashell">11.7</td>
+              </tr>
+              <tr>
+                <td style="color: seashell">1920s</td>
+                <td style="color: seashell">3986.8</td>
+                <td style="color: seashell">2126.3</td>
+                <td style="color: seashell">21.7</td>
+              </tr>
+              <tr>
+                <td style="color: khaki">2240c</td>
+                <td style="color: khaki">3347.5</td>
+                <td style="color: khaki">2112.4</td>
+                <td style="color: khaki">25.8</td>
+              </tr>
+              <tr>
+                <td style="color: seashell">3840s</td>
+                <td style="color: seashell">2504.3</td>
+                <td style="color: seashell">2776.5</td>
+                <td style="color: seashell">34.5</td>
+              </tr>
+              <tr>
+                <td style="color: khaki">4480c</td>
+                <td style="color: khaki">1919.6</td>
+                <td style="color: khaki">2510.0</td>
+                <td style="color: khaki">45.0</td>
+              </tr>
+              <tr>
+                <td style="color: khaki">8960c</td>
+                <td style="color: khaki">1500.9</td>
+                <td style="color: khaki">3964.8</td>
+                <td style="color: khaki">57.6</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+
+        <section>
+          <section>
+            <h3>MOM 5 subroutine comparison</h3>
+            <img src="figures/mom/mom5_bars.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <h3>MOM 5: Tracer advection</h3>
+            <img src="figures/mom/update_ocean_tracer.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <h3>MOM 5: Barotropic solver</h3>
+            <img src="figures/mom/update_ocean_barotropic.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <h3>MOM 5: Free surface smoothing</h3>
+            <img src="figures/mom/ocean_eta_smooth.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <h3>MOM 5: Runtime diagnostics</h3>
+            <img src="figures/mom/ocean_diagnostics.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <h3>MOM 5: Surface field interpolation (2D)</h3>
+            <img src="figures/mom/get_ocean_sbc.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <p>NEMO subroutine comparison</p>
+            <img src="figures/nemo/nemo_bars.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <p>NEMO: Surface pressure gradient</p>
+            <img src="figures/nemo/dyn_spg.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <p>NEMO: Tracer advection</p>
+            <img src="figures/nemo/tra_adv.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <p>NEMO: Runtime diagnostics</p>
+            <img src="figures/nemo/stp_ctl.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <p>NEMO: Tracer relaxation (damping)</p>
+            <img src="figures/nemo/tra_dmp.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <p>MOM 6 subroutine comparison</p>
+            <img src="figures/mom6/mom6_bars.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <p>MOM 6: Dynamics</p>
+            <img src="figures/mom6/step_mom_dyn_split_rk2.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <p>MOM 6: Halo updates</p>
+            <img src="figures/mom6/step_mom__do_group_pass.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <p>MOM 6: TODO "Diabatic"</p>
+            <img src="figures/mom6/diabatic.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <p>MOM 6: Tracer advection</p>
+            <img src="figures/mom6/advect_tracer.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <p>MOM 6 dynamics components</p>
+            <img src="figures/mom6/step_mom_dyn_split_rk2.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <p>MOM 6 dynamics: Halo updates</p>
+            <img src="figures/mom6/step_mom_dyn_split_rk2__do_group_pass.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <p>MOM 6 dynamics: Barotropic timestep</p>
+            <img src="figures/mom6/btstep.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <p>MOM 6 dynamics: Mass/Volume continuity</p>
+            <img src="figures/mom6/step_mom_dyn_split_rk2__continuity.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <p>MOM 6 dynamics: "Pressure force"</p>
+            <img src="figures/mom6/pressureforce.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <p>MOM 6 dynamics: "set dtbt"</p>
+            <img src="figures/mom6/step_mom_dyn_split_rk2__set_dtbt.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+        </section>
+
+        <section>
+          <p>MOM 5 vectorisation<p>
+          <table class="reveal">
+            <thead>
+              <th class="head">Subroutine</th>
+              <th class="head">FLOPs</th>
+              <th class="head">% vector</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>MAIN</td>
+                <td>2.04e+10</td>
+                <td>0.881</td>
+              </tr>
+              <tr>
+                <td>update_ocean_model</td>
+                <td>1.87e+10</td>
+                <td>0.91</td>
+              </tr>
+              <tr>
+                <td>update_ocean_tracer</td>
+                <td>8.40e+09</td>
+                <td>0.929</td>
+              </tr>
+              <tr>
+                <td>vert_mix_coeff</td>
+                <td>2.04e+09</td>
+                <td>0.809</td>
+              </tr>
+              <tr>
+                <td>ocean_explicit_accel_a</td>
+                <td>1.95e+09</td>
+                <td>0.928</td>
+              </tr>
+              <tr>
+                <td>update_ocean_barotropic</td>
+                <td>1.80e+09</td>
+                <td>0.945</td>
+              </tr>
+              <!--
+              <tr>
+                <td>submeso_restrat</td>
+                <td>1.73e+09</td>
+                <td>0.884</td>
+              </tr>
+              -->
+              <tr>
+                <td>ocean_eta_smooth</td>
+                <td>1.78e+07</td>
+                <td>0.875</td>
+              </tr>
+              <tr>
+                <td>update_ice_model_slow_dn</td>
+                <td>7.48e+08</td>
+                <td>0.832</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section>
+          <p>NEMO 3.4 vectorisation<p>
+          <table class="reveal">
+            <thead>
+              <th class="head">Subroutine</th>
+              <th class="head">FLOPs</th>
+              <th class="head">% vector</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>stp</td>
+                <td>1.32e+10</td>
+                <td>0.55</td>
+              </tr>
+              <tr>
+                <td>dyn_spg</td>
+                <td>1.85e+09</td>
+                <td>0.96</td>
+              </tr>
+              <tr>
+                <td>tra_adv</td>
+                <td>1.31e+09</td>
+                <td>0.601</td>
+              </tr>
+              <tr>
+                <td>tra_dmp</td>
+                <td>4.18e+07</td>
+                <td>0.934</td>
+              </tr>
+              <tr>
+                <td>ldf_slp</td>
+                <td>7.47e+08</td>
+                <td>0.375</td>
+              </tr>
+              <tr>
+                <td>sbc</td>
+                <td>3.90e+09</td>
+                <td>0.0621</td>
+              </tr>
+              <tr>
+                <td>sbc_ice_lim_2</td>
+                <td>3.80e+09</td>
+                <td>0.0435</td>
+              </tr>
+              <tr>
+                <td>lim_dyn_2</td>
+                <td>3.61e+09</td>
+                <td>0.0134</td>
+              </tr>
+              <!--
+              <tr>
+                <td>lim_trp_2</td>
+                <td>1.66e+08</td>
+                <td>0.608</td>
+              </tr>
+              -->
+            </tbody>
+          </table>
+        </section>
+
+        <section>
+          <section>
+            <p>MOM 6 vectorisation<p>
+            <table class="reveal">
+              <thead>
+                <th class="head">Subroutine</th>
+                <th class="head">FLOPs</th>
+                <th class="head">% vector</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>MAIN</td>
+                  <td>5.20e+10</td>
+                  <td>0.653</td>
+                </tr>
+                <tr>
+                  <td>update_ocean_model</td>
+                  <td>5.00e+10</td>
+                  <td>0.657</td>
+                </tr>
+                <tr>
+                  <td>step_mom_dyn_split_rk2</td>
+                  <td>3.80e+10</td>
+                  <td>0.677</td>
+                </tr>
+                <tr>
+                  <td>ale_main</td>
+                  <td>9.85e+07</td>
+                  <td>0.598</td>
+                </tr>
+                <tr>
+                  <td>diabatic</td>
+                  <td>3.54e+09</td>
+                  <td>0.476</td>
+                </tr>
+                <tr>
+                  <td>mixedlayer_restrat</td>
+                  <td>1.83e+09</td>
+                  <td>0.569</td>
+                </tr>
+                <!--
+                <tr>
+                  <td>set_viscous_bbl</td>
+                  <td>2.23e+08</td>
+                  <td>0.49</td>
+                </tr>
+                -->
+                <tr>
+                  <td>advect_tracer</td>
+                  <td>1.17e+09</td>
+                  <td>0.892</td>
+                </tr>
+                <tr>
+                  <td>update_ice_model_slow_dn</td>
+                  <td>1.08e+09</td>
+                  <td>0.769</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section>
+            <p>MOM 6 dynamics vectorisation</p>
+            <table class="reveal">
+              <thead>
+                <th class="head">Subroutine</th>
+                <th class="head">FLOPs</th>
+                <th class="head">% vector</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>step_mom_dyn_split_rk2</td>
+                  <td>3.80e+10</td>
+                  <td>0.677</td>
+                </tr>
+                <tr>
+                  <td>btstep</td>
+                  <td>4.35e+09</td>
+                  <td>0.638</td>
+                </tr>
+                <tr>
+                  <td>do_group_pass</td>
+                  <td>2.40e+03</td>
+                  <td>0.0</td>
+                </tr>
+                <tr>
+                  <td>continuity</td>
+                  <td>1.51e+07</td>
+                  <td>0.874</td>
+                </tr>
+                <tr>
+                  <td>set_dtbt</td>
+                  <td>5.07e+04</td>
+                  <td>0.248</td>
+                </tr>
+                <tr>
+                  <td>pressureforce</td>
+                  <td>1.55e+10</td>
+                  <td>0.795</td>
+                </tr>
+                <tr>
+                  <td>set_viscous_bbl</td>
+                  <td>2.23e+08</td>
+                  <td>0.49</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </section>
+
+        <section>
+          <h3>Results</h3>
+          <ul>
+            <li>NEMO
+              <ul>
+                <li>Fastest serial computation</li>
+                <li>Lowest memory usage</li>
+                <li>Severe barotropic scaling constraint</li>
+              </ul>
+            </li>
+            <li>MOM 5
+              <ul>
+                <li>Strong scalability</li>
+                <li>High vectorisation (~90%)</li>
+                <li>Significant barotropic scaling limit</li>
+              </ul>
+            </li>
+            <li>MOM 6
+              <ul>
+                <li>Scaling efficiency loss after 960 CPUs</li>
+                <li>Moderate vectorisation (~65%)</li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <p>MOM 5, 0.1° scaling</p>
+          <img src="figures/submodels01.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <p>MOM 5, 0.1° subroutines</p>
+          <img src="figures/subscale01.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <!-- configuration -->
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
+
+        <script>
+          Reveal.initialize({
+            slideNumber: true,
+            dependencies: [
+              { src: 'plugin/highlight/highlight.js',
+                async: true,
+                condition: function() {
+                  return !!document.querySelector( 'pre code' ); },
+                callback: function() {
+                  hljs.initHighlightingOnLoad(); }
+              },
+
+              { src: 'plugin/math/math.js', async: true }
+            ]
+          });
+        </script>
+      </div>
+    </div>
+</html>
