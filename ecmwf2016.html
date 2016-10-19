@@ -38,7 +38,7 @@
       </header>
 
       <footer style="font-size: 1pc; position: absolute; bottom: 2%; left: 2%;">
-        <code>http://marshallward.org/talks/cosima2016.html</code>
+        <code>http://marshallward.org/talks/ecmwf2016.html</code>
       </footer>
 
       <div class="slides">
@@ -69,23 +69,15 @@
         <!-- Introduction -->
 
         <section>
-          <section>
-            <h3>Atmospheric scales</h3>
-            <img src="figures/atmos/geoWorld.svg"
-                 style="background: none; border: none; box-shadow: none;">
-          </section>
+          <h3>Atmospheric scales</h3>
+          <img src="figures/atmos/geoWorld.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
 
-          <section>
-            <h3>Atmospheric scales</h3>
-            <img src="figures/atmos/geoAustralia.svg"
-                 style="background: none; border: none; box-shadow: none;">
-          </section>
-
-          <section>
-            <h3>Atmospheric scales</h3>
-            <img src="figures/atmos/geoNorthAmerica.svg"
-                 style="background: none; border: none; box-shadow: none;">
-          </section>
+        <section>
+          <h3>Atmospheric scales</h3>
+          <img src="figures/atmos/geoAustralia.svg"
+               style="background: none; border: none; box-shadow: none;">
         </section>
 
         <section>
@@ -162,7 +154,10 @@
 
         <section>
           <h3>Ocean Modelling</h3>
+          <p>This is weak, need to redo...</p>
         </section>
+
+        <!--
 
         <section>
           <h3>MOM 5, NEMO</h3>
@@ -184,8 +179,8 @@
             &= \mathbf{U} + \mathbf{u}'
           \end{align}$$
           <ul>
-            <li>Depth-averaged dynamics is ~100x faster</li>
-            <li>Accuracy less important; simpler solvers</li>
+            <li>Depth-averaged variability is ~100x faster</li>
+            <li>Accuracy is less important; uses simpler solvers</li>
             <li>Additional filtering required</li>
           </ul>
         </section>
@@ -194,8 +189,10 @@
           <h3>Generalised orthogonal coordinates</h3>
           <img src="figures/mom/gfdl_tripole.svg" alt="Orthographic tripolar"
                style="background: none; border: none; box-shadow: none;">
-          <p>Generalised grids require $\Delta x$ arrays</p>
+          <p>Tripolar grids eliminate the "pole problem"</p>
         </section>
+
+        -->
 
         <section>
           <h3>Model configurations</h3>
@@ -223,7 +220,7 @@
                 <td>MOM 6</td>
                 <td>OM4</td>
                 <td>1440 x 1080<br>75 layer</td>
-                <td>1200 s (~20 s split)</td>
+                <td>1200 s<br>(~20 s split)</td>
               </tr>
             </tbody>
           </table>
@@ -248,7 +245,6 @@
           </ul>
         </section>
 
-
         <section>
           <h3>Ocean runtime</h3>
           <img src="figures/mom_nemo_ocn.svg"
@@ -262,17 +258,15 @@
         </section>
 
         <section>
-          <section>
-            <h3>Initialisation</h3>
-            <img src="figures/mom_nemo_init.svg"
-                 style="background: none; border: none; box-shadow: none;">
-          </section>
+          <h3>Initialisation</h3>
+          <img src="figures/mom_nemo_init.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
 
-          <section>
-            <h3>MPI Initialisation</h3>
-            <img src="figures/mom6/MAIN___mpp_init.svg"
-                 style="background: none; border: none; box-shadow: none;">
-          </section>
+        <section>
+          <h3>MPI Initialisation</h3>
+          <img src="figures/mom6/MAIN___mpp_init.svg"
+               style="background: none; border: none; box-shadow: none;">
         </section>
 
         <section>
@@ -304,18 +298,18 @@
                   <td>21.7</td>
                 </tr>
                 <tr>
-                  <td style="color: yellow">NEMO</td>
-                  <td style="color: yellow">480</td>
-                  <td style="color: yellow">1068.0</td>
-                  <td style="color: yellow">8043.6</td>
-                  <td style="color: yellow">10.7</td>
+                  <td style="color: khaki">NEMO</td>
+                  <td style="color: khaki">480</td>
+                  <td style="color: khaki">1068.0</td>
+                  <td style="color: khaki">8043.6</td>
+                  <td style="color: khaki">10.7</td>
                 </tr>
                 <tr>
-                  <td style="color: yellow"></td>
-                  <td style="color: yellow">1920</td>
-                  <td style="color: yellow">1964.2</td>
-                  <td style="color: yellow">3753.6</td>
-                  <td style="color: yellow">23.0</td>
+                  <td style="color: khaki"></td>
+                  <td style="color: khaki">1920</td>
+                  <td style="color: khaki">1964.2</td>
+                  <td style="color: khaki">3753.6</td>
+                  <td style="color: khaki">23.0</td>
                 </tr>
                 <tr>
                   <td>MOM 6</td>
@@ -497,86 +491,92 @@
         </section>
 
         <section>
-          <h3>Concurrent 1-year MOM 5</h3>
-          <table>
-            <colgroup>
-              <col width="20%" />
-              <col width="28%" />
-              <col width="28%" />
-              <col width="24%" />
-            </colgroup>
-            <thead valign="bottom">
-              <tr>
-                <th class="head">CPUs</th>
-                <th class="head">Runtime (s)</th>
-                <th class="head">CPU Hrs</th>
-                <th class="head">yr/day</th>
-              </tr>
-            </thead>
-            <tbody valign="top">
-              <tr>
-                <td style="color: seashell">960s</td>
-                <td style="color: seashell">7364.9</td>
-                <td style="color: seashell">1966.1</td>
-                <td style="color: seashell">11.7</td>
-              </tr>
-              <tr>
-                <td style="color: seashell">1920s</td>
-                <td style="color: seashell">3986.8</td>
-                <td style="color: seashell">2126.3</td>
-                <td style="color: seashell">21.7</td>
-              </tr>
-              <tr>
-                <td style="color: khaki">2240c</td>
-                <td style="color: khaki">3347.5</td>
-                <td style="color: khaki">2112.4</td>
-                <td style="color: khaki">25.8</td>
-              </tr>
-              <tr>
-                <td style="color: seashell">3840s</td>
-                <td style="color: seashell">2504.3</td>
-                <td style="color: seashell">2776.5</td>
-                <td style="color: seashell">34.5</td>
-              </tr>
-              <tr>
-                <td style="color: khaki">4480c</td>
-                <td style="color: khaki">1919.6</td>
-                <td style="color: khaki">2510.0</td>
-                <td style="color: khaki">45.0</td>
-              </tr>
-              <tr>
-                <td style="color: khaki">8960c</td>
-                <td style="color: khaki">1500.9</td>
-                <td style="color: khaki">3964.8</td>
-                <td style="color: khaki">57.6</td>
-              </tr>
-            </tbody>
-          </table>
+          <h3>Model runtime observations</h3>
+          <p>NEMO/ORCA 0.25°
+            <ul>
+              <li>Lowest complexity (2.7 CPU hours / day)</li>
+              <li>Lowest memory usage (~50 GiB at 15 cores)</li>
+              <li>Drastic efficiency loss after 960 CPUs</li>
+            </ul>
+          </p>
+          <p>MOM 5
+            <ul>
+              <li>Moderate complexity (4.9 CPU hours / day)</li>
+              <li>Strong scaling up to 3840 CPUs</li>
+            </ul>
+          </p>
+          <p>MOM 6
+          <ul>
+            <li>Highest complexity (10.7 CPU hours / day)</li>
+            <li>Moderate efficiency loss after 240 CPUs</li>
+          </ul>
+          </p>
         </section>
 
+        <section>
+          <h3>MOM 5 subroutines</h3>
+          <img src="figures/mom/mom5_bars.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <h3>NEMO subroutines</h3>
+          <img src="figures/nemo/nemo_bars.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <h3>MOM 6 subroutines</h3>
+          <img src="figures/mom6/mom6_bars.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <h3>Subroutine comparison</h3>
+          <ul>
+            <li>Poor scaling of MOM 5, NEMO free surface dynamics
+              <ul>
+                <li><code>update_ocean_barotropic</code>
+                <li><code>ocean_eta_smooth</code>
+                <li><code>dyn_spg</code></li>
+              </ul>
+            </li>
+            <li>MOM 5, NEMO tracer advection is expensive
+              <ul>
+                <li><code>update_ocean_tracer</code></li>
+                <li><code>tra_adv</code></li>
+              </ul>
+            </li>
+            <li>MOM 6 communication is expensive
+              <ul>
+                <li><code>do_group_pass</code>
+              </ul>
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>MOM 5: Barotropic solver</h3>
+          <img src="figures/mom/update_ocean_barotropic.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <h3>MOM 5: Free surface smoothing</h3>
+          <img src="figures/mom/ocean_eta_smooth.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <h3>NEMO: Surface pressure gradient</h3>
+          <img src="figures/nemo/dyn_spg.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
 
         <section>
           <section>
-            <h3>MOM 5 subroutine comparison</h3>
-            <img src="figures/mom/mom5_bars.svg"
-                 style="background: none; border: none; box-shadow: none;">
-          </section>
-
-          <section>
             <h3>MOM 5: Tracer advection</h3>
             <img src="figures/mom/update_ocean_tracer.svg"
-                 style="background: none; border: none; box-shadow: none;">
-          </section>
-
-          <section>
-            <h3>MOM 5: Barotropic solver</h3>
-            <img src="figures/mom/update_ocean_barotropic.svg"
-                 style="background: none; border: none; box-shadow: none;">
-          </section>
-
-          <section>
-            <h3>MOM 5: Free surface smoothing</h3>
-            <img src="figures/mom/ocean_eta_smooth.svg"
                  style="background: none; border: none; box-shadow: none;">
           </section>
 
@@ -594,18 +594,6 @@
         </section>
 
         <section>
-          <section>
-            <p>NEMO subroutine comparison</p>
-            <img src="figures/nemo/nemo_bars.svg"
-                 style="background: none; border: none; box-shadow: none;">
-          </section>
-
-          <section>
-            <p>NEMO: Surface pressure gradient</p>
-            <img src="figures/nemo/dyn_spg.svg"
-                 style="background: none; border: none; box-shadow: none;">
-          </section>
-
           <section>
             <p>NEMO: Tracer advection</p>
             <img src="figures/nemo/tra_adv.svg"
@@ -626,12 +614,6 @@
         </section>
 
         <section>
-          <section>
-            <p>MOM 6 subroutine comparison</p>
-            <img src="figures/mom6/mom6_bars.svg"
-                 style="background: none; border: none; box-shadow: none;">
-          </section>
-
           <section>
             <p>MOM 6: Dynamics</p>
             <img src="figures/mom6/step_mom_dyn_split_rk2.svg"
@@ -700,7 +682,7 @@
           <table class="reveal">
             <thead>
               <th class="head">Subroutine</th>
-              <th class="head">FLOPs</th>
+              <th class="head">FLOP/CPU</th>
               <th class="head">% vector</th>
             </thead>
             <tbody>
@@ -760,7 +742,7 @@
           <table class="reveal">
             <thead>
               <th class="head">Subroutine</th>
-              <th class="head">FLOPs</th>
+              <th class="head">FLOP/CPU</th>
               <th class="head">% vector</th>
             </thead>
             <tbody>
@@ -821,7 +803,7 @@
             <table class="reveal">
               <thead>
                 <th class="head">Subroutine</th>
-                <th class="head">FLOPs</th>
+                <th class="head">FLOP/CPU</th>
                 <th class="head">% vector</th>
               </thead>
               <tbody>
