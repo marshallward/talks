@@ -535,6 +535,8 @@
           </p>
         </section>
 
+        <!-- subroutine analysis -->
+
         <section>
           <h3>MOM 5 subroutines</h3>
           <img src="figures/mom/mom5_bars.svg"
@@ -576,6 +578,8 @@
             </li>
           </ul>
         </section>
+
+        <!-- free surface dynamics -->
 
         <section>
           <h3>MOM 5: Barotropic solver</h3>
@@ -627,6 +631,8 @@
           </ul>
         </section>
 
+        <!-- tracer advection -->
+
         <section>
           <h3>MOM 5: Tracer advection</h3>
           <img src="figures/mom/update_ocean_tracer.svg"
@@ -634,44 +640,71 @@
         </section>
 
         <section>
-          <p>NEMO: Tracer advection</p>
+          <h3>NEMO: Tracer advection</h3>
           <img src="figures/nemo/tra_adv.svg"
                style="background: none; border: none; box-shadow: none;">
         </section>
 
         <section>
-          <p>MOM 6: Tracer advection</p>
+          <h3>MOM 6: Tracer advection</h3>
           <img src="figures/mom6/advect_tracer.svg"
                style="background: none; border: none; box-shadow: none;">
         </section>
 
         <section>
-          <section>
-            <h3>MOM 5: Runtime diagnostics</h3>
-            <img src="figures/mom/ocean_diagnostics.svg"
-                 style="background: none; border: none; box-shadow: none;">
-          </section>
+          <h3>Tracer advection scaling</h3>
+          <ul>
+            <li>MOM 5
+              <ul>
+                <li>MDPPM finite volume</li>
+                <li>Very strong scaling, at least 3840 CPUs</li>
+              </ul>
+            </li>
+            <li>NEMO
+              <ul>
+                <li>TVD finite volume</li>
+                <li>Inefficient scaling after 240 CPUs</li>
+              </ul>
+            </li>
+            <li>MOM 6
+              <ul>
+                <li>3rd order Huynh PPM</li>
+                <li>Poor scaling, esp. after 240 CPUs</li>
+                <li>Communication unmeasured</li>
+              </ul>
+            </li>
+          </ul>
+        </section>
 
-          <section>
-            <h3>MOM 5: Surface field interpolation (2D)</h3>
-            <img src="figures/mom/get_ocean_sbc.svg"
-                 style="background: none; border: none; box-shadow: none;">
-          </section>
+        <!-- TODO diabatic / vertical mixing -->
+
+        <!-- miscellaneous scaling issues -->
+
+        <section>
+          <h3>MOM 5: Runtime diagnostics</h3>
+          <img src="figures/mom/ocean_diagnostics.svg"
+               style="background: none; border: none; box-shadow: none;">
         </section>
 
         <section>
-          <section>
-            <p>NEMO: Runtime diagnostics</p>
-            <img src="figures/nemo/stp_ctl.svg"
-                 style="background: none; border: none; box-shadow: none;">
-          </section>
-
-          <section>
-            <p>NEMO: Tracer relaxation (damping)</p>
-            <img src="figures/nemo/tra_dmp.svg"
-                 style="background: none; border: none; box-shadow: none;">
-          </section>
+          <h3>MOM 5: Surface field interpolation (2D)</h3>
+          <img src="figures/mom/get_ocean_sbc.svg"
+               style="background: none; border: none; box-shadow: none;">
         </section>
+
+        <section>
+          <p>NEMO: Tracer relaxation (damping)</p>
+          <img src="figures/nemo/tra_dmp.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <p>NEMO: Runtime diagnostics</p>
+          <img src="figures/nemo/stp_ctl.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <!-- TODO: assess this stuff
 
         <section>
           <section>
@@ -724,6 +757,13 @@
             <img src="figures/mom6/step_mom_dyn_split_rk2__set_dtbt.svg"
                  style="background: none; border: none; box-shadow: none;">
           </section>
+        </section
+
+        -->
+
+        <section>
+          <h3>Misc summary</h3>
+          <p>TODO</p>
         </section>
 
         <section>
@@ -957,7 +997,13 @@
         </section>
 
         <section>
+          <h3>Vectorization results</h3>
+          <p>TODO: MOM 5 vectorization numbers</p>
+        </section>
+
+        <section>
           <h3>Results</h3>
+          <p>TODO: Sum this up better</p>
           <ul>
             <li>NEMO
               <ul>
