@@ -538,6 +538,10 @@
         <!-- subroutine analysis -->
 
         <section>
+          <h2>Subroutine analysis</h2>
+        </section>
+
+        <section>
           <h3>MOM 5 subroutines</h3>
           <img src="figures/mom/mom5_bars.svg"
                style="background: none; border: none; box-shadow: none;">
@@ -580,6 +584,10 @@
         </section>
 
         <!-- free surface dynamics -->
+
+        <section>
+          <h2>Free surface dynamics</h2>
+        </section>
 
         <section>
           <h3>MOM 5: Barotropic solver</h3>
@@ -634,6 +642,10 @@
         <!-- tracer advection -->
 
         <section>
+          <h2>Tracer advection</h2>
+        </section>
+
+        <section>
           <h3>MOM 5: Tracer advection</h3>
           <img src="figures/mom/update_ocean_tracer.svg"
                style="background: none; border: none; box-shadow: none;">
@@ -678,7 +690,51 @@
 
         <!-- TODO diabatic / vertical mixing -->
 
+        <section>
+          <h2>Vertical physics</h2>
+        </section>
+
+        <section>
+          <h3>MOM 5: Vertical mixing coefficient</h3>
+          <img src="figures/mom/vert_mix_coeff.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <h3>NEMO: Vertical mixing coefficient (TKE)</h3>
+          <img src="figures/nemo/zdf_tke.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <h3>NEMO: Tracer relaxation</h3>
+          <img src="figures/nemo/tra_dmp.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <h3>MOM 6: Diabatic physics</h3>
+          <img src="figures/mom6/diabatic.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <h3>Vertical physics summary</h3>
+          <ul>
+            <li>Vertical processes scale well due to horizontal tiling and low
+              communication requirements</li>
+            <li>NEMO tracer relaxation strongly constrains scalability, due to
+              interpolation communication</li>
+          </ul>
+        </section>
+
         <!-- miscellaneous scaling issues -->
+
+        <!--
+
+        <section>
+          <h2>Miscellaneous</h2>
+        </section>
 
         <section>
           <h3>MOM 5: Runtime diagnostics</h3>
@@ -693,16 +749,12 @@
         </section>
 
         <section>
-          <p>NEMO: Tracer relaxation (damping)</p>
-          <img src="figures/nemo/tra_dmp.svg"
-               style="background: none; border: none; box-shadow: none;">
-        </section>
-
-        <section>
           <p>NEMO: Runtime diagnostics</p>
           <img src="figures/nemo/stp_ctl.svg"
                style="background: none; border: none; box-shadow: none;">
         </section>
+
+        -->
 
         <!-- TODO: assess this stuff
 
@@ -718,13 +770,6 @@
             <img src="figures/mom6/step_mom__do_group_pass.svg"
                  style="background: none; border: none; box-shadow: none;">
           </section>
-
-          <section>
-            <p>MOM 6: TODO "Diabatic"</p>
-            <img src="figures/mom6/diabatic.svg"
-                 style="background: none; border: none; box-shadow: none;">
-          </section>
-
         </section>
 
         <section>
@@ -760,11 +805,6 @@
         </section
 
         -->
-
-        <section>
-          <h3>Misc summary</h3>
-          <p>TODO</p>
-        </section>
 
         <section>
           <p>MOM 5 vectorisation<p>
@@ -997,8 +1037,59 @@
         </section>
 
         <section>
-          <h3>Vectorization results</h3>
-          <p>TODO: MOM 5 vectorization numbers</p>
+          <h3>MOM 5 vectorization performance</h3>
+            <table class="reveal">
+              <thead>
+                <th class="head">Section</th>
+                <th class="head">Aligned AVX</th>
+                <th class="head">Unaligned AVX</th>
+                <th class="head">Serial</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Runtime</td>
+                  <td>255.8 s</td>
+                  <td>240.9 s</td>
+                  <td>269.8 s</td>
+                </tr>
+                <tr>
+                  <td>Main loop</td>
+                  <td>211.6 s</td>
+                  <td>207.5 s</td>
+                  <td>226.8 s</td>
+                </tr>
+                <tr>
+                  <td>Ocean loop</td>
+                  <td>166.7 s</td>
+                  <td>165.4 s</td>
+                  <td>179.2 s</td>
+                </tr>
+                <tr>
+                  <td>Tracer update</td>
+                  <td> 37.5 s</td>
+                  <td> 37.2 s</td>
+                  <td> 43.5 s</td>
+                </tr>
+                <tr>
+                  <td>MDPPM</td>
+                  <td> 25.2 s</td>
+                  <td> 25.1 s</td>
+                  <td> 31.4 s</td>
+                </tr>
+                <tr>
+                  <td>Vert. mix</td>
+                  <td> 24.9 s</td>
+                  <td> 24.9 s</td>
+                  <td> 26.5 s</td>
+                </tr>
+                <tr>
+                  <td>Bih. frict.</td>
+                  <td> 16.1 s</td>
+                  <td> 16.0 s</td>
+                  <td> 16.7 s</td>
+                </tr>
+              </tbody>
+            </table>
         </section>
 
         <section>
