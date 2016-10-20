@@ -11,7 +11,7 @@
     <meta name="author" content="Marshall Ward">
 
     <link rel="stylesheet" href="css/reveal.css">
-    <link rel="stylesheet" href="css/theme/black.css" id="theme">
+    <link rel="stylesheet" href="css/theme/nci.css" id="theme">
     <!--<link rel="stylesheet" href="lib/css/solarized_dark.css"> -->
 
     <!-- Code syntax highlighting -->
@@ -72,18 +72,31 @@
           <h3>Atmospheric scales</h3>
           <img src="figures/atmos/geoWorld.svg"
                style="background: none; border: none; box-shadow: none;">
+          <div style="font-size: 50%">
+            <a href="http://www.esrl.noaa.gov/psd/data/reanalysis/reanalysis.shtml">
+              <code>http://www.esrl.noaa.gov/psd/data/reanalysis/reanalysis.shtml</code>            </a>
+          </div>
         </section>
 
         <section>
           <h3>Atmospheric scales</h3>
           <img src="figures/atmos/geoAustralia.svg"
                style="background: none; border: none; box-shadow: none;">
+          <div style="font-size: 50%">
+            <a href="http://www.esrl.noaa.gov/psd/data/reanalysis/reanalysis.shtml">
+              <code>http://www.esrl.noaa.gov/psd/data/reanalysis/reanalysis.shtml</code>            </a>
+          </div>
         </section>
 
         <section>
           <h3>Ocean scales</h3>
           <img src="figures/SO-SeaHeight.png"
                style="width: 60%">
+          <div style="font-size: 50%">
+            <a href="http://www.pmel.noaa.gov/people/cronin/ARC/ARC.html">
+              <code>http://www.pmel.noaa.gov/people/cronin/ARC/ARC.html</code>
+            </a>
+          </div>
         </section>
 
         <section>
@@ -91,7 +104,7 @@
           <img src="figures/def_radius.svg"
                style="width: 80%"
                alt="First baroclinic deformation radius">
-          <div style="font-size: 75%">(Hallberg 2013)</div>
+          <div style="font-size: 66%">(Hallberg 2013)</div>
           <p>0.1° is a <i>minimum</i> for Southern Ocean dynamics</p>
         </section>
 
@@ -154,24 +167,34 @@
 
         <section>
           <h3>Ocean Modelling</h3>
-          <p>This is weak, need to redo...</p>
+          <img src="figures/mom/mom5_kds.png" alt="MOM 5 KDS snapshot"
+               style="background: none; border: none; box-shadow: none;">
         </section>
-
-        <!--
 
         <section>
           <h3>MOM 5, NEMO</h3>
+          <p>TODO</p>
         </section>
 
         <section>
           <h3>MOM 6</h3>
           <img src="figures/mom6/layer_coords.jpg" alt="Layered model">
+          <p>TODO</p>
         </section>
 
         <section>
           <h3>Tile decomposition</h3>
-            <p>TODO</p>
-          </h3>
+          <img src="figures/mpi/tiling.svg"
+               style="width: 50%; vertical-align: middle;
+                      margin-right: 2%">
+          <img src="figures/mpi/halo.svg"
+               style="background:none; border:none; box-shadow:none;
+                      vertical-align: middle; width: 38%;">
+          <ul>
+            <li>Load-balanced using equal tiles, land-masked arrays</li>
+            <li>Unbalanced message sizes (esp. diagonals)</li>
+            <li>Land-only tiles removed in operation</li>
+          </ul>
         </section>
 
         <section>
@@ -195,10 +218,9 @@
           <h3>Generalised orthogonal coordinates</h3>
           <img src="figures/mom/gfdl_tripole.svg" alt="Orthographic tripolar"
                style="background: none; border: none; box-shadow: none;">
+          <div style="font-size: 66%">(Murray 1996)</div>
           <p>Tripolar grids eliminate the "pole problem"</p>
         </section>
-
-        -->
 
         <section>
           <h3>Model configurations</h3>
@@ -807,7 +829,7 @@
         -->
 
         <section>
-          <p>MOM 5 vectorisation<p>
+          <h3>MOM 5 vectorisation</h3>
           <table class="reveal">
             <thead>
               <th class="head">Subroutine</th>
@@ -867,7 +889,7 @@
         </section>
 
         <section>
-          <p>NEMO 3.4 vectorisation<p>
+          <h3>NEMO 3.4 vectorisation</h3>
           <table class="reveal">
             <thead>
               <th class="head">Subroutine</th>
@@ -928,7 +950,7 @@
 
         <section>
           <section>
-            <p>MOM 6 vectorisation<p>
+            <h3>MOM 6 vectorisation</h3>
             <table class="reveal">
               <thead>
                 <th class="head">Subroutine</th>
@@ -1037,7 +1059,7 @@
         </section>
 
         <section>
-          <h3>MOM 5 vectorization performance</h3>
+          <h3>MOM 5 vectorisation impact</h3>
             <table class="reveal">
               <thead>
                 <th class="head">Section</th>
@@ -1046,6 +1068,7 @@
                 <th class="head">Serial</th>
               </thead>
               <tbody>
+                <!--
                 <tr>
                   <td>Runtime</td>
                   <td>255.8 s</td>
@@ -1058,8 +1081,9 @@
                   <td>207.5 s</td>
                   <td>226.8 s</td>
                 </tr>
+                -->
                 <tr>
-                  <td>Ocean loop</td>
+                  <td>Ocean core</td>
                   <td>166.7 s</td>
                   <td>165.4 s</td>
                   <td>179.2 s</td>
