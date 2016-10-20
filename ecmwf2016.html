@@ -167,8 +167,6 @@
 
         <section>
           <h3>Ocean Modelling</h3>
-          <img src="figures/mom/mom5_kds.png" alt="MOM 5 KDS snapshot"
-               style="background: none; border: none; box-shadow: none;">
         </section>
 
         <section>
@@ -1060,87 +1058,68 @@
 
         <section>
           <h3>MOM 5 vectorisation impact</h3>
-            <table class="reveal">
-              <thead>
-                <th class="head">Section</th>
-                <th class="head">Aligned AVX</th>
-                <th class="head">Unaligned AVX</th>
-                <th class="head">Serial</th>
-              </thead>
-              <tbody>
-                <!--
-                <tr>
-                  <td>Runtime</td>
-                  <td>255.8 s</td>
-                  <td>240.9 s</td>
-                  <td>269.8 s</td>
-                </tr>
-                <tr>
-                  <td>Main loop</td>
-                  <td>211.6 s</td>
-                  <td>207.5 s</td>
-                  <td>226.8 s</td>
-                </tr>
-                -->
-                <tr>
-                  <td>Ocean core</td>
-                  <td>166.7 s</td>
-                  <td>165.4 s</td>
-                  <td>179.2 s</td>
-                </tr>
-                <tr>
-                  <td>Tracer update</td>
-                  <td> 37.5 s</td>
-                  <td> 37.2 s</td>
-                  <td> 43.5 s</td>
-                </tr>
-                <tr>
-                  <td>MDPPM</td>
-                  <td> 25.2 s</td>
-                  <td> 25.1 s</td>
-                  <td> 31.4 s</td>
-                </tr>
-                <tr>
-                  <td>Vert. mix</td>
-                  <td> 24.9 s</td>
-                  <td> 24.9 s</td>
-                  <td> 26.5 s</td>
-                </tr>
-                <tr>
-                  <td>Bih. frict.</td>
-                  <td> 16.1 s</td>
-                  <td> 16.0 s</td>
-                  <td> 16.7 s</td>
-                </tr>
-              </tbody>
-            </table>
+          <table class="reveal">
+            <thead>
+              <th class="head">Section</th>
+              <th class="head">Aligned AVX</th>
+              <th class="head">Unaligned AVX</th>
+              <th class="head">Serial</th>
+            </thead>
+            <tbody>
+              <!--
+              <tr>
+                <td>Runtime</td>
+                <td>255.8 s</td>
+                <td>240.9 s</td>
+                <td>269.8 s</td>
+              </tr>
+              <tr>
+                <td>Main loop</td>
+                <td>211.6 s</td>
+                <td>207.5 s</td>
+                <td>226.8 s</td>
+              </tr>
+              -->
+              <tr>
+                <td>Ocean core</td>
+                <td>166.7 s</td>
+                <td>165.4 s</td>
+                <td>179.2 s</td>
+              </tr>
+              <tr>
+                <td>Tracer update</td>
+                <td> 37.5 s</td>
+                <td> 37.2 s</td>
+                <td> 43.5 s</td>
+              </tr>
+              <tr>
+                <td>MDPPM</td>
+                <td> 25.2 s</td>
+                <td> 25.1 s</td>
+                <td> 31.4 s</td>
+              </tr>
+              <tr>
+                <td>Vert. mix</td>
+                <td> 24.9 s</td>
+                <td> 24.9 s</td>
+                <td> 26.5 s</td>
+              </tr>
+              <tr>
+                <td>Bih. frict.</td>
+                <td> 16.1 s</td>
+                <td> 16.0 s</td>
+                <td> 16.7 s</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>Performance is likely bound by RAM speed</p>
         </section>
 
         <section>
-          <h3>Results</h3>
-          <p>TODO: Sum this up better</p>
-          <ul>
-            <li>NEMO
-              <ul>
-                <li>Fastest serial computation</li>
-                <li>Lowest memory usage</li>
-                <li>Severe barotropic scaling constraint</li>
-              </ul>
-            </li>
-            <li>MOM 5
-              <ul>
-                <li>Strong scalability</li>
-                <li>High vectorisation (~90%)</li>
-                <li>Significant barotropic scaling limit</li>
-              </ul>
-            </li>
-            <li>MOM 6
-              <ul>
-                <li>Scaling efficiency loss after 960 CPUs</li>
-                <li>Moderate vectorisation (~65%)</li>
-              </ul>
-            </li>
-          </ul>
+          <h3>High resolution performance</h3>
+          <img src="figures/mom/mom5_kds.png" alt="MOM 5 KDS snapshot"
+               style="background: none; border: none; box-shadow: none;">
+          <div style="font-size: 66%">(Stewart et al. 2016)</div>
         </section>
 
         <section>
@@ -1153,6 +1132,32 @@
           <p>MOM 5, 0.1° subroutines</p>
           <img src="figures/subscale01.svg"
                style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <h3>Summary</h3>
+          <ul>
+            <li>MOM 5, OM 2.5
+              <ul>
+                <li>Strong scalability</li>
+                <li>High vectorisation (~90%), but memory-bounded</li>
+                <li>Significant barotropic scaling limit</li>
+              </ul>
+            </li>
+            <li>NEMO, ORCA 0.25°
+              <ul>
+                <li>Fastest serial computation</li>
+                <li>Lowest memory usage</li>
+                <li>Severe barotropic scaling constraint</li>
+              </ul>
+            </li>
+            <li>MOM 6, OM 4
+              <ul>
+                <li>Moderate efficiency loss after 960 CPUs</li>
+                <li>Moderate vectorisation (~65%)</li>
+              </ul>
+            </li>
+          </ul>
         </section>
 
         <!-- configuration -->
