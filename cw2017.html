@@ -92,6 +92,38 @@
         </section>
 
         <section>
+          <h3>Coupling process</h3>
+          <div style="float: left; width: 33%">
+            <p>UM</p>
+            <ul>
+              <li>Recv. from CICE</li>
+              <li>Update UM</li>
+              <li>Send to CICE</li>
+            </ul>
+          </div>
+          <div style="float: left; width: 33%">
+            <p>CICE</p>
+            <ul>
+              <li>Recv. from MOM</li>
+              <li>Recv. from UM</li>
+              <li>Send to MOM</li>
+              <li>Update CICE</li>
+              <li>Send to UM</li>
+            </ul>
+          </div>
+          <div style="float: left; width: 33%">
+            <p>MOM</p>
+            <ul>
+              <li>Send to CICE</li>
+              <li>Update MOM</li>
+              <li>Recv. from CICE</li>
+            </ul>
+          </div>
+          <p style="clear: both;">
+          </p>
+        </section>
+
+        <section>
           <h3>Model configuration</h3>
           <ul>
             <li>Grid resolutions</li>
@@ -123,17 +155,30 @@
           </section>
 
           <section>
-            <h3>UM scaling</h3>
+            <h3>MOM internal scaling</h3>
             <img src="figures/cm2/update_ocean_model.svg"
                  style="background: none; border: none; box-shadow: none;">
           </section>
         </section>
 
         <section>
-          <h3>Relative coupling times</h3>
-          <ul>
-            <li>Bar plots here</li>
-          </ul>
+          <section>
+            <h3>Atmosphere subroutine scaling</h3>
+            <img src="figures/cm2/atm_barplot.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <h3>Ice subroutine scaling</h3>
+            <img src="figures/cm2/ice_barplot.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <h3>Ocean subroutine scaling</h3>
+            <img src="figures/cm2/ocn_barplot.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
         </section>
 
         <section>
