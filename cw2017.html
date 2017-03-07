@@ -69,67 +69,174 @@
         <!-- Introduction -->
 
         <section>
-          <h3>ACCESS Optimisation Project</h3>
-          <ul>
-            <li>Summarise project w Fujitsu</li>
-            <li>Project highlights</li>
-            <li>Discuss renewal?</li>
+          <h3>NCI Optimization Project</h3>
+          <img src="figures/nci/opt_partners.svg"
+               style="float: left; width: 30%; background: white;"
+               alt="NCI Optimization Project partners">
+
+          <ul style="width: 60%; vertical-align: middle;">
+            <li>ACCESS profiling:
+              <ul>
+                <li>UM</li>
+                <li>MOM</li>
+                <li>CICE</li>
+                <li>ROMS</li>
+                <li>WAVEWATCH</li>
+              </ul>
+            </li>
+            <li>Expansion to new fields
+              <ul>
+                <li>Landsat processing</li>
+                <li>Lattice QCD</li>
+                <li>Magnetotellurgy</li>
+                <li>Bioinformatics</li>
+              </ul>
+            </li>
+            <li>Tools and methodologies</li>
           </ul>
         </section>
 
         <section>
           <h3>ACCESS-CM2</h3>
           <ul>
-            <li>Model overview here</li>
+            <li>Australian Community Climate and Earth System Simulator</li>
+            <li>Submodels
+              <ul>
+                <li>Unified Model (UM) 10.3 (GA7 core)</li>
+                <li>Los Alamos Sea Ice Model (CICE) 5.1</li>
+                <li>Modular Ocean Model (MOM) 5.1</li>
+                <li>OASIS3-MCT 3.0</li>
+              </ul>
+            </li>
+            <li>Contributors
+              <ul>
+                <li>Daohua (Dave) Bi: Lead developer</li>
+                <li>Simon Marsland: Team leader</li>
+                <li>Arnold Sullivan</li>
+                <li>Hailin Yan</li>
+              </ul>
+            </li>
           </ul>
         </section>
 
+        <!--
         <section>
-          <h3>CM2 Coupling layout</h3>
-          <ul>
-            <li>UM <-> CICE <-> MOM</li>
-          </ul>
+          <h3>ACCESS-CM2 performance</h3>
+          <table>
+
+          </table>
+        </section>
+        -->
+
+        <section>
+          <section>
+            <h3>CM2 coupling layout</h3>
+            <p>(Source code order)</p>
+            <div style="float: left; width: 33%">
+              <p>UM</p>
+              <ul>
+                <li>Recv. from CICE</li>
+                <li>Update UM</li>
+                <li>Send to CICE</li>
+              </ul>
+            </div>
+            <div style="float: left; width: 33%">
+              <p>CICE</p>
+              <ul>
+                <li>Recv. from MOM</li>
+                <li>Recv. from UM</li>
+                <li>Send to MOM</li>
+                <li>Update CICE</li>
+                <li>Send to UM</li>
+              </ul>
+            </div>
+            <div style="float: left; width: 33%">
+              <p>MOM</p>
+              <ul>
+                <li>Send to CICE</li>
+                <li>Update MOM</li>
+                <li>Recv. from CICE</li>
+              </ul>
+            </div>
+          </section>
+
+          <section>
+            <h3>CM2 coupling layout</h3>
+            <p>(Scheduling order)</p>
+            <div style="float: left; width: 33%">
+              <p>UM</p>
+              <ul>
+                <li></li>
+                <li>Send to CICE</li>
+                <li></li>
+                <li></li>
+                <li>Recv. from CICE</li>
+                <li>Update UM</li>
+              </ul>
+            </div>
+            <div style="float: left; width: 33%">
+              <p>CICE</p>
+              <ul>
+                <li>Recv. from MOM</li>
+                <li>Recv. from UM</li>
+                <li>Send to MOM</li>
+                <li>Update CICE</li>
+                <li>Send to UM</li>
+              </ul>
+            </div>
+            <div style="float: left; width: 33%">
+              <p>MOM</p>
+              <ul>
+                <li>Send to CICE</li>
+                <li>Update MOM</li>
+                <li>Recv. from CICE</li>
+              </ul>
+            </div>
+          </section>
         </section>
 
         <section>
-          <h3>Coupling process</h3>
+          <h3>Model configuration</h3>
           <div style="float: left; width: 33%">
             <p>UM</p>
             <ul>
-              <li>Recv. from CICE</li>
-              <li>Update UM</li>
-              <li>Send to CICE</li>
+              <li>192 x 144 (1°)</li>
+              <li>85 levels</li>
+              <li>1200 s</li>
             </ul>
           </div>
           <div style="float: left; width: 33%">
             <p>CICE</p>
             <ul>
-              <li>Recv. from MOM</li>
-              <li>Recv. from UM</li>
-              <li>Send to MOM</li>
-              <li>Update CICE</li>
-              <li>Send to UM</li>
+              <li>1440 x 1080 (¼°)</li>
+              <li>5 ice classes</li>
+              <li>450 s</li>
             </ul>
           </div>
           <div style="float: left; width: 33%">
             <p>MOM</p>
             <ul>
-              <li>Send to CICE</li>
-              <li>Update MOM</li>
-              <li>Recv. from CICE</li>
+              <li>1440 x 1080 (¼°)</li>
+              <li>50 levels</li>
+              <li>450 s</li>
             </ul>
           </div>
-          <p style="clear: both;">
-          </p>
-        </section>
-
-        <section>
-          <h3>Model configuration</h3>
-          <ul>
-            <li>Grid resolutions</li>
-            <li>Model and coupling timesteps</li>
-            <li>Field exchanges</li>
-          </ul>
+          <div style="float: left; width: 50%">
+            <p>UM - CICE</p>
+            <ul>
+              <li>UM to CICE: 38
+                <br>(1200 s lag)</li>
+              <li>CICE to UM: 17
+                <br>(450 s lag)</li>
+            </ul>
+          </div>
+          <div style="float: left; width: 50%">
+            <p>CICE - MOM</p>
+            <ul>
+              <li>CICE to MOM: 46</li>
+              <li>MOM to CICE: 9</li>
+            </ul>
+          </div>
         </section>
 
         <section>
@@ -159,38 +266,184 @@
             <img src="figures/cm2/update_ocean_model.svg"
                  style="background: none; border: none; box-shadow: none;">
           </section>
+
+          <section>
+            <h3>MOM internal scaling (MOM-SIS)</h3>
+            <img src="figures/cm2/update_ocean_model_momsis.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+        </section>
+
+        <section>
+          <h3>Internal scaling summary</h3>
+          <table>
+            <tr>
+              <th>Submodel</th>
+              <th>Efficient scaling</th>
+              <th>Runtime</th>
+              <th>~80% scaling</th>
+              <th>Runtime</th>
+            </tr>
+            <tr>
+              <td>UM</td>
+              <td>192</td>
+              <td>95.2 s</td>
+              <td>432</td>
+              <td>62.0 s</td>
+            </tr>
+            <tr>
+              <td>CICE</td>
+              <td>192</td>
+              <td>78.6 s</td>
+              <td>360</td>
+              <td>48.8 s</td>
+            </tr>
+            <tr>
+              <td>MOM</td>
+              <td>960</td>
+              <td>78.0 s</td>
+              <td>3840</td>
+              <td>47.0 s</td>
+            </tr>
+          </table>
         </section>
 
         <section>
           <section>
-            <h3>Atmosphere subroutine scaling</h3>
+            <h3>Atmosphere scaling (Atmosphere)</h3>
+            <img src="figures/cm2/main_um_atm.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <h3>Atmosphere scaling (Ice)</h3>
+            <img src="figures/cm2/main_um_ice.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <h3>Atmosphere scaling (Ocean)</h3>
+            <img src="figures/cm2/main_um_ocn.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h3>Ice scaling (Atmosphere)</h3>
+            <img src="figures/cm2/main_cice_atm.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <h3>Ice scaling (Ice)</h3>
+            <img src="figures/cm2/main_cice_ice.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <h3>Ice scaling (Ocean)</h3>
+            <img src="figures/cm2/main_cice_ocn.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h3>Ocean scaling (Atmosphere)</h3>
+            <img src="figures/cm2/main_mom_atm.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <h3>Ocean scaling (Ice)</h3>
+            <img src="figures/cm2/main_mom_ice.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <h3>Ocean scaling (Ocean)</h3>
+            <img src="figures/cm2/main_mom_ocn.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h3>Atmosphere coupling</h3>
             <img src="figures/cm2/atm_barplot.svg"
                  style="background: none; border: none; box-shadow: none;">
           </section>
 
           <section>
-            <h3>Ice subroutine scaling</h3>
+            <h3>Atmosphere coupling</h3>
+            <img src="figures/cm2/oasis3_geto2a_atm.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <h3>Atmosphere coupling</h3>
+            <img src="figures/cm2/oasis3_geto2a_ice.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <h3>Atmosphere coupling</h3>
+            <img src="figures/cm2/oasis3_geto2a_ocn.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h3>Ice coupling</h3>
             <img src="figures/cm2/ice_barplot.svg"
                  style="background: none; border: none; box-shadow: none;">
           </section>
 
           <section>
-            <h3>Ocean subroutine scaling</h3>
-            <img src="figures/cm2/ocn_barplot.svg"
+            <h3>Ice coupling</h3>
+            <img src="figures/cm2/into_atm_atm.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <h3>Ice coupling</h3>
+            <img src="figures/cm2/into_atm_ice.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <h3>Ice coupling</h3>
+            <img src="figures/cm2/into_atm_ocn.svg"
                  style="background: none; border: none; box-shadow: none;">
           </section>
         </section>
 
         <section>
-          <h3>Atmospheric coupling costs</h3>
-        </section>
+          <section>
+            <h3>Ocean coupling</h3>
+            <img src="figures/cm2/ocn_barplot.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
 
-        <section>
-          <h3>Ice coupling costs</h3>
-        </section>
+          <section>
+            <h3>Ocean coupling</h3>
+            <img src="figures/cm2/main_IP_external_coupler_sbc_after_atm.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
 
-        <section>
-          <h3>Ocean coupling costs</h3>
+          <section>
+            <h3>Ocean coupling</h3>
+            <img src="figures/cm2/main_IP_external_coupler_sbc_after_ice.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <h3>Ocean coupling</h3>
+            <img src="figures/cm2/main_IP_external_coupler_sbc_after_ocn.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
         </section>
 
         <section>
