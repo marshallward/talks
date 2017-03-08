@@ -241,11 +241,8 @@
 
         <section>
           <h3>Profiling with Score-P</h3>
-          <ul>
-            <li>Open sample session</li>
-            <li>Derivatives (Scalasca)</li>
-            <li>cubex python module</li>
-          </ul>
+          <img src="figures/scorep.png"
+               style="background: none; border: none; box-shadow: none;">
         </section>
 
         <section>
@@ -278,11 +275,18 @@
           <h3>Internal scaling summary</h3>
           <table>
             <tr>
-              <th>Submodel</th>
-              <th>Efficient scaling</th>
-              <th>Runtime</th>
-              <th>~80% scaling</th>
-              <th>Runtime</th>
+              <th rowspan="2">Submodel</th>
+              <th colspan="2">High eff.</th>
+              <th colspan="2">80% eff.</th>
+              <th colspan="2">Low eff.</th>
+            </tr>
+            <tr>
+              <th>CPU</th>
+              <th>Time</th>
+              <th>CPU</th>
+              <th>Time</th>
+              <th>CPU</th>
+              <th>Time</th>
             </tr>
             <tr>
               <td>UM</td>
@@ -290,9 +294,13 @@
               <td>95.2 s</td>
               <td>432</td>
               <td>62.0 s</td>
+              <td>768</td>
+              <td>50.7 s</td>
             </tr>
             <tr>
               <td>CICE</td>
+              <td>96</td>
+              <td>151.2 s</td>
               <td>192</td>
               <td>78.6 s</td>
               <td>360</td>
@@ -300,9 +308,11 @@
             </tr>
             <tr>
               <td>MOM</td>
+              <td>480</td>
+              <td>154.7 s</td>
               <td>960</td>
               <td>78.0 s</td>
-              <td>3840</td>
+              <td>1920</td>
               <td>47.0 s</td>
             </tr>
           </table>
