@@ -379,6 +379,33 @@
         </section>
 
         <section>
+          <h3>Main loop scaling summary</h3>
+          <ul>
+            <li>Performance bounded as follows:
+            <table>
+              <tr>
+                <th>Submodel</th>
+                <th>CPUs</th>
+              </tr>
+              <tr>
+                <td>UM</td>
+                <td>192</td>
+              </tr>
+              <tr>
+                <td>CICE</td>
+                <td>192</td>
+              </tr>
+              <tr>
+                <td>UM</td>
+                <td>960</td>
+              </tr>
+            </table>
+            </li>
+            <li>UM showing no speedup from 192 to 432 cores</li>
+          </ul>
+        </section>
+
+        <section>
           <section>
             <h3>Atmosphere coupling</h3>
             <img src="figures/cm2/atm_barplot.svg"
