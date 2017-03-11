@@ -406,6 +406,16 @@
         </section>
 
         <section>
+          <h3>Main loop adjusted runtime</h3>
+          <p>How to extrapolate 1-day runs to longer integration times?</p>
+          <ul>
+            <li>Carefully define initiatisation and main loop subroutines</li>
+            <li>Remove one-time restart file writes from <i>put</i> calls</li>
+            <li>Remove initialisation offset from first <i>get</i> calls</li>
+          </ul>
+        </section>
+
+        <section>
           <section>
             <h3>Atmosphere coupling</h3>
             <img src="figures/cm2/atm_barplot.svg"
@@ -429,6 +439,18 @@
             <img src="figures/cm2/oasis3_geto2a_ocn.svg"
                  style="background: none; border: none; box-shadow: none;">
           </section>
+        </section>
+
+        <section>
+          <h3>Atmosphere coupling summary</h3>
+          <ul>
+            <li>Coupling overhead dominated by <code>oasis3_geto2a</code></li>
+            <li>Runtime dominated by <code>MPI_Waitall</code> from
+              <code>MPI_Irecv</code> calls</li>
+            <li>Coupling increases as UM gets faster, then tapers</li>
+            <li>High coupling as UM waits on slower CICE and MOM
+              configurations</li>
+          </ul>
         </section>
 
         <section>
@@ -458,6 +480,20 @@
         </section>
 
         <section>
+          <h3>Ice coupling summary</h3>
+          <ul>
+            <li>Largest coupling share due to <code>into_atm</code></li>
+            <li>Runtime is fixed at ~15 s regardless of configuration</li>
+            <li>Most of the runtime is due to writing restart files
+            <ul>
+              <li>46 calls (one per field)</li>
+              <li>Two <code>MPI_Bcast</code> calls per field</li>
+            </ul>
+            </li>
+          </ul>
+        </section>
+
+        <section>
           <section>
             <h3>Ocean coupling</h3>
             <img src="figures/cm2/ocn_barplot.svg"
@@ -484,11 +520,24 @@
         </section>
 
         <section>
+          <h3>Ocean coupling summary</h3>
+          <ul>
+            <li>Ocean coupling dominated by <code>from_coupler</code></li>
+            <li>
+          </ul>
+        </section>
+
+        <section>
           <h3>Overall assessment</h3>
         </section>
 
         <section>
           <h3>Further analysis</h3>
+          <ul>
+            <li>Longer runtimes</li>
+            <li>Improved strip of one-time costs</li>
+            <li>Full 3-dimensional CPU config test</li>
+          </ul>
         </section>
 
         <!-- configuration -->
