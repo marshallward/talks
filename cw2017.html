@@ -203,6 +203,7 @@
               <li>192 x 144 (1°)</li>
               <li>85 levels</li>
               <li>1200 s</li>
+              <li>9 steps / exch.</li>
             </ul>
           </div>
           <div style="float: left; width: 33%">
@@ -211,6 +212,7 @@
               <li>1440 x 1080 (¼°)</li>
               <li>5 ice classes</li>
               <li>450 s</li>
+              <li>24 steps / exch.</li>
             </ul>
           </div>
           <div style="float: left; width: 33%">
@@ -219,6 +221,7 @@
               <li>1440 x 1080 (¼°)</li>
               <li>50 levels</li>
               <li>450 s</li>
+              <li>24 steps / exch.</li>
             </ul>
           </div>
           <div style="float: left; width: 50%">
@@ -319,6 +322,16 @@
         </section>
 
         <section>
+          <h3>Main loop adjusted runtime</h3>
+          <p>How to extrapolate 1-day runs to longer integration times?</p>
+          <ul>
+            <li>Carefully define initiatisation and main loop subroutines</li>
+            <li>Remove one-time restart file writes from <i>put</i> calls</li>
+            <li>Remove initialisation offset from first <i>get</i> calls</li>
+          </ul>
+        </section>
+
+        <section>
           <section>
             <h3>Atmosphere scaling (Atmosphere)</h3>
             <img src="figures/cm2/main_um_atm.svg"
@@ -381,37 +394,9 @@
         <section>
           <h3>Main loop scaling summary</h3>
           <ul>
-            <li>Performance bounded as follows:
-            <table>
-              <tr>
-                <th>Submodel</th>
-                <th>CPUs</th>
-              </tr>
-              <tr>
-                <td>UM</td>
-                <td>192</td>
-              </tr>
-              <tr>
-                <td>CICE</td>
-                <td>192</td>
-              </tr>
-              <tr>
-                <td>UM</td>
-                <td>960</td>
-              </tr>
-            </table>
-            </li>
-            <li>UM showing no speedup from 192 to 432 cores</li>
-          </ul>
-        </section>
-
-        <section>
-          <h3>Main loop adjusted runtime</h3>
-          <p>How to extrapolate 1-day runs to longer integration times?</p>
-          <ul>
-            <li>Carefully define initiatisation and main loop subroutines</li>
-            <li>Remove one-time restart file writes from <i>put</i> calls</li>
-            <li>Remove initialisation offset from first <i>get</i> calls</li>
+            <li>TODO</li>
+            <li>~85 second runtime</li>
+            <li>~10-20% overhead</li>
           </ul>
         </section>
 
@@ -444,12 +429,10 @@
         <section>
           <h3>Atmosphere coupling summary</h3>
           <ul>
+            <li>TODO</li>
             <li>Coupling overhead dominated by <code>oasis3_geto2a</code></li>
             <li>Runtime dominated by <code>MPI_Waitall</code> from
               <code>MPI_Irecv</code> calls</li>
-            <li>Coupling increases as UM gets faster, then tapers</li>
-            <li>High coupling as UM waits on slower CICE and MOM
-              configurations</li>
           </ul>
         </section>
 
@@ -462,19 +445,37 @@
 
           <section>
             <h3>Ice coupling</h3>
-            <img src="figures/cm2/into_atm_atm.svg"
+            <img src="figures/cm2/from_atm_atm.svg"
                  style="background: none; border: none; box-shadow: none;">
           </section>
 
           <section>
             <h3>Ice coupling</h3>
-            <img src="figures/cm2/into_atm_ice.svg"
+            <img src="figures/cm2/from_atm_ice.svg"
                  style="background: none; border: none; box-shadow: none;">
           </section>
 
           <section>
             <h3>Ice coupling</h3>
-            <img src="figures/cm2/into_atm_ocn.svg"
+            <img src="figures/cm2/from_atm_ocn.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <h3>Ice coupling</h3>
+            <img src="figures/cm2/from_ocn_atm.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <h3>Ice coupling</h3>
+            <img src="figures/cm2/from_ocn_ice.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <h3>Ice coupling</h3>
+            <img src="figures/cm2/from_ocn_ocn.svg"
                  style="background: none; border: none; box-shadow: none;">
           </section>
         </section>
