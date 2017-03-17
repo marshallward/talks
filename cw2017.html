@@ -227,17 +227,16 @@
           <div style="float: left; width: 50%">
             <p>UM - CICE</p>
             <ul>
-              <li>UM to CICE: 38
-                <br>(1200 s lag)</li>
-              <li>CICE to UM: 17
-                <br>(450 s lag)</li>
+              <li>UM to CICE: 38 fields</li>
+              <li>CICE to UM: 17 fields</li>
+              <li>1-step lag</li>
             </ul>
           </div>
           <div style="float: left; width: 50%">
             <p>CICE - MOM</p>
             <ul>
-              <li>CICE to MOM: 46</li>
-              <li>MOM to CICE: 9</li>
+              <li>CICE to MOM: 46 fields</li>
+              <li>MOM to CICE: 9 fields</li>
             </ul>
           </div>
         </section>
@@ -326,8 +325,8 @@
           <p>How to extrapolate 1-day runs to longer integration times?</p>
           <ul>
             <li>Carefully define initiatisation and main loop subroutines</li>
-            <li>Remove one-time restart file writes from <i>put</i> calls</li>
             <li>Remove initialisation offset from first <i>get</i> calls</li>
+            <li>Remove restart file writes from <i>put</i> calls</li>
           </ul>
         </section>
 
@@ -393,11 +392,29 @@
 
         <section>
           <h3>Main loop scaling summary</h3>
-          <ul>
-            <li>TODO</li>
-            <li>~85 second runtime</li>
-            <li>~10-20% overhead</li>
-          </ul>
+          <p>Runtime approaches ~85 seconds</p>
+          <table>
+            <tr>
+              <th>Submodel</th>
+              <th>Min. CPU</th>
+              <th>Overhead</th>
+            </tr>
+            <tr>
+              <td>UM</td>
+              <td>288</td>
+              <td>27%</td>
+            </tr>
+            <tr>
+              <td>CICE</td>
+              <td>192</td>
+              <td>8%</td>
+            </tr>
+            <tr>
+              <td>MOM</td>
+              <td>960</td>
+              <td>8%</td>
+            </tr>
+          </table>
         </section>
 
         <section>
