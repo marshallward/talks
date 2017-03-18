@@ -332,60 +332,20 @@
 
         <section>
           <section>
-            <h3>Atmosphere scaling (Atmosphere)</h3>
-            <img src="figures/cm2/main_um_atm.svg"
+            <h3>Atmosphere scaling</h3>
+            <img src="figures/cm2/atm_main_um.svg"
                  style="background: none; border: none; box-shadow: none;">
           </section>
 
           <section>
-            <h3>Atmosphere scaling (Ice)</h3>
-            <img src="figures/cm2/main_um_ice.svg"
+            <h3>Ice scaling</h3>
+            <img src="figures/cm2/ice_main_cice.svg"
                  style="background: none; border: none; box-shadow: none;">
           </section>
 
           <section>
-            <h3>Atmosphere scaling (Ocean)</h3>
-            <img src="figures/cm2/main_um_ocn.svg"
-                 style="background: none; border: none; box-shadow: none;">
-          </section>
-        </section>
-
-        <section>
-          <section>
-            <h3>Ice scaling (Atmosphere)</h3>
-            <img src="figures/cm2/main_cice_atm.svg"
-                 style="background: none; border: none; box-shadow: none;">
-          </section>
-
-          <section>
-            <h3>Ice scaling (Ice)</h3>
-            <img src="figures/cm2/main_cice_ice.svg"
-                 style="background: none; border: none; box-shadow: none;">
-          </section>
-
-          <section>
-            <h3>Ice scaling (Ocean)</h3>
-            <img src="figures/cm2/main_cice_ocn.svg"
-                 style="background: none; border: none; box-shadow: none;">
-          </section>
-        </section>
-
-        <section>
-          <section>
-            <h3>Ocean scaling (Atmosphere)</h3>
-            <img src="figures/cm2/main_mom_atm.svg"
-                 style="background: none; border: none; box-shadow: none;">
-          </section>
-
-          <section>
-            <h3>Ocean scaling (Ice)</h3>
-            <img src="figures/cm2/main_mom_ice.svg"
-                 style="background: none; border: none; box-shadow: none;">
-          </section>
-
-          <section>
-            <h3>Ocean scaling (Ocean)</h3>
-            <img src="figures/cm2/main_mom_ocn.svg"
+            <h3>Ocean scaling</h3>
+            <img src="figures/cm2/ocn_main_mom.svg"
                  style="background: none; border: none; box-shadow: none;">
           </section>
         </section>
@@ -425,20 +385,14 @@
           </section>
 
           <section>
-            <h3>Atmosphere coupling</h3>
-            <img src="figures/cm2/oasis3_geto2a_atm.svg"
+            <h3>UM: Recieve from CICE</h3>
+            <img src="figures/cm2/atm_oasis3_geto2a.svg"
                  style="background: none; border: none; box-shadow: none;">
           </section>
 
           <section>
-            <h3>Atmosphere coupling</h3>
-            <img src="figures/cm2/oasis3_geto2a_ice.svg"
-                 style="background: none; border: none; box-shadow: none;">
-          </section>
-
-          <section>
-            <h3>Atmosphere coupling</h3>
-            <img src="figures/cm2/oasis3_geto2a_ocn.svg"
+            <h3>UM: Send to CICE</h3>
+            <img src="figures/cm2/atm_oasis3_puta2o.svg"
                  style="background: none; border: none; box-shadow: none;">
           </section>
         </section>
@@ -461,38 +415,26 @@
           </section>
 
           <section>
-            <h3>Ice coupling</h3>
-            <img src="figures/cm2/from_atm_atm.svg"
+            <h3>CICE: Receive from UM</h3>
+            <img src="figures/cm2/ice_from_atm.svg"
                  style="background: none; border: none; box-shadow: none;">
           </section>
 
           <section>
-            <h3>Ice coupling</h3>
-            <img src="figures/cm2/from_atm_ice.svg"
+            <h3>CICE: Receive from MOM</h3>
+            <img src="figures/cm2/ice_from_ocn.svg"
                  style="background: none; border: none; box-shadow: none;">
           </section>
 
           <section>
-            <h3>Ice coupling</h3>
-            <img src="figures/cm2/from_atm_ocn.svg"
+            <h3>CICE: Send to UM</h3>
+            <img src="figures/cm2/ice_into_atm.svg"
                  style="background: none; border: none; box-shadow: none;">
           </section>
 
           <section>
-            <h3>Ice coupling</h3>
-            <img src="figures/cm2/from_ocn_atm.svg"
-                 style="background: none; border: none; box-shadow: none;">
-          </section>
-
-          <section>
-            <h3>Ice coupling</h3>
-            <img src="figures/cm2/from_ocn_ice.svg"
-                 style="background: none; border: none; box-shadow: none;">
-          </section>
-
-          <section>
-            <h3>Ice coupling</h3>
-            <img src="figures/cm2/from_ocn_ocn.svg"
+            <h3>CICE: Send to MOM</h3>
+            <img src="figures/cm2/ice_into_ocn.svg"
                  style="background: none; border: none; box-shadow: none;">
           </section>
         </section>
@@ -500,14 +442,11 @@
         <section>
           <h3>Ice coupling summary</h3>
           <ul>
-            <li>Largest coupling share due to <code>into_atm</code></li>
-            <li>Runtime is fixed at ~15 s regardless of configuration</li>
-            <li>Most of the runtime is due to writing restart files
-            <ul>
-              <li>46 calls (one per field)</li>
-              <li>Two <code>MPI_Bcast</code> calls per field</li>
-            </ul>
-            </li>
+            <li>10-100 sec wait on UM below 192 cores</li>
+            <li>&nblt;1 sec wait on UM after 288 cores</li>
+            <li>~10 second wait on MOM for slow MOM/fast CICE</li>
+            <li>~100 second wait on MOM for fast MOM/slow CICE</li>
+            <li>~1 second coupling send costs</li>
           </ul>
         </section>
 
@@ -519,20 +458,14 @@
           </section>
 
           <section>
-            <h3>Ocean coupling</h3>
-            <img src="figures/cm2/main_IP_external_coupler_sbc_after_atm.svg"
+            <h3>MOM: Recieve from CICE</h3>
+            <img src="figures/cm2/ocn_main_IP_external_coupler_sbc_after.svg"
                  style="background: none; border: none; box-shadow: none;">
           </section>
 
           <section>
-            <h3>Ocean coupling</h3>
-            <img src="figures/cm2/main_IP_external_coupler_sbc_after_ice.svg"
-                 style="background: none; border: none; box-shadow: none;">
-          </section>
-
-          <section>
-            <h3>Ocean coupling</h3>
-            <img src="figures/cm2/main_IP_external_coupler_sbc_after_ocn.svg"
+            <h3>MOM: Send to CICE</h3>
+            <img src="figures/cm2/ocn_main_IP_external_coupler_sbc_before.svg"
                  style="background: none; border: none; box-shadow: none;">
           </section>
         </section>
