@@ -400,10 +400,13 @@
         <section>
           <h3>Atmosphere coupling summary</h3>
           <ul>
-            <li>TODO</li>
-            <li>Coupling overhead dominated by <code>oasis3_geto2a</code></li>
-            <li>Runtime dominated by <code>MPI_Waitall</code> from
-              <code>MPI_Irecv</code> calls</li>
+            <li>Minimum 10% overhead for slowest UM jobs</li>
+            <li>Increasing trend reversal after 192 cores</li>
+            <li>Larger (~30%) costs for larger, scalable UM configs</li>
+            <li>Slower CICE and MOM configs increase UM wait times</li>
+            <li>~3.5 second send time to CICE after 192 cores</li>
+            <li>Negligible send time below 192 cores</li>
+            <li>Weak send dependence on CICE (and MOM) grid</li>
           </ul>
         </section>
 
@@ -442,10 +445,10 @@
         <section>
           <h3>Ice coupling summary</h3>
           <ul>
-            <li>10-100 sec wait on UM below 192 cores</li>
-            <li>&nblt;1 sec wait on UM after 288 cores</li>
-            <li>~10 second wait on MOM for slow MOM/fast CICE</li>
-            <li>~100 second wait on MOM for fast MOM/slow CICE</li>
+            <li>Rapid drop in wait on UM (from 100 to &lt;1 sec) at 192
+              cores</li>
+            <li>Fixed (~10 sec) wait on MOM</li>
+            <li>Higher (~100 sec) wait for fast MOM/slow CICE</li>
             <li>~1 second coupling send costs</li>
           </ul>
         </section>
@@ -473,13 +476,21 @@
         <section>
           <h3>Ocean coupling summary</h3>
           <ul>
-            <li>Ocean coupling dominated by <code>from_coupler</code></li>
-            <li>
+            <li>Minimum 10% overhead</li>
+            <li></li>
+            <li>Neglibile send cost to CICE</li>
           </ul>
         </section>
 
         <section>
           <h3>Overall assessment</h3>
+          <ul>
+            <li>UM scales weakly compared to MOM and CICE</li>
+            <li>Significantly worse UM scaling with coupling</li>
+            <li>MOM and CICE mostly waiting on UM</li>
+            <li>Realisitc CICE/MOM timesteps (1800 sec) will exacerbate scaling
+              issues</li>
+          </ul>
         </section>
 
         <section>
