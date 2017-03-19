@@ -461,7 +461,7 @@
           </section>
 
           <section>
-            <h3>MOM: Recieve from CICE</h3>
+            <h3>MOM: Receive from CICE</h3>
             <img src="figures/cm2/ocn_main_IP_external_coupler_sbc_after.svg"
                  style="background: none; border: none; box-shadow: none;">
           </section>
@@ -477,7 +477,7 @@
           <h3>Ocean coupling summary</h3>
           <ul>
             <li>Minimum 10% overhead</li>
-            <li></li>
+            <li>Fixed ~10 sec wait time on faster CICE and UM configs</li>
             <li>Neglibile send cost to CICE</li>
           </ul>
         </section>
@@ -488,16 +488,17 @@
             <li>UM scales weakly compared to MOM and CICE</li>
             <li>Significantly worse UM scaling with coupling</li>
             <li>MOM and CICE mostly waiting on UM</li>
-            <li>Realisitc CICE/MOM timesteps (1800 sec) will exacerbate scaling
-              issues</li>
+            <li>Realistic CICE/MOM timesteps (1800 sec) will exacerbate any UM
+              scaling issues</li>
           </ul>
         </section>
 
         <section>
           <h3>Further analysis</h3>
           <ul>
-            <li>Longer runtimes</li>
-            <li>Improved strip of one-time costs</li>
+            <li>We have a strong framework for gathering results...</li>
+            <li>... but timing analysis needs improvement</li>
+            <li>Longer runtimes for better climate forecasts</li>
             <li>Full 3-dimensional CPU config test</li>
           </ul>
         </section>
