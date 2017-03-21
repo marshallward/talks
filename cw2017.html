@@ -503,33 +503,42 @@
           </ul>
         </section>
 
-        <!--
         <section>
-          <h3>Bandwidth analysis</h3>
+          <h3>Bandwidth Cost</h3>
           <table>
             <tr>
               <th>Submodel</th>
-              <th>Bytes / msg.</th>
-              <th>Bytes / sec.</th>
-              <th>OSU peak</th>
+              <th>Bytes/msg</th>
+              <th>OSU (MB/sec)</th>
+              <th>Time (sec)</th>
             </tr>
             <tr>
               <td>CICE → UM</td>
               <td>88</td>
-              <td>0.004</td>
+              <td>~150</td>
+              <td>0.001</td>
             </tr>
             <tr>
               <td>UM → CICE</td>
+              <td>300</td>
+              <td>~350</td>
+              <td>0.05</td>
             </tr>
             <tr>
               <td>MOM → CICE</td>
+              <td>4320</td>
+              <td>~1000</td>
+              <td>0.1</td>
             </tr>
             <tr>
               <td>CICE → MOM</td>
+              <td>4320</td>
+              <td>~1000</td>
+              <td>0.04</td>
             </tr>
           </table>
+          <p>Transfer time is unlikely to have impact</p>
         </section>
-        -->
 
         <section>
           <h3>Overall assessment</h3>
