@@ -75,31 +75,37 @@
                alt="NCI Optimization Project partners">
 
           <ul style="width: 60%; vertical-align: middle;">
-            <li>ACCESS profiling:
+            <li>Performance analysis
               <ul>
-                <li>UM</li>
-                <li>MOM</li>
-                <li>CICE</li>
-                <li>ROMS</li>
+                <li>ACCESS model suite</li>
+                <li>Geosciences (e.g. Landsat)</li>
+                <li>Lattice QCD, Bioinformatics, ...</li>
+              </ul>
+            </li>
+
+            <li>Parallel MPI-IO implementations:
+              <ul>
+                <li>Unified Model</li>
                 <li>WAVEWATCH</li>
+                <li>MOM (<i>ongoing</i>)</li>
               </ul>
             </li>
-            <li>Expansion to new fields
+
+            <li>Tools and methodologies
               <ul>
-                <li>Landsat processing</li>
-                <li>Lattice QCD</li>
-                <li>Magnetotellurgy</li>
-                <li>Bioinformatics</li>
+                <li>HDF5 and Lustre deep-dive</li>
+                <li>Peak performance via Roofline</li>
+                <li>cubex, nchook</li>
               </ul>
             </li>
-            <li>Tools and methodologies</li>
           </ul>
         </section>
 
         <section>
           <h3>ACCESS-CM2</h3>
           <ul>
-            <li>Australian Community Climate and Earth System Simulator</li>
+            <li>Australian Community Climate and
+              <br>Earth System Simulator</li>
             <li>Submodels
               <ul>
                 <li>Unified Model (UM) 10.3 (GA7 core)</li>
@@ -114,19 +120,11 @@
                 <li>Simon Marsland: Team leader</li>
                 <li>Arnold Sullivan</li>
                 <li>Hailin Yan</li>
+                <li>... and many others</li>
               </ul>
             </li>
           </ul>
         </section>
-
-        <!--
-        <section>
-          <h3>ACCESS-CM2 performance</h3>
-          <table>
-
-          </table>
-        </section>
-        -->
 
         <section>
           <section>
@@ -211,8 +209,8 @@
             <ul>
               <li>1440 x 1080 (¼°)</li>
               <li>5 ice classes</li>
-              <li>450 s</li>
-              <li>24 steps / exch.</li>
+              <li><i>450 s</i></li>
+              <li>1 step / exch.</li>
             </ul>
           </div>
           <div style="float: left; width: 33%">
@@ -220,31 +218,41 @@
             <ul>
               <li>1440 x 1080 (¼°)</li>
               <li>50 levels</li>
-              <li>450 s</li>
-              <li>24 steps / exch.</li>
+              <li><i>450 s</i></li>
+              <li>1 step / exch.</li>
             </ul>
           </div>
           <div style="float: left; width: 50%">
             <p>UM - CICE</p>
             <ul>
               <li>UM to CICE: 38 fields</li>
-              <li>CICE to UM: 17 fields</li>
+              <li>CICE to UM: 46 fields</li>
               <li>1-step lag</li>
             </ul>
           </div>
           <div style="float: left; width: 50%">
             <p>CICE - MOM</p>
             <ul>
-              <li>CICE to MOM: 46 fields</li>
+              <li>CICE to MOM: 17 fields</li>
               <li>MOM to CICE: 9 fields</li>
             </ul>
           </div>
+          <p style="clear: both;">Development release</p>
         </section>
 
         <section>
           <h3>Profiling with Score-P</h3>
           <img src="figures/scorep.png"
                style="background: none; border: none; box-shadow: none;">
+          <ul>
+            <li>Integrated call-tree profiling</li>
+            <li>Postprocessing with
+              <a href="https://github.com/marshallward/cubex">cubex</a></li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Internal model scaling</h3>
         </section>
 
         <section>
@@ -277,9 +285,9 @@
           <h3>Internal scaling summary</h3>
           <table>
             <tr>
-              <th rowspan="2">Submodel</th>
+              <th rowspan="2"><br>Submodel</th>
               <th colspan="2">High eff.</th>
-              <th colspan="2">80% eff.</th>
+              <th colspan="2">Ref. state</th>
               <th colspan="2">Low eff.</th>
             </tr>
             <tr>
@@ -324,8 +332,8 @@
           <h3>Main loop adjusted runtime</h3>
           <p>How to extrapolate 1-day runs to longer integration times?</p>
           <ul>
-            <li>Carefully define initiatisation and main loop subroutines</li>
-            <li>Remove initialisation offset from first <i>get</i> calls</li>
+            <li>Gather initiatization and main loop subroutines</li>
+            <li>Remove initialization offset from first <i>get</i> calls</li>
             <li>Remove restart file writes from <i>put</i> calls</li>
           </ul>
         </section>
@@ -352,29 +360,35 @@
 
         <section>
           <h3>Main loop scaling summary</h3>
-          <p>Runtime approaches ~85 seconds</p>
-          <table>
-            <tr>
-              <th>Submodel</th>
-              <th>Min. CPU</th>
-              <th>Overhead</th>
-            </tr>
-            <tr>
-              <td>UM</td>
-              <td>288</td>
-              <td>27%</td>
-            </tr>
-            <tr>
-              <td>CICE</td>
-              <td>192</td>
-              <td>8%</td>
-            </tr>
-            <tr>
-              <td>MOM</td>
-              <td>960</td>
-              <td>8%</td>
-            </tr>
-          </table>
+          <ul>
+            <li>Runtime approaches ~85 seconds</li>
+            <li>Significant UM overhead
+              <table>
+                <tr>
+                  <th>Submodel</th>
+                  <th>Min. CPU</th>
+                  <th>Overhead</th>
+                </tr>
+                <tr>
+                  <td>UM</td>
+                  <td>288</td>
+                  <td>27%</td>
+                </tr>
+                <tr>
+                  <td>CICE</td>
+                  <td>192</td>
+                  <td>8%</td>
+                </tr>
+                <tr>
+                  <td>MOM</td>
+                  <td>960</td>
+                  <td>8%</td>
+                </tr>
+              </table>
+            </li>
+            <li>Hard CICE and MOM shift due to load imbalance</li>
+            <li>Coupling reduces UM scaling performance</li>
+          </ul>
         </section>
 
         <section>
@@ -401,12 +415,20 @@
           <h3>Atmosphere coupling summary</h3>
           <ul>
             <li>Minimum 10% overhead for slowest UM jobs</li>
-            <li>Increasing trend reversal after 192 cores</li>
-            <li>Larger (~30%) costs for larger, scalable UM configs</li>
-            <li>Slower CICE and MOM configs increase UM wait times</li>
-            <li>~3.5 second send time to CICE after 192 cores</li>
-            <li>Negligible send time below 192 cores</li>
-            <li>Weak send dependence on CICE (and MOM) grid</li>
+            <li>Receives
+              <ul>
+                <li>Trend reversal after 192 cores</li>
+                <li>Larger (~30%) costs for larger, scalable UM configs</li>
+                <li>Slower CICE and MOM configs increase UM wait times</li>
+              </ul>
+            </li>
+            <li>Sends
+              <ul>
+                <li>~3.5 second send time to CICE after 192 cores</li>
+                <li>Negligible send time below 192 cores</li>
+                <li>Weak send dependence on CICE (and MOM) grid</li>
+              </ul>
+            </li>
           </ul>
         </section>
 
@@ -445,8 +467,7 @@
         <section>
           <h3>Ice coupling summary</h3>
           <ul>
-            <li>Rapid drop in wait on UM (from 100 to &lt;1 sec) at 192
-              cores</li>
+            <li>Abrupt drop in UM wait time (100 → 1 sec) at 192 cores</li>
             <li>Fixed (~10 sec) wait on MOM</li>
             <li>Higher (~100 sec) wait for fast MOM/slow CICE</li>
             <li>~1 second coupling send costs</li>
@@ -482,24 +503,53 @@
           </ul>
         </section>
 
+        <!--
+        <section>
+          <h3>Bandwidth analysis</h3>
+          <table>
+            <tr>
+              <th>Submodel</th>
+              <th>Bytes / msg.</th>
+              <th>Bytes / sec.</th>
+              <th>OSU peak</th>
+            </tr>
+            <tr>
+              <td>CICE → UM</td>
+              <td>88</td>
+              <td>0.004</td>
+            </tr>
+            <tr>
+              <td>UM → CICE</td>
+            </tr>
+            <tr>
+              <td>MOM → CICE</td>
+            </tr>
+            <tr>
+              <td>CICE → MOM</td>
+            </tr>
+          </table>
+        </section>
+        -->
+
         <section>
           <h3>Overall assessment</h3>
           <ul>
-            <li>UM scales weakly compared to MOM and CICE</li>
+            <li>UM scaling limits MOM and CICE performanace</li>
             <li>Significantly worse UM scaling with coupling</li>
             <li>MOM and CICE mostly waiting on UM</li>
-            <li>Realistic CICE/MOM timesteps (1800 sec) will exacerbate any UM
-              scaling issues</li>
+            <li>Minimum 10% overhead in UM and MOM, but not CICE</li>
           </ul>
         </section>
 
         <section>
-          <h3>Further analysis</h3>
+          <h3>Future analysis</h3>
           <ul>
             <li>We have a strong framework for gathering results...</li>
             <li>... but timing analysis needs improvement</li>
             <li>Longer runtimes for better climate forecasts</li>
             <li>Full 3-dimensional CPU config test</li>
+            <li>Realistic CICE/MOM timesteps (1800 sec) will exacerbate UM
+              scaling issues</li>
           </ul>
         </section>
 
