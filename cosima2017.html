@@ -66,6 +66,48 @@
         <!-- content -->
 
         <section>
+          <h3>What is Peak Performance?</h3>
+          <p>
+            $$R_\text{peak} = N_\text{CPU} \times \left( f \times N_\text{SIMD}
+                              \times N_\text{vec} \right)$$
+          </p>
+          <ul>
+            <li>$N_\text{CPU}$ : Number of CPU cores</li>
+            <li>$f$ : CPU frequency (cycles per second)</li>
+            <li>$N_\text{vec}$ : FLOPs per instruction
+            <li>$N_\text{ins}$ : Instructions per cycle</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Dennard scaling breakdown</h3>
+          <img src="figures/computing/clockspeed.svg"
+                  style="width:45%; float: left"
+                  alt="CPU Clock speed vs Time">
+          <ul style="width: 50%">
+            <li>$P \propto f$ (physics)</li>
+            <li>$P \propto A$ (Dennard)</li>
+            <li>Lower $A$, raise $f$
+            <li>$P$ stays constant...</li>
+            <li>... until $P \gg A$</li>
+          </ul>
+          <div style="clear: both;">
+            <p style="font-size:20px">
+            From <a href="http://cpudb.stanford.edu/">CPU DB</a><br>
+            (Andrew Danowitz, Kyle Kelley, James Mao, John P. Stevenson, and Mark Horowitz. 2012. CPU DB: recording microprocessor history. Commun. ACM 55, 4 (April 2012), 55-63.)
+            </p>
+          </div>
+        </section>
+
+        <section>
+          <h3>Supercomputer $R_\text{peak}$</h3>
+          <p><img src="figures/computing/top500_rpeak_crop.png"
+                  style="width:50%"></p>
+          <p><a href="http://top500.org/statistics/perfdevel/">http://top500.org/statistics/perfdevel/</a>
+          </p>
+        </section>
+
+        <section>
           <p>MOM 5 vectorisation<p>
           <table class="reveal">
             <thead>
