@@ -11,8 +11,7 @@
     <meta name="author" content="Marshall Ward">
 
     <link rel="stylesheet" href="css/reveal.css">
-    <link rel="stylesheet" href="css/theme/black.css" id="theme">
-    <!--<link rel="stylesheet" href="lib/css/solarized_dark.css"> -->
+    <link rel="stylesheet" href="css/theme/sky.css" id="theme">
 
     <!-- Code syntax highlighting -->
     <link rel="stylesheet" href="lib/css/zenburn.css">
@@ -28,13 +27,7 @@
     </script>
   </head>
   <body>
-    <div class="reveal"
-         style="background: url(figures/nci/bg_nci.png);
-                background-size: cover;">
-
-      <header style="width: 10%; position: absolute; top: 2%; left: 2%;">
-        <img src="figures/nci/nci_logo_small.png">
-      </header>
+    <div class="reveal">
 
       <footer style="font-size: 1pc; position: absolute; bottom: 2%; left: 2%;">
         <code>http://marshallward.org/talks/cosima2017twg.html</code>
@@ -45,14 +38,7 @@
         <!-- title -->
 
         <section>
-          <div class="reveal" style="text-align: right;">
-            <img src="figures/nci/nci_logo.png"
-                 style="background: none; border: none; box-shadow: none;
-                 width: 30%"
-                 alt="NCI">
-          </div>
-
-          <h3 style="text-align: left; color: white;">
+          <h3 style="text-align: left;">
             COSIMA Technical Working Group (TWG) Update
           </h3>
 
@@ -78,39 +64,54 @@
         <section>
           <h3>Members</h3>
           <div style="float: left;">
-            <p style="font-weight: bold; color: gold">ANU</p>
+            <p style="font-weight: bold;">ANU</p>
             <ul>
               <li>Aidan Heerdegen</li>
             </ul>
             <hr>
-            <p style="font-weight: bold; color: gold">Bureu of Meteorology
+            <p style="font-weight: bold;">Bureau of Meteorology</p>
             <ul>
               <li>Justin Freeman</li>
               <li>Mirko Velic</li>
             </ul>
             <hr>
-            <p style="font-weight: bold; color: gold">CSIRO Aspendale</p>
+            <p style="font-weight: bold;">CSIRO Aspendale</p>
             <ul>
               <li>Peter Dobrohotoff</li>
             </ul>
           </div>
           <div style="float: right;">
-            <p style="font-weight: bold; color: gold">CSIRO Hobart</p>
+            <p style="font-weight: bold;">CSIRO Hobart</p>
             <ul>
               <li>Matt Chamberlain</li>
               <li>Russ Fiedler</li>
             </ul>
             <hr>
-            <p style="font-weight: bold; color: gold">Double Precision</p>
+            <p style="font-weight: bold;">Double Precision</p>
             <ul>
               <li>Nicholas Hannah</li>
             </ul>
             <hr>
-            <p style="font-weight: bold; color: gold">NCI</p>
+            <p style="font-weight: bold;">NCI</p>
             <ul>
               <li>Marshall Ward</li>
             </ul>
           </div>
+        </section>
+
+        <section>
+          <h3>Collaboration Platform</h3>
+          <a href="https://github.com/OceansAus">
+            <img src="figures/cosima/oceansaus.jpg"
+               style="background:none; border:none; box-shadow:none;
+                      float: left; width: 40%">
+          </a>
+          <ul style="width: 55%">
+            <li><b>OceansAus</b> at github</li>
+            <li><b>cosima-cookbook</b>: postprocessing collaboration</li>
+            <li><b>runoff_regrid</b></li>
+            <li>Common MATM and CICE repos</li>
+          </ul>
         </section>
 
         <section>
@@ -121,35 +122,32 @@
           <ul style="width: 50%">
             <li>Migration of MOM5 to <code>mom-ocean</code> account</li>
             <li>Establishment of <code>OceansAus</code> for COSIMA</li>
-            <li>Common MATM and CICE repos</li>
             <li>0.25° and 0.1° ACCESS-OM configurations</li>
           </ul>
         </section>
 
         <section>
-          <h3>KDS75 vertical grid support</h3>
-          <img src="figures/cosima/kds75.jpg"
-               style="background:none; border:none; box-shadow:none;
-                      float: left;">
-          <ul style="width: 50%">
-            <li>Vertical grid update</li>
-            <li>Topography update</li>
-            <li>Scaling verification</li>
-            <li>(Clean this up)</li>
-          </ul>
+          <h3>ACCESS-OM2 Science Update</h3>
+          <div style="width: 40%; float: left">
+            <img src="figures/cosima/kds75.jpg"
+                 style="background:none; border:none; box-shadow:none;">
+          </div>
+          <div style="width: 55%; float: right">
+            <img src="figures/cosima/JRA55_harerun.png"
+                 style="background:none; border:none; box-shadow:none;">
+            <ul>
+              <li>75-level (KDS75) vertical grid</li>
+              <li>JRA-55 forcing</li>
+              <li>MATM integration</li>
+            </ul>
+          </div>
         </section>
 
         <section>
-          <h3>JRA-55 forcing</h3>
-          <img src="figures/cosima/JRA55_harerun.png"
-               style="background:none; border:none; box-shadow:none;
-                      float: left;">
-          <ul style="width: 50%">
-            <li>0.5° resolution (4x CORE)</li>
-            <li>3 hr sampling (2x CORE)</li>
-            <li>Available on NCI</li>
-            <li>MATM support</li>
-            <li>MOM support <i>(in progress)</i></li>
+          <h3>ACCESS-OM2 Infrastructure Update</h3>
+          <ul>
+            <li>CMake build support (MOM)</li>
+            <li>Runtime support (payu)</li>
           </ul>
         </section>
 
