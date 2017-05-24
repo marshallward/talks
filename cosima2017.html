@@ -124,7 +124,7 @@
         </section>
 
         <section>
-          <h3>Peak performance on Raijin</h3>
+          <h3>Peak (SP) performance on Raijin</h3>
           <table class="reveal">
             <thead>
               <th class="head">Cores</th>
@@ -159,6 +159,9 @@
               </tr>
             </tbody>
           </table>
+          <ul>
+            <li>Subject to # of cores, AVX slowdown, and temperature</li>
+            <li>Double precision is half (~12 GFLOP/sec)</li>
         </section>
 
         <section>
@@ -255,6 +258,7 @@
 
         <section>
           <h3>Test code block</h3>
+          <p>Simple evaluation in biharmonic solver</p>
           <pre><code class="fortran" data-trim>
 do k=1,nk
   do j=jsd,jed
@@ -265,6 +269,7 @@ do k=1,nk
   enddo
 enddo
           </code></pre>
+          <p>"Roofline analysis" predicts peak (12 GFLOP/sec)</p>
         </section>
 
         <section>
@@ -335,7 +340,28 @@ enddo
               </tr>
             </tbody>
           </table>
+          <p>(L1 cache is 32 kiB)</p>
         </section>
+
+        <section>
+          <h3>asm evidence?</h3>
+        </section>
+
+        <section>
+          <h3>Contiguous example</h3>
+        </section>
+
+        <section>
+          <h3>Summary</h3>
+          <ul>
+            <li>Peak performance requires aggressive vectorization</li>
+            <li>MOM uses vector instructions, but...</li>
+            <li>MOM performance is far below peak</li>
+            <li>Small non-contiguous dimensions break pipeline</li>
+          </ul>
+
+          <p>New strategies, frameworks, or languages will be needed to achieve
+          peak performance in the future</p>
 
         <!-- configuration -->
 
