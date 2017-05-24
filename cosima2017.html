@@ -84,12 +84,12 @@
           <img src="figures/computing/clockspeed.svg"
                   style="width:45%; float: left"
                   alt="CPU Clock speed vs Time">
-          <ul style="width: 50%">
-            <li>$P \propto f$ (physics)</li>
-            <li>$P \propto A$ (Dennard)</li>
-            <li>Lower $A$, raise $f$
+          <ul style="width: 45%">
+            <li>Power $\propto f$ (physics)</li>
+            <li>Power $\propto$ area (Dennard)</li>
+            <li>Lower area, raise $f$
             <li>$P$ stays constant...</li>
-            <li>... until $P \gg A$</li>
+            <li>... until 2005 ($P \gg A$)</li>
           </ul>
           <div style="clear: both;">
             <p style="font-size:20px">
@@ -100,20 +100,74 @@
         </section>
 
         <section>
-          <h3>Supercomputer $R_\text{peak}$</h3>
-          <p><img src="figures/computing/top500_rpeak_crop.png"
-                  style="width:50%"></p>
-          <p><a href="http://top500.org/statistics/perfdevel/">http://top500.org/statistics/perfdevel/</a>
-          </p>
+          <h3>SIMD vectorization</h3>
+          <img src="figures/computing/simd.png"
+                  style="width:45%; float: left"
+                  alt="CPU Clock speed vs Time">
+          <div style="float: right; width: 50%">
+            <dl>
+              <dt>SSE</dt>
+              <dd>4 SP / 2 DP floats</dd>
+              <dt>AVX, AVX2</dt>
+              <dd>8 SP / 4 DP floats</dd>
+              <dt>AVX-512</dt>
+              <dd>16 SP / 8 DP floats</dd>
+            </dl>
+            <p>$N_\text{vec}$ = 4 DP on Raijin (AVX)</p>
+          </div>
         </section>
 
         <section>
-          <p>MOM 5 vectorisation<p>
+          <h3>Sandy Bridge Concurrency</h3>
+          <img style="width: 60%;" src="figures/computing/sandybridge.svg">
+          <p>Concurrent Add, Multiply, Load, Stores ($N_\text{ins} = 2$)</p>
+        </section>
+
+        <section>
+          <h3>Peak performance on Raijin</h3>
+          <table class="reveal">
+            <thead>
+              <th class="head">Cores</th>
+              <th class="head">GFLOP/sec/core</th>
+              <th class="head">Add</th>
+              <th class="head">Add/Mult</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1-2</td>
+                <td>26.4</td>
+                <td>26.03</td>
+                <td>52.11</td>
+              </tr>
+              <tr>
+                <td>3-4</td>
+                <td>25.6</td>
+                <td>25.24</td>
+                <td>50.56</td>
+              </tr>
+              <tr>
+                <td>5-6</td>
+                <td>24.8</td>
+                <td>24.41</td>
+                <td>48.96</td>
+              </tr>
+              <tr>
+                <td>7-8</td>
+                <td>24.0</td>
+                <td>23.66</td>
+                <td>47.49</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section>
+          <p>MOM 5 AVX vectorization<p>
           <table class="reveal">
             <thead>
               <th class="head">Subroutine</th>
-              <th class="head">FLOPs</th>
-              <th class="head">% vector</th>
+              <th class="head">FLOP/day/core</th>
+              <th class="head">% AVX</th>
             </thead>
             <tbody>
               <tr>
@@ -146,13 +200,6 @@
                 <td>1.80e+09</td>
                 <td>94.5</td>
               </tr>
-              <!--
-              <tr>
-                <td>submeso_restrat</td>
-                <td>1.73e+09</td>
-                <td>0.884</td>
-              </tr>
-              -->
               <tr>
                 <td>ocean_eta_smooth</td>
                 <td>1.78e+07</td>
@@ -168,6 +215,126 @@
         </section>
 
         <section>
+          <h3>MOM across platforms</h3>
+          <p>Ocean core runtime, 960 cores, 10 day (480 steps)</p>
+          <table class="reveal">
+            <thead>
+              <th class="head">Platform</th>
+              <th class="head">Runtime (s)</th>
+              <th class="head">FLOP/sec/core</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Sandy Bridge (no SIMD)</td>
+                <td>179.2</td>
+                <td>1.05</td>
+              </tr>
+              <tr>
+                <td>Sandy Bridge (AVX)</td>
+                <td>164.3</td>
+                <td>1.14</td>
+              </tr>
+              <tr>
+                <td>Broadwell (AVX)</td>
+                <td>160.2</td>
+                <td>1.17</td>
+              </tr>
+              <tr>
+                <td>Broadwell (AVX2)</td>
+                <td>156.0</td>
+                <td>1.20</td>
+              </tr>
+              <tr>
+                <td>Knights Landing (AVX)</td>
+                <td>377.1</td>
+                <td>0.50</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section>
+          <h3>Test code block</h3>
+          <pre><code class="fortran">
+do k=1,nk
+  do j=jsd,jed
+     do i=isd,ied
+        massqc(i,j,k) = 0.25 * Grd%dau(i,j) &
+                       * Thickness%rho_dzu(i,j,k,tau)
+     enddo
+  enddo
+enddo
+          </code></pre>
+        </section>
+
+        <section>
+          <h3>Vector update</h3>
+          <table class="reveal">
+            <colgroup>
+              <col width="10%" />
+              <col width="38%" />
+              <col width="28%" />
+              <col width="25%" />
+            </colgroup>
+            <thead valign="bottom">
+              <tr>
+                <th class="head">CPUs</th>
+                <th class="head">Vec. Size (kiB)</th>
+                <th class="head">Runtime (s)</th>
+                <th class="head">GFLOPS/sec</th>
+              </tr>
+            </thead>
+            <tbody valign="top">
+              <tr>
+                <td>1</td>
+                <td>300.0</td>
+                <td>0.027970</td>
+                <td>0.6590</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>150.0</td>
+                <td>0.018425</td>
+                <td>0.5002</td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>75.0</td>
+                <td>0.007956</td>
+                <td>0.5792</td>
+              </tr>
+              <tr>
+                <td>8</td>
+                <td>37.5</td>
+                <td>0.006058</td>
+                <td>0.3803</td>
+              </tr>
+              <tr>
+                <td>16</td>
+                <td>18.8</td>
+                <td>0.003503</td>
+                <td>0.3289</td>
+              </tr>
+              <tr>
+                <td>32</td>
+                <td>9.3</td>
+                <td>0.002264</td>
+                <td>0.2544</td>
+              </tr>
+              <tr>
+                <td>60</td>
+                <td>5.0</td>
+                <td>0.001617</td>
+                <td>0.1900</td>
+              </tr>
+              <tr>
+                <td>120</td>
+                <td>2.5</td>
+                <td>0.001434</td>
+                <td>0.1071</td>
+              </tr>
+            </tbody>
+          </table>
         </section>
 
         <!-- configuration -->
