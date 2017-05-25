@@ -63,7 +63,34 @@
           <img src="figures/nci/partner_logos.svg" style="background: white">
         </section>
 
+        <section>
+          <div class="reveal" style="text-align: right;">
+            <img src="figures/nci/nci_logo.png"
+                 style="background: none; border: none; box-shadow: none;
+                 width: 30%"
+                 alt="NCI">
+          </div>
+
+          <h3 style="text-align: left; color: white;">
+            Pursuing Peak Performance in <strike>Pelagic Predictions</strike>
+            MOM 5
+          </h3>
+
+          <p style="text-align: right;">Marshall Ward
+            <br>National Computational Infrastructure
+          </p>
+
+          <img src="figures/nci/partner_logos.svg" style="background: white">
+        </section>
+
         <!-- content -->
+
+        <section>
+          <h3>Relative performance is well-documented</h3>
+          <img src="figures/cm2/update_ocean_model_momsis.svg"
+               style="background: none; border: none; box-shadow: none;
+                      width: 75%">
+        </section>
 
         <section>
           <h3>What is Peak Performance?</h3>
@@ -82,21 +109,23 @@
         <section>
           <h3>Dennard scaling breakdown</h3>
           <img src="figures/computing/clockspeed.svg"
-                  style="width:45%; float: left"
+                  style="width:55%; float: left"
                   alt="CPU Clock speed vs Time">
-          <ul style="width: 45%">
+          <ul style="width: 40%">
             <li>Power $\propto f$ (physics)</li>
             <li>Power $\propto$ area (Dennard)</li>
             <li>Lower area, raise $f$
             <li>$P$ stays constant...</li>
             <li>... until 2005 ($P \gg A$)</li>
           </ul>
+          <!--
           <div style="clear: both;">
             <p style="font-size:20px">
             From <a href="http://cpudb.stanford.edu/">CPU DB</a><br>
             (Andrew Danowitz, Kyle Kelley, James Mao, John P. Stevenson, and Mark Horowitz. 2012. CPU DB: recording microprocessor history. Commun. ACM 55, 4 (April 2012), 55-63.)
             </p>
           </div>
+          -->
         </section>
 
         <section>
@@ -340,28 +369,115 @@ enddo
               </tr>
             </tbody>
           </table>
-          <p>(L1 cache is 32 kiB)</p>
+          <!-- <p>(L1 cache is 32 kiB)</p> -->
         </section>
 
         <section>
-          <h3>asm evidence?</h3>
+          <h3>Contiguous block</h3>
+          <p>Vectorised restructure</p>
+          <pre><code class="fortran" data-trim>
+do k=1,nk
+   do j=jsd,jed
+      do i=isd,ied
+          m = (i - isd + 1) + (j - jsd) * (ied - isd + 1) &
+              + (k - 1) * (ied - isd + 1) * (jed - jsd + 1)
+          dau_c(m) = Grd%dau(i, j)
+          rho_dzu_c(m) = Thickness%rho_dzu(i, j, k, tau)
+      enddo
+   enddo
+enddo
+
+!dir$ vector aligned
+do m=1,npts_c
+    massqc_c(m) = 0.25 * dau_c(m) * rho_dzu_c(m)
+enddo
+          </code></pre>
+          <p>"Roofline analysis" predicts peak (12 GFLOP/sec)</p>
         </section>
 
         <section>
-          <h3>Contiguous example</h3>
+          <h3>Contiguous runtimes</h3>
+          <table class="reveal">
+            <colgroup>
+              <col width="10%" />
+              <col width="38%" />
+              <col width="28%" />
+              <col width="25%" />
+            </colgroup>
+            <thead valign="bottom">
+              <tr>
+                <th class="head">CPUs</th>
+                <th class="head">Nested (ms)</th>
+                <th class="head">Contig. (ms)</th>
+                <th class="head">GFLOPS/sec</th>
+              </tr>
+            </thead>
+            <tbody valign="top">
+              <tr>
+                <td>1</td>
+                <td>27.161</td>
+                <td>19.775</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>17.544</td>
+                <td>10.390</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>7.515</td>
+                <td>5.598</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>8</td>
+                <td>5.944</td>
+                <td>3.888</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>16</td>
+                <td>3.158</td>
+                <td>1.770</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>32</td>
+                <td>1.957</td>
+                <td>1.059</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>60</td>
+                <td>1.206</td>
+                <td>0.330</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>120</td>
+                <td>1.112</td>
+                <td>0.230</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
         </section>
 
         <section>
           <h3>Summary</h3>
           <ul>
+            <li>No substantial benefit from upcoming hardware</li>
             <li>Peak performance requires aggressive vectorization</li>
             <li>MOM uses vector instructions, but...</li>
             <li>MOM performance is far below peak</li>
             <li>Small non-contiguous dimensions break pipeline</li>
           </ul>
+          <p>The path forward is not clear</p>
 
-          <p>New strategies, frameworks, or languages will be needed to achieve
-          peak performance in the future</p>
+          <p>New strategies, frameworks, or lower-level languages will be
+          needed to achieve peak performance in the future</p>
 
         <!-- configuration -->
 
