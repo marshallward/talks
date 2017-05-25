@@ -95,8 +95,8 @@
         <section>
           <h3>What is Peak Performance?</h3>
           <p>
-            $$R_\text{peak} = N_\text{CPU} \times \left( f \times N_\text{SIMD}
-                              \times N_\text{vec} \right)$$
+            $$R_\text{peak} = N_\text{CPU} \times \left( f \times N_\text{vec}
+                              \times N_\text{ins} \right)$$
           </p>
           <ul>
             <li>$N_\text{CPU}$ : Number of CPU cores</li>
@@ -194,53 +194,36 @@
         </section>
 
         <section>
-          <p>MOM 5 AVX vectorization<p>
+          <h3>MOM 5 AVX vectorization</h3>
           <table class="reveal">
             <thead>
               <th class="head">Subroutine</th>
-              <th class="head">FLOP/day/core</th>
               <th class="head">% AVX</th>
             </thead>
             <tbody>
               <tr>
                 <td>MAIN</td>
-                <td>2.04e+10</td>
                 <td>88.1</td>
               </tr>
               <tr>
                 <td>update_ocean_model</td>
-                <td>1.87e+10</td>
                 <td>91.0</td>
               </tr>
               <tr>
                 <td>update_ocean_tracer</td>
-                <td>8.40e+09</td>
                 <td>92.9</td>
               </tr>
               <tr>
                 <td>vert_mix_coeff</td>
-                <td>2.04e+09</td>
                 <td>80.9</td>
               </tr>
               <tr>
                 <td>ocean_explicit_accel_a</td>
-                <td>1.95e+09</td>
                 <td>92.8</td>
               </tr>
               <tr>
                 <td>update_ocean_barotropic</td>
-                <td>1.80e+09</td>
                 <td>94.5</td>
-              </tr>
-              <tr>
-                <td>ocean_eta_smooth</td>
-                <td>1.78e+07</td>
-                <td>87.5</td>
-              </tr>
-              <tr>
-                <td>update_ice_model_slow_dn</td>
-                <td>7.48e+08</td>
-                <td>83.2</td>
               </tr>
             </tbody>
           </table>
@@ -304,16 +287,10 @@ enddo
         <section>
           <h3>Vector update</h3>
           <table class="reveal">
-            <colgroup>
-              <col width="10%" />
-              <col width="38%" />
-              <col width="28%" />
-              <col width="25%" />
-            </colgroup>
             <thead valign="bottom">
               <tr>
                 <th class="head">CPUs</th>
-                <th class="head">Vec. Size (kiB)</th>
+                <th class="head">Tile size</th>
                 <th class="head">Runtime (ms)</th>
                 <th class="head">GFLOPS/sec</th>
               </tr>
@@ -373,37 +350,80 @@ enddo
         </section>
 
         <section>
+          <h3>Unaligned assembly</h3>
+          <pre><code class="asm" data-trim>
+..B2.418:
+        vmovupd   (%r15,%r14,8), %xmm0
+        vmovupd   (%r13,%r14,8), %xmm2
+        vmovupd   32(%r15,%r14,8), %xmm6
+        vmovupd   64(%r15,%r14,8), %xmm12
+        vmovupd   32(%rdi,%r14,8), %xmm8
+        vmovupd   64(%rdi,%r14,8), %xmm14
+        vinsertf128 $1, 16(%r15,%r14,8), %ymm0, %ymm1
+        vmulpd    .L_2il0floatpacket.0(%rip), %ymm1, %ymm3
+        vinsertf128 $1, 16(%r13,%r14,8), %ymm2, %ymm4
+        vmulpd    %ymm4, %ymm3, %ymm5
+        vmovupd   96(%r15,%r14,8), %xmm2
+        vmovupd   96(%rdi,%r14,8), %xmm4
+        vmovupd   %ymm5, (%r11,%r14,8)
+        vinsertf128 $1, 48(%r15,%r14,8), %ymm6, %ymm7
+        vinsertf128 $1, 80(%r15,%r14,8), %ymm12, %ymm13
+        vinsertf128 $1, 112(%r15,%r14,8), %ymm2, %ymm3
+        vmulpd    .L_2il0floatpacket.0(%rip), %ymm7, %ymm9
+        vmulpd    .L_2il0floatpacket.0(%rip), %ymm13, %ymm15
+        vmulpd    .L_2il0floatpacket.0(%rip), %ymm3, %ymm5
+        vinsertf128 $1, 48(%rdi,%r14,8), %ymm8, %ymm10
+        vinsertf128 $1, 80(%rdi,%r14,8), %ymm14, %ymm0
+        vinsertf128 $1, 112(%rdi,%r14,8), %ymm4, %ymm6
+        vmulpd    %ymm10, %ymm9, %ymm11
+        vmulpd    %ymm0, %ymm15, %ymm1
+        vmulpd    %ymm6, %ymm5, %ymm7
+        vmovupd   %ymm11, 32(%r9,%r14,8)
+        vmovupd   %ymm1, 64(%r9,%r14,8)
+        vmovupd   %ymm7, 96(%r9,%r14,8)
+        addq      $16, %r14
+        cmpq      %r10, %r14
+        jb        ..B2.418
+          </code></pre>
+        </section>
+
+        <section>
           <h3>Contiguous block</h3>
           <p>Vectorised restructure</p>
           <pre><code class="fortran" data-trim>
-do k=1,nk
-   do j=jsd,jed
-      do i=isd,ied
-          m = (i - isd + 1) + (j - jsd) * (ied - isd + 1) &
-              + (k - 1) * (ied - isd + 1) * (jed - jsd + 1)
-          dau_c(m) = Grd%dau(i, j)
-          rho_dzu_c(m) = Thickness%rho_dzu(i, j, k, tau)
-      enddo
-   enddo
-enddo
-
 !dir$ vector aligned
 do m=1,npts_c
     massqc_c(m) = 0.25 * dau_c(m) * rho_dzu_c(m)
 enddo
           </code></pre>
-          <p>"Roofline analysis" predicts peak (12 GFLOP/sec)</p>
+          <p>Unroll vectors and align to memory</p>
         </section>
 
         <section>
-          <h3>Contiguous runtimes</h3>
+          <h3>"Perfect" assembly</h3>
+          <pre><code class="asm" data-trim>
+..B2.461:
+        vmulpd    8(%r13,%r15,8), %ymm0, %ymm1
+        vmulpd    40(%r13,%r15,8), %ymm0, %ymm3
+        vmulpd    72(%r13,%r15,8), %ymm0, %ymm5
+        vmulpd    104(%r13,%r15,8), %ymm0, %ymm7
+        vmulpd    8(%r11,%r15,8), %ymm1, %ymm2
+        vmulpd    40(%r11,%r15,8), %ymm3, %ymm4
+        vmulpd    72(%r11,%r15,8), %ymm5, %ymm6
+        vmulpd    104(%r11,%r15,8), %ymm7, %ymm8
+        vmovupd   %ymm2, 8(%r10,%r15,8)
+        vmovupd   %ymm4, 40(%r10,%r15,8)
+        vmovupd   %ymm6, 72(%r10,%r15,8)
+        vmovupd   %ymm8, 104(%r10,%r15,8)
+        addq      $16, %r15
+        cmpq      %r9, %r15
+        jb        ..B2.461
+          </code></pre>
+        </section>
+
+        <section>
+          <h3>Faster, but still far from peak...</h3>
           <table class="reveal">
-            <colgroup>
-              <col width="10%" />
-              <col width="38%" />
-              <col width="28%" />
-              <col width="25%" />
-            </colgroup>
             <thead valign="bottom">
               <tr>
                 <th class="head">CPUs</th>
@@ -417,49 +437,49 @@ enddo
                 <td>1</td>
                 <td>27.161</td>
                 <td>19.775</td>
-                <td></td>
+                <td>1.17</td>
               </tr>
               <tr>
                 <td>2</td>
                 <td>17.544</td>
                 <td>10.390</td>
-                <td></td>
+                <td>1.11</td>
               </tr>
               <tr>
                 <td>4</td>
                 <td>7.515</td>
                 <td>5.598</td>
-                <td></td>
+                <td>1.03</td>
               </tr>
               <tr>
                 <td>8</td>
                 <td>5.944</td>
                 <td>3.888</td>
-                <td></td>
+                <td>0.74</td>
               </tr>
               <tr>
                 <td>16</td>
                 <td>3.158</td>
                 <td>1.770</td>
-                <td></td>
+                <td>0.81</td>
               </tr>
               <tr>
                 <td>32</td>
                 <td>1.957</td>
                 <td>1.059</td>
-                <td></td>
+                <td>0.68</td>
               </tr>
               <tr>
                 <td>60</td>
                 <td>1.206</td>
                 <td>0.330</td>
-                <td></td>
+                <td>1.16</td>
               </tr>
               <tr>
                 <td>120</td>
                 <td>1.112</td>
                 <td>0.230</td>
-                <td></td>
+                <td>0.83</td>
               </tr>
             </tbody>
           </table>
@@ -469,10 +489,10 @@ enddo
           <h3>Summary</h3>
           <ul>
             <li>No substantial benefit from upcoming hardware</li>
-            <li>Peak performance requires aggressive vectorization</li>
-            <li>MOM uses vector instructions, but...</li>
+            <li>MOM 5 is well-vectorized, but...</li>
             <li>MOM performance is far below peak</li>
-            <li>Small non-contiguous dimensions break pipeline</li>
+            <li>Small tiles break pipelines</li>
+            <li>Even "peak" code can run below peak</p>
           </ul>
           <p>The path forward is not clear</p>
 
