@@ -66,17 +66,80 @@
         <!-- content -->
 
         <section>
-          <h2>CICE load imbalance</h2>
-
-          <img src="figures/om2/evp_heatmap_w.svg"
-               style="background: none; border: none; box-shadow: none;">
+          <h2>Model parameters</h2>
+          <ul>
+            <li>Resolution: 3600 x 2700 x 75 ("KDS")</li>
+            <li>Timestep: 300 sec (288 / day)
+                <ul>
+                  <li>(Half of 600 sec target?)</li>
+                </ul>
+            </li>
+            <li>10-day runtime</li>
+            <li>CPU count:
+              <ul>
+                <li>CICE: 1200</li>
+                <li>MOM: 4358 (masked from 6000)</li>
+                <li>MATM: 1</li>
+              </ul>
+            </li>
+          </ul>
         </section>
 
         <section>
-          <h2>CICE relative runtimes</h2>
+          <h2>Main loop runtimes</h2>
 
-          <img src="figures/om2/cice_bars.svg"
-               style="background: none; border: none; box-shadow: none;">
+          <table class="reveal">
+            <thead>
+              <th class="head">Component</th>
+              <th class="head">Runtime (s)</th>
+              <th class="head">Per step</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>ACCESS-OM2</td>
+                <td>2023.2</td>
+                <td>0.70</td>
+              </tr>
+              <tr>
+                <td>MATM</td>
+                <td>??</td>
+                <td>??</td>
+              </tr>
+              <tr>
+                <td>CICE</td>
+                <td>1673.3</td>
+                <td>0.58</td>
+              </tr>
+              <tr>
+                <td>MOM</td>
+                <td>1980.6</td>
+                <td>0.69</td>
+              </tr>
+            </tbody>
+          </table>
+          (~3% profiler overhead)
+        </section>
+
+        <section>
+          <section>
+            <h2>CICE load imbalance</h2>
+
+            <img src="figures/om2/evp_heatmap_w.svg"
+                 style="background: none; border: none; box-shadow: none;">
+          </section>
+
+          <section>
+            <h2>CICE load imbalance</h2>
+
+            rank map here?
+          </section>
+
+        <section>
+          <h2>Roundrobin distribution</h2>
+          
+          Numbers here...
+
+          Note major contributions by Nic and Russ
         </section>
 
         <section>
@@ -123,9 +186,59 @@
         </section>
 
         <section>
-          <h2>mpp_global_field update</h2>
+          <h2>CICE component runtime</h2>
 
-          <p>Say something here</p>
+          <img src="figures/om2/cice_bars.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <h2>MOM component runtime</h2>
+
+          <img src="figures/om2/mom_bars.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <h2>Stability issues</h2>
+
+          Mid-run hangs: "Too many retries..."
+          <ul>
+            <li>OpenMPI 1.10.x
+              <p><code>-mca pml yalla</code></p>
+            </li>
+            <li>OpenMPI 2.x
+              <p><code>Requires rewrite of mpp_global_field</code>
+                 (nearly complete)</p>
+            </li>
+          </ul>
+        </section>
+        
+        <section>
+          <h2>Stability issues</h2>
+
+          Initialisation hangs
+          <ul>
+            <li>Two instances:</li>
+            <li>OASIS: <code>MPI_Comm_split</code></li>
+            <li>MOM: <code>MPI_Comm_group</code></li>
+          </ul>
+          <p>The investigation continues...</p>
+        </section>
+        
+        <section>
+          <h2>TODO</h2>
+          <ul>
+            <li>Scale up the components</li>
+            <li>Ice load balancing
+              <ul>
+                <li>Smaller blocks, many blocks per rank</li>
+                <li>Alternative distributions</li>
+                <li>Season-dependent grids?</li>
+              </ul>
+            </li>
+            <li>???</li>
+          </ul>
         </section>
 
         <!-- configuration -->
