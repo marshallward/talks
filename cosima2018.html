@@ -66,23 +66,41 @@
         <!-- content -->
 
         <section>
-          <h2>Model parameters</h2>
-          <ul>
-            <li>Resolution: 3600 x 2700 x 75 ("KDS")</li>
-            <li>Timestep: 300 sec (288 / day)
-                <ul>
-                  <li>(Half of 600 sec target?)</li>
-                </ul>
-            </li>
-            <li>10-day runtime</li>
-            <li>CPU count:
-              <ul>
-                <li>CICE: 1200</li>
-                <li>MOM: 4358 (masked from 6000)</li>
-                <li>MATM: 1</li>
-              </ul>
-            </li>
-          </ul>
+          <h2>Model configuration</h2>
+          <table class="reveal">
+            <thead></thead>
+            <tbody>
+              <tr>
+                <td>Resolution</td>
+                <td colspan="2">3600 × 2700 × 75</td>
+                <td>(KDS)</td>
+              </tr>
+              <tr>
+                <td>Timestep</td>
+                <td colspan="2">300 s</td>
+                <td>(288 step / day)</td>
+              </tr>
+              <tr>
+                <td rowspan=3>CPUs</td>
+                <td>MOM</td>
+                <td>4358</td>
+                <td>(80 × 75, masked)</td>
+              </tr>
+              <tr>
+                <td>CICE</td>
+                <td>1200</td>
+                <td>(40 × 30)</td>
+              </tr>
+              <tr>
+                <td>MATM</td>
+                <td colspan="3">1</td>
+              </tr>
+              <tr>
+                <td>Runtime</td>
+                <td colspan="2">10 day</td>
+                <td>(2880 step)</td>
+              </tr>
+          </table>
         </section>
 
         <section>
@@ -92,7 +110,7 @@
             <thead>
               <th class="head">Component</th>
               <th class="head">Runtime (s)</th>
-              <th class="head">Per step</th>
+              <th class="head">Per step (s)</th>
             </thead>
             <tbody>
               <tr>
@@ -101,9 +119,9 @@
                 <td>0.70</td>
               </tr>
               <tr>
-                <td>MATM</td>
-                <td>??</td>
-                <td>??</td>
+                <td>MOM</td>
+                <td>1980.6</td>
+                <td>0.69</td>
               </tr>
               <tr>
                 <td>CICE</td>
@@ -111,13 +129,32 @@
                 <td>0.58</td>
               </tr>
               <tr>
-                <td>MOM</td>
-                <td>1980.6</td>
-                <td>0.69</td>
+                <td>MATM</td>
+                <td>&lt;74.5</td>
+                <td>-</td>
               </tr>
             </tbody>
           </table>
           (~3% profiler overhead)
+        </section>
+
+        <section>
+          <h2>MOM timestep distribution</h2>
+
+          <img src="figures/om2/mom_bars.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <h2>MOM submodel distribution</h2>
+
+          <img src="figures/om2/mom_subbars.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <h2>SBC performance</h2>
+          TODO
         </section>
 
         <section>
@@ -133,6 +170,7 @@
 
             rank map here?
           </section>
+        </section>
 
         <section>
           <h2>Roundrobin distribution</h2>
@@ -193,14 +231,7 @@
         </section>
 
         <section>
-          <h2>MOM component runtime</h2>
-
-          <img src="figures/om2/mom_bars.svg"
-               style="background: none; border: none; box-shadow: none;">
-        </section>
-
-        <section>
-          <h2>Stability issues</h2>
+          <h2>Stability report</h2>
 
           Mid-run hangs: "Too many retries..."
           <ul>
@@ -227,9 +258,20 @@
         </section>
         
         <section>
+          <h2>Summary</h2>
+          <ul>
+            <li>Both submodels can be scaled up ~2-4x</li>
+            <li>No noticeable coupler overhead</li>
+            <li>MOM scaling limited by SBC, "2d physics"</li>
+            <li>CICE land masking: ~5-10% efficiency</li>
+            <li>Communicator stability is still an issue</li>
+          </ul>
+          <p>We can already scale up: we need more cores!</p>
+        </section>
+
+        <section>
           <h2>TODO</h2>
           <ul>
-            <li>Scale up the components</li>
             <li>Ice load balancing
               <ul>
                 <li>Smaller blocks, many blocks per rank</li>
@@ -237,7 +279,8 @@
                 <li>Season-dependent grids?</li>
               </ul>
             </li>
-            <li>???</li>
+            <li>Investigate Intel MPI, MVAPICH</li>
+            <li>Parallel IO???</li>
           </ul>
         </section>
 
