@@ -130,7 +130,7 @@
               </tr>
               <tr>
                 <td>MATM</td>
-                <td>&lt;74.5</td>
+                <td>&lt;76.5</td>
                 <td>-</td>
               </tr>
             </tbody>
@@ -146,38 +146,57 @@
         </section>
 
         <section>
-          <h2>MOM submodel distribution</h2>
+          <h2>MOM ocean core scaling</h2>
+
+          <img src="figures/om2/scaling01_update_ocean_model.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <h2>MOM ocean core distribution</h2>
 
           <img src="figures/om2/mom_subbars.svg"
                style="background: none; border: none; box-shadow: none;">
         </section>
 
         <section>
-          <h2>SBC performance</h2>
-          TODO
+          <h2>MOM SBC "scaling"</h2>
+
+          <img src="figures/om2/scaling01_get_ocean_sbc.svg"
+               style="background: none; border: none; box-shadow: none;">
         </section>
 
         <section>
-          <section>
-            <h2>CICE load imbalance</h2>
+          <h2>CICE load imbalance</h2>
 
-            <img src="figures/om2/evp_heatmap_w.svg"
-                 style="background: none; border: none; box-shadow: none;">
-          </section>
-
-          <section>
-            <h2>CICE load imbalance</h2>
-
-            rank map here?
-          </section>
+          <img src="figures/om2/evp_heatmap_w.svg"
+               style="background: none; border: none; box-shadow: none;">
         </section>
 
         <section>
           <h2>Roundrobin distribution</h2>
           
-          Numbers here...
+          <table class="reveal">
+            <thead>
+              <th class="head">CPUs</th>
+              <th class="head">CPU hours</th>
+              <th class="head">Eff.</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1200 (unmasked)</td>
+                <td>674.4</td>
+                <td>-</td>
+              </tr>
+              <tr>
+                <td>960 (masked)</td>
+                <td>548.6</td>
+                <td>18.7%</td>
+              </tr>
+            </tbody>
+          </table>
 
-          Note major contributions by Nic and Russ
+          Major contributions by Nic and Russ
         </section>
 
         <section>
@@ -224,9 +243,16 @@
         </section>
 
         <section>
-          <h2>CICE component runtime</h2>
+          <h2>CICE runtime distribution</h2>
 
           <img src="figures/om2/cice_bars.svg"
+               style="background: none; border: none; box-shadow: none;">
+        </section>
+
+        <section>
+          <h2>CICE core scaling</h2>
+
+          <img src="figures/om2/scaling01_ice_step.svg"
                style="background: none; border: none; box-shadow: none;">
         </section>
 
@@ -239,7 +265,7 @@
               <p><code>-mca pml yalla</code></p>
             </li>
             <li>OpenMPI 2.x
-              <p><code>Requires rewrite of mpp_global_field</code>
+              <p>Requires rewrite of <code>mpp_global_field</code><br>
                  (nearly complete)</p>
             </li>
           </ul>
@@ -248,9 +274,8 @@
         <section>
           <h2>Stability issues</h2>
 
-          Initialisation hangs
+          <p>Initialisation hangs</p>
           <ul>
-            <li>Two instances:</li>
             <li>OASIS: <code>MPI_Comm_split</code></li>
             <li>MOM: <code>MPI_Comm_group</code></li>
           </ul>
@@ -272,15 +297,10 @@
         <section>
           <h2>TODO</h2>
           <ul>
+            <li>MOM's SBC performance bottleneck</li>
             <li>Ice load balancing
-              <ul>
-                <li>Smaller blocks, many blocks per rank</li>
-                <li>Alternative distributions</li>
-                <li>Season-dependent grids?</li>
-              </ul>
-            </li>
             <li>Investigate Intel MPI, MVAPICH</li>
-            <li>Parallel IO???</li>
+            <li>Perhaps Parallel IO???</li>
           </ul>
         </section>
 
